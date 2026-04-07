@@ -1,0 +1,92 @@
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+  servlet:
+    # 应用的访问路径
+    context-path: /
+
+spring:
+  application:
+    name: owl
+  profiles:
+    active: dev
+  main:
+    banner-mode: off
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/owl
+    username: root
+    password: root
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 120000
+      keepalive-time: 30000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+      auto-commit: true
+      pool-name: HikariCP
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 设置总上传的文件大小
+      max-request-size: 20MB
+  mvc:
+    # 设置静态资源路径 防止所有请求都去查静态资源
+    static-path-pattern: /static/**
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+    serialization:
+      fail-on-empty-beans: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  freemarker:
+    template-loader-path: classpath:/templates/
+    charset: UTF-8
+    cache: false
+  threads:
+    virtual:
+      enabled: true
+  task:
+    execution:
+      # 从 springboot 3.5 开始 spring自带线程池
+      # 不再需要 AsyncConfig与ThreadPoolConfig 可直接注入线程池使用
+      thread-name-prefix: async-
+      # 由spring自己初始化线程池
+      mode: force
+
+logging:
+  charset:
+    console: utf-8
+  pattern:
+    console: '%red(%d{HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger%n) - %msg%n'
+  level:
+    root: info
+
+mybatis-flex:
+  global-config:
+    logic-delete-column: deleted
+    deleted-value-of-logic-delete: true
+    normal-value-of-logic-delete: false
+    print-banner: false
+    key-config:
+      key-type: auto
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+
+decorator:
+  datasource:
+    p6spy:
+      log-format: '%(sqlSingleLine)'
+
+gen:
+  #作者
+  author: sijay
+  #包路径
+  package-name: cn.sijay.owl
