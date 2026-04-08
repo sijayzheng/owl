@@ -48,6 +48,7 @@
         <ip2region.version>3.1.0</ip2region.version>
         <oshi.version>6.4.0</oshi.version>
         <springdoc.version>2.8.16</springdoc.version>
+        <easy-trans.version>2.3.1</easy-trans.version>
     </properties>
     <dependencies>
         <dependency>
@@ -183,6 +184,24 @@
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>${oshi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>easy-trans-spring-boot-starter</artifactId>
+            <version>${easy-trans.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>easy-trans-mybatis-flex-extend</artifactId>
+            <version>${easy-trans.version}</version>
         </dependency>
 
         <dependency>

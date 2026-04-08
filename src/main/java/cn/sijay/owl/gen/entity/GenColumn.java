@@ -1,6 +1,9 @@
 package cn.sijay.owl.gen.entity;
 
 
+import cn.sijay.owl.gen.enums.HtmlType;
+import cn.sijay.owl.gen.enums.JavaType;
+import cn.sijay.owl.gen.enums.QueryType;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -8,6 +11,9 @@ import com.mybatisflex.annotation.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * GenColumn
@@ -19,7 +25,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(value = "gen_column", comment = "代码生成列信息")
-public class GenColumn {
+public class GenColumn implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * 主键
      */
@@ -29,37 +38,37 @@ public class GenColumn {
      * 表id
      */
     @Column(comment = "表id")
-    private Long table_id;
+    private Long tableId;
     /**
      * 列名
      */
     @Column(comment = "列名")
-    private String column_name;
+    private String columnName;
     /**
      * 列注释
      */
     @Column(comment = "列注释")
-    private String column_comment;
+    private String columnComment;
     /**
      * 数据库类型
      */
     @Column(comment = "数据库类型")
-    private String column_type;
+    private String columnType;
     /**
      * Java类型
      */
     @Column(comment = "Java类型")
-    private String java_type;
+    private JavaType javaType;
     /**
      * Java字段名
      */
     @Column(comment = "Java字段名")
-    private String java_field;
+    private String javaField;
     /**
      * 是否主键
      */
     @Column(comment = "是否主键")
-    private Boolean primary_key;
+    private Boolean primaryKey;
     /**
      * 是否自增
      */
@@ -94,17 +103,17 @@ public class GenColumn {
      * 查询方式
      */
     @Column(comment = "查询方式")
-    private String query_type;
+    private QueryType queryType;
     /**
      * 显示类型
      */
     @Column(comment = "显示类型")
-    private String html_type;
+    private HtmlType htmlType;
     /**
      * 字典类型
      */
     @Column(comment = "字典类型")
-    private String dict_type;
+    private String dictType;
     /**
      * 排序
      */

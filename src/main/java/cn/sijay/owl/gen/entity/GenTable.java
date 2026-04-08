@@ -9,6 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * GenTable
  *
@@ -19,7 +23,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Table(value = "gen_table", comment = "代码生成表信息")
-public class GenTable {
+public class GenTable implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * 主键
      */
@@ -75,4 +82,7 @@ public class GenTable {
      */
     @Column(comment = "所属菜单")
     private Long menuId;
+    
+    @Column(ignore = true)
+    private List<GenColumn> columns;
 }
