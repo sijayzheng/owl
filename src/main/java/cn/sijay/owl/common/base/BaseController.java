@@ -134,4 +134,16 @@ public class BaseController {
         int status = flag ? HttpStatus.OK.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
         return Result.of(status, operate.getDescription() + (flag ? "成功" : "失败"), flag);
     }
+
+    /**
+     * 创建响应
+     * <p>
+     * 自定义状态码、消息和数据
+     *
+     * @param operate 响应消息
+     * @return 响应结果
+     */
+    public static Result<Boolean> success(OperateType operate) {
+        return Result.of(HttpStatus.OK.value(), operate.getDescription() + "成功", true);
+    }
 }
