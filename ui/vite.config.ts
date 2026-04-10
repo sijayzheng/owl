@@ -22,7 +22,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    VueRouter({}),
+    VueRouter(),
     vue(),
     vueJsx(),
     UnoCSS(),
@@ -34,9 +34,13 @@ export default defineConfig({
       ],
       dts: true,
       dirs: [
-        './src/utils',
-        './src/composables',
-        './src/types',
+        'src/api/**',
+        'src/utils/**',
+        'src/composables/**',
+        {
+          glob: 'src/types/**',
+          types: true
+        },
       ],
     }),
     Components({
@@ -46,7 +50,7 @@ export default defineConfig({
       ],
       dts: true,
       dirs: [
-        './src/components',
+        'src/components',
       ],
     }),
     ElementPlus({useSource: true}),
@@ -60,7 +64,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/styles/element-vars.scss" as *;`,
+        // additionalData: `@use "@/styles/element-vars.scss" as *;`,
       },
     },
   },

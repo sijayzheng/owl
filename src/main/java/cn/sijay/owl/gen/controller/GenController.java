@@ -56,7 +56,7 @@ public class GenController extends BaseController {
 
     @PostMapping("/remove/{id}")
     @Operation(summary = "删除代码生成表")
-    public Result<Boolean> delete(@PathVariable Long id) {
+    public Result<Boolean> remove(@PathVariable Long id) {
         return result(tableService.removeById(id), OperateType.DELETE);
     }
 
