@@ -37,6 +37,7 @@ export default defineConfig({
         'src/api/**',
         'src/utils/**',
         'src/composables/**',
+        'src/stores/**',
         {
           glob: 'src/types/**',
           types: true

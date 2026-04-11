@@ -12,8 +12,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ElAvatar: typeof import('element-plus/es')['ElAvatar']
+    ElBadge: typeof import('element-plus/es')['ElBadge']
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -29,8 +41,20 @@ declare module 'vue' {
 
 // For TSX support
 declare global {
+  const ElAvatar: typeof import('element-plus/es')['ElAvatar']
+  const ElBadge: typeof import('element-plus/es')['ElBadge']
+  const ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+  const ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
   const ElButton: typeof import('element-plus/es')['ElButton']
+  const ElDropdown: typeof import('element-plus/es')['ElDropdown']
+  const ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+  const ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
   const ElIcon: typeof import('element-plus/es')['ElIcon']
+  const ElMenu: typeof import('element-plus/es')['ElMenu']
+  const ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+  const ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+  const ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+  const ElTag: typeof import('element-plus/es')['ElTag']
   const HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
   const IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
   const IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']

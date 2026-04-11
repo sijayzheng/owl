@@ -1,0 +1,8 @@
+// 主题颜色变量
+$primary-color: #42b883;
+
+
+// 导出给 JavaScript/TypeScript 使用
+:export {
+  primaryColor: $primary-color;
+}

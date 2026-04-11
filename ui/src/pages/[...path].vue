@@ -14,13 +14,7 @@
           <el-icon>
             <HomeFilled/>
           </el-icon>
-          返回首页
-        </el-button>
-        <el-button size="large" @click="goBack">
-          <el-icon>
-            <ArrowLeft/>
-          </el-icon>
-          返回上一页
+          {{ remaining }}秒后返回首页
         </el-button>
       </div>
     </div>
@@ -29,7 +23,7 @@
 
 <script setup lang="ts">
 import {useRouter} from 'vue-router'
-import {ArrowLeft, DocumentDelete, HomeFilled} from '@element-plus/icons-vue'
+import {DocumentDelete, HomeFilled} from '@element-plus/icons-vue'
 
 const router = useRouter()
 
@@ -37,9 +31,18 @@ const goHome = () => {
   router.push('/')
 }
 
-const goBack = () => {
-  router.back()
-}
+const {
+  remaining,
+  start
+} = useCountdown(3, {
+  onComplete() {
+    goHome()
+  }
+})
+onMounted(() => {
+  start()
+})
+
 </script>
 
 <style scoped lang="scss">

@@ -14,13 +14,7 @@
           <el-icon>
             <UserFilled/>
           </el-icon>
-          去登录
-        </el-button>
-        <el-button size="large" @click="goHome">
-          <el-icon>
-            <HomeFilled/>
-          </el-icon>
-          返回首页
+          {{ remaining }}秒后跳转登录页
         </el-button>
       </div>
     </div>
@@ -29,7 +23,7 @@
 
 <script setup lang="ts">
 import {useRouter} from 'vue-router'
-import {HomeFilled, Lock, UserFilled} from '@element-plus/icons-vue'
+import {Lock, UserFilled} from '@element-plus/icons-vue'
 
 const router = useRouter()
 
@@ -37,9 +31,18 @@ const goLogin = () => {
   router.push('/login')
 }
 
-const goHome = () => {
-  router.push('/')
-}
+const {
+  remaining,
+  start
+} = useCountdown(3, {
+  onComplete() {
+    goLogin()
+  }
+})
+onMounted(() => {
+  start()
+})
+
 </script>
 
 <style scoped lang="scss">
