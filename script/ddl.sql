@@ -354,7 +354,7 @@ create table sys_task (
   id                bigint auto_increment primary key comment '主键',
   task_key          varchar(255)                               not null unique comment '任务唯一标识符',
   task_name         varchar(255)                               not null comment '任务名称',
-  task_group        varchar(255) default 'default' comment '任务分组',
+  task_group        varchar(255) default 'DEFAULT' comment '任务分组',
   description       text comment '任务描述',
   schedule_type     enum ('CRON', 'FIXED_DELAY', 'FIXED_RATE') not null comment '调度类型 (CRON, FIXED_DELAY, FIXED_RATE)',
   cron_expression   varchar(255) comment 'Cron 表达式',
@@ -366,7 +366,7 @@ create table sys_task (
   notify_on_failure boolean      default true comment '任务失败时是否发送通知',
   bean_class        varchar(500)                               not null comment 'Spring Bean类名 (包含包路径)',
   method_name       varchar(255)                               not null comment '执行方法名',
-  method_params     json         default null comment '执行方法参数', -- 可选
+  method_params     json         default null comment '执行方法参数',
   next_task_id      bigint                                     not null comment '接续任务id',
   wait_success      boolean      default false comment '等待成功',
   create_dept       bigint       default 1 comment '创建部门',
