@@ -15,8 +15,8 @@ public interface GenConstants {
     List<String> BASE_FIELD = List.of("create_dept", "create_by", "create_time", "update_by", "update_time");
     List<String> TEMPLATES = List.of(
 //                "controller.java",
-            "entity.java"
-//                "mapper.java",
+            "entity.java",
+            "mapper.java"
 //                "req.java",
 //                "resp.java",
 //                "service.java",

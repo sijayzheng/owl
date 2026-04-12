@@ -30,6 +30,8 @@ public class GenTest {
 
     @Test
     public void genCode() {
-        genService.generateCode(1L);
+        for (long i = 1; i < 18; i++) {
+            genService.generateCode(i);
+        }
     }
 }

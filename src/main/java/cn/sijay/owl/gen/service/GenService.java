@@ -28,7 +28,6 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -158,7 +157,6 @@ public class GenService {
         }
         Map<String, Object> data = processData(table, columns);
         Map<String, String> codeMap = genCode(data, table.getTreeTable());
-        codeMap.forEach((k, v) -> System.out.println(k + "\n" + v + "\n===================================="));
 
         String moduleName = table.getModuleName();
         String className = table.getClassName();
@@ -171,7 +169,7 @@ public class GenService {
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "req", className + "Req.java"), codeMap.get("req.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "resp", className + "Resp.java"), codeMap.get("resp.java"));
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
+            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", "I" + className + "Service.java"), codeMap.get("service.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", "impl", className + "ServiceImpl.java"), codeMap.get("serviceImpl.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
@@ -222,7 +220,7 @@ public class GenService {
                                       .toList();
         data.put("imports", imports);
         data.put("hasBase", CollectionUtils.containsAll(columns.parallelStream().map(GenColumn::getColumnName).toList(), GenConstants.BASE_FIELD));
-        data.put("date", LocalDate.now());
+        data.put("date", "2026-04-09");// LocalDate.now());
         return data;
     }
 

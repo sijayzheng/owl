@@ -1,0 +1,15 @@
+package cn.sijay.owl.system.mapper;
+
+import cn.sijay.owl.system.entity.SysMessage;
+import com.mybatisflex.core.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * 消息Mapper
+ *
+ * @author sijay
+ * @since 2026-04-09
+ */
+@Mapper
+public interface SysMessageMapper extends BaseMapper<SysMessage> {
+}

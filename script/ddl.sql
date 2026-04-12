@@ -142,17 +142,17 @@ create table sys_user (
 ) comment '用户表';
 drop table if exists sys_user_online;
 create table sys_user_online (
-  id               varchar(50) not null primary key comment '主键',
-  user_id          bigint      not null comment '用户id',
+  id               bigint auto_increment primary key comment '主键',
+  user_id          bigint   not null comment '用户id',
   username         varchar(50)  default '' comment '用户账号',
   dept_name        varchar(50)  default '' comment '部门名称',
   login_ip         varchar(128) default '' comment '登录ip',
   login_location   varchar(255) default '' comment '登录地点',
   browser          varchar(50)  default '' comment '浏览器',
   os               varchar(50)  default '' comment '操作系统',
-  login_time       datetime    not null comment '登录时间',
-  last_access_time datetime    not null comment '最后访问时间',
-  expire_time      datetime    not null comment '过期时间',
+  login_time       datetime not null comment '登录时间',
+  last_access_time datetime not null comment '最后访问时间',
+  expire_time      datetime not null comment '过期时间',
   index idx_user_id (user_id),
   index idx_last_access_time (last_access_time)
 ) comment '在线用户表';

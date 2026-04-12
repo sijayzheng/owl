@@ -18,7 +18,9 @@ import ${import};
 import java.io.Serial;
 import java.io.Serializable;
 </#if>
-
+<#if isTree>
+import java.util.List;
+</#if>
 /**
  * ${classComment}实体类
  *
@@ -37,8 +39,8 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
 </#if>
 <#list columns?filter(item -> !item.based()) as column>
     /**
-    * ${column.columnComment}
-    */
+     * ${column.columnComment}
+     */
     <#if column.primaryKey>
     @Id(<#if column.incremental>keyType = KeyType.Auto, </#if>comment = "${column.shotComment()}")
     </#if>
@@ -65,8 +67,8 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
 </#list>
 <#if isTree>
     /**
-    * 子列表
-    */
+     * 子列表
+     */
     @Column(ignore = true)
     private List<${className}> children;
 
