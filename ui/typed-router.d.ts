@@ -85,6 +85,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/test': RouteRecordInfo<
+      '/test',
+      '/test',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -146,6 +153,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/login.vue': {
       routes:
         | '/login'
+      views:
+        | never
+    }
+    'src/pages/test.vue': {
+      routes:
+        | '/test'
       views:
         | never
     }

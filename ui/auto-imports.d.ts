@@ -47,6 +47,7 @@ declare global {
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
   const inject: typeof import('vue').inject
   const injectLocal: typeof import('@vueuse/core').injectLocal
+  const isDark: typeof import('./src/composables/dark').isDark
   const isDefined: typeof import('@vueuse/core').isDefined
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
@@ -102,6 +103,7 @@ declare global {
   const request: typeof import('./src/utils/request').default
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
+  const scssD: typeof import('./src/types/scss.d').default
   const setActivePinia: typeof import('pinia').setActivePinia
   const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
   const shallowReactive: typeof import('vue').shallowReactive
@@ -118,6 +120,7 @@ declare global {
   const toRef: typeof import('vue').toRef
   const toRefs: typeof import('vue').toRefs
   const toValue: typeof import('vue').toValue
+  const toggleDark: typeof import('./src/composables/dark').toggleDark
   const triggerRef: typeof import('vue').triggerRef
   const tryOnBeforeMount: typeof import('@vueuse/core').tryOnBeforeMount
   const tryOnBeforeUnmount: typeof import('@vueuse/core').tryOnBeforeUnmount
@@ -317,15 +320,15 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
+  export type {Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef} from 'vue'
   import('vue')
   // @ts-ignore
-  export type { GenColumn } from './src/types/gen/genColumn'
+  export type {GenColumn} from './src/types/gen/genColumn'
   import('./src/types/gen/genColumn')
   // @ts-ignore
-  export type { GenTable, GenTableQuery } from './src/types/gen/genTable'
+  export type {GenTable, GenTableQuery} from './src/types/gen/genTable'
   import('./src/types/gen/genTable')
   // @ts-ignore
-  export type { TagView } from './src/types/layout'
+  export type {TagView} from './src/types/layout'
   import('./src/types/layout')
 }
