@@ -167,16 +167,14 @@ public class GenService {
         String vuePath = FileUtil.joinPath(rootPath, "vue", "src");
         try {
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "req", className + "Req.java"), codeMap.get("req.java"));
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "resp", className + "Resp.java"), codeMap.get("resp.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
+            FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName, "index.ts"), codeMap.get("api.ts"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName, "types.ts"), codeMap.get("types.ts"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName, "index.vue"), codeMap.get("index.vue"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName, "dialog.vue"), codeMap.get("dialog.vue"));
-//            FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException(getClass(), "渲染模板失败，表名：" + table.getTableName());
@@ -210,9 +208,9 @@ public class GenService {
         data.put("author", genProperties.getAuthor());
         data.put("isTree", table.getTreeTable());
         if (table.getTreeTable()) {
-            data.put("treeKey", table.getTreeKey());
-            data.put("treeParentKey", table.getTreeParentKey());
-            data.put("treeLabel", table.getTreeLabel());
+            data.put("treeKey", StringUtil.toLowerCamelCase(table.getTreeKey(), "_"));
+            data.put("treeParentKey", StringUtil.toLowerCamelCase(table.getTreeParentKey(), "_"));
+            data.put("treeLabel", StringUtil.toLowerCamelCase(table.getTreeLabel(), "_"));
         }
         data.put("menuId", table.getMenuId());
         data.put("columns", columns);

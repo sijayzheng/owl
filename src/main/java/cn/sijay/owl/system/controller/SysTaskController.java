@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 任务配置控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供任务配置的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -40,8 +40,8 @@ public class SysTaskController extends BaseController {
      * 分页查询任务配置列表
      *
      * @param pageQuery 分页参数
-     * @param sysTask 查询条件
-     * @return 用户分页列表
+     * @param sysTask   查询条件
+     * @return 任务配置分页列表
      */
     @AccessLog(title = "任务配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysTask:query")
@@ -52,10 +52,10 @@ public class SysTaskController extends BaseController {
     }
 
     /**
-     * 查询任务配置列表(不分页)
+     * 查询任务配置列表
      *
      * @param sysTask 查询条件
-     * @return 用户列表
+     * @return 任务配置列表
      */
     @AccessLog(title = "任务配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysTask:query")
@@ -68,8 +68,8 @@ public class SysTaskController extends BaseController {
     /**
      * 根据ID查询任务配置详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 任务配置ID
+     * @return 任务配置详情
      */
     @AccessLog(title = "任务配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysTask:query")
@@ -82,7 +82,7 @@ public class SysTaskController extends BaseController {
     /**
      * 新增任务配置
      *
-     * @param sysTask 用户信息
+     * @param sysTask 任务配置信息
      * @return 操作结果
      */
     @AccessLog(title = "任务配置", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysTaskController extends BaseController {
     /**
      * 修改任务配置
      *
-     * @param sysTask 用户信息
+     * @param sysTask 任务配置信息
      * @return 操作结果
      */
     @AccessLog(title = "任务配置", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysTaskController extends BaseController {
     /**
      * 删除任务配置
      *
-     * @param id 用户ID
+     * @param id 任务配置ID
      * @return 操作结果
      */
     @AccessLog(title = "任务配置", operateType = OperateType.DELETE)

@@ -3,7 +3,6 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
-import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.utils.ExcelUtil;
@@ -24,7 +23,7 @@ import java.util.List;
 
 /**
  * 系统菜单控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供系统菜单的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -37,25 +36,22 @@ public class SysMenuController extends BaseController {
     private final SysMenuService sysMenuService;
 
     /**
-     * 分页查询系统菜单列表
+     * 查询系统菜单树形结构数据
      *
-     * @param pageQuery 分页参数
-     * @param sysMenu 查询条件
-     * @return 用户分页列表
+     * @return 树形结构数据列表
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
-    @GetMapping("/page")
-    @Operation(summary = "查询系统菜单列表")
-    public Result<List<SysMenu>> page(PageQuery pageQuery, SysMenu sysMenu) {
-        return success(sysMenuService.page(pageQuery, sysMenu));
+    @GetMapping("/tree")
+    public Result<List<SysMenu>> getTree() {
+        return success(sysMenuService.getTree());
     }
 
     /**
-     * 查询系统菜单列表(不分页)
+     * 查询系统菜单列表
      *
      * @param sysMenu 查询条件
-     * @return 用户列表
+     * @return 系统菜单列表
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
@@ -68,8 +64,8 @@ public class SysMenuController extends BaseController {
     /**
      * 根据ID查询系统菜单详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 系统菜单ID
+     * @return 系统菜单详情
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
@@ -82,7 +78,7 @@ public class SysMenuController extends BaseController {
     /**
      * 新增系统菜单
      *
-     * @param sysMenu 用户信息
+     * @param sysMenu 系统菜单信息
      * @return 操作结果
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.ADD)
@@ -96,7 +92,7 @@ public class SysMenuController extends BaseController {
     /**
      * 修改系统菜单
      *
-     * @param sysMenu 用户信息
+     * @param sysMenu 系统菜单信息
      * @return 操作结果
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.UPDATE)
@@ -110,7 +106,7 @@ public class SysMenuController extends BaseController {
     /**
      * 删除系统菜单
      *
-     * @param id 用户ID
+     * @param id 系统菜单ID
      * @return 操作结果
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.DELETE)

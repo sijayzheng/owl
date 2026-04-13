@@ -378,7 +378,7 @@ create table sys_task (
   index idx_task_key (task_key),
   index idx_task_group (task_group),
   index idx_enabled (enabled)
-) comment ='定时任务配置表';
+) comment '定时任务配置表';
 drop table if exists log_task;
 create table log_task (
   id                bigint auto_increment primary key comment '主键',
@@ -396,4 +396,4 @@ create table log_task (
   index idx_execution_id (execution_id),
   index idx_start_time (start_time),
   index idx_status (status)
-) comment ='定时任务执行日志表';
+) comment '定时任务执行日志表';

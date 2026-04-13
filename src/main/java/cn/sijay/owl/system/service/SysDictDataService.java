@@ -32,7 +32,7 @@ public class SysDictDataService extends ServiceImpl<SysDictDataMapper, SysDictDa
     /**
      * 分页查询字典数据
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery   分页参数
      * @param sysDictData 查询条件
      * @return 字典数据分页数据
      */
@@ -54,7 +54,7 @@ public class SysDictDataService extends ServiceImpl<SysDictDataMapper, SysDictDa
     }
 
     /**
-     * 查询字典数据列表(不分页)
+     * 查询字典数据列表
      *
      * @param sysDictData 查询条件
      * @return 字典数据列表
@@ -77,4 +77,5 @@ public class SysDictDataService extends ServiceImpl<SysDictDataMapper, SysDictDa
         }
         return removeById(id);
     }
+
 }

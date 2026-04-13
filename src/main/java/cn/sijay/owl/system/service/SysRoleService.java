@@ -33,7 +33,7 @@ public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole> implemen
      * 分页查询系统角色
      *
      * @param pageQuery 分页参数
-     * @param sysRole 查询条件
+     * @param sysRole   查询条件
      * @return 系统角色分页数据
      */
     public Page<SysRole> page(PageQuery pageQuery, SysRole sysRole) {
@@ -53,7 +53,7 @@ public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole> implemen
     }
 
     /**
-     * 查询系统角色列表(不分页)
+     * 查询系统角色列表
      *
      * @param sysRole 查询条件
      * @return 系统角色列表
@@ -76,4 +76,5 @@ public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole> implemen
         }
         return removeById(id);
     }
+
 }

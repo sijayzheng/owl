@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static cn.sijay.owl.system.entity.table.SysUserMfaRecoveryCodesTableDef.SYS_USER_MFA_RECOVERY_CODES;
-
 /**
  * MFA备用验证码服务类
  * 提供MFA备用验证码的业务逻辑处理，包括分页查询、列表查询、删除等功能
@@ -32,7 +30,7 @@ public class SysUserMfaRecoveryCodesService extends ServiceImpl<SysUserMfaRecove
     /**
      * 分页查询MFA备用验证码
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery               分页参数
      * @param sysUserMfaRecoveryCodes 查询条件
      * @return MFA备用验证码分页数据
      */
@@ -52,7 +50,7 @@ public class SysUserMfaRecoveryCodesService extends ServiceImpl<SysUserMfaRecove
     }
 
     /**
-     * 查询MFA备用验证码列表(不分页)
+     * 查询MFA备用验证码列表
      *
      * @param sysUserMfaRecoveryCodes 查询条件
      * @return MFA备用验证码列表
@@ -75,4 +73,5 @@ public class SysUserMfaRecoveryCodesService extends ServiceImpl<SysUserMfaRecove
         }
         return removeById(id);
     }
+
 }

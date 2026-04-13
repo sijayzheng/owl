@@ -33,7 +33,7 @@ public class SysPostService extends ServiceImpl<SysPostMapper, SysPost> implemen
      * 分页查询系统岗位
      *
      * @param pageQuery 分页参数
-     * @param sysPost 查询条件
+     * @param sysPost   查询条件
      * @return 系统岗位分页数据
      */
     public Page<SysPost> page(PageQuery pageQuery, SysPost sysPost) {
@@ -54,7 +54,7 @@ public class SysPostService extends ServiceImpl<SysPostMapper, SysPost> implemen
     }
 
     /**
-     * 查询系统岗位列表(不分页)
+     * 查询系统岗位列表
      *
      * @param sysPost 查询条件
      * @return 系统岗位列表
@@ -77,4 +77,5 @@ public class SysPostService extends ServiceImpl<SysPostMapper, SysPost> implemen
         }
         return removeById(id);
     }
+
 }

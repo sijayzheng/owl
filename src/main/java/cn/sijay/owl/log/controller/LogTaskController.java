@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 任务日志控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供任务日志的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -40,8 +40,8 @@ public class LogTaskController extends BaseController {
      * 分页查询任务日志列表
      *
      * @param pageQuery 分页参数
-     * @param logTask 查询条件
-     * @return 用户分页列表
+     * @param logTask   查询条件
+     * @return 任务日志分页列表
      */
     @AccessLog(title = "任务日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logTask:query")
@@ -52,10 +52,10 @@ public class LogTaskController extends BaseController {
     }
 
     /**
-     * 查询任务日志列表(不分页)
+     * 查询任务日志列表
      *
      * @param logTask 查询条件
-     * @return 用户列表
+     * @return 任务日志列表
      */
     @AccessLog(title = "任务日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logTask:query")
@@ -68,8 +68,8 @@ public class LogTaskController extends BaseController {
     /**
      * 根据ID查询任务日志详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 任务日志ID
+     * @return 任务日志详情
      */
     @AccessLog(title = "任务日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logTask:query")
@@ -82,7 +82,7 @@ public class LogTaskController extends BaseController {
     /**
      * 新增任务日志
      *
-     * @param logTask 用户信息
+     * @param logTask 任务日志信息
      * @return 操作结果
      */
     @AccessLog(title = "任务日志", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class LogTaskController extends BaseController {
     /**
      * 修改任务日志
      *
-     * @param logTask 用户信息
+     * @param logTask 任务日志信息
      * @return 操作结果
      */
     @AccessLog(title = "任务日志", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class LogTaskController extends BaseController {
     /**
      * 删除任务日志
      *
-     * @param id 用户ID
+     * @param id 任务日志ID
      * @return 操作结果
      */
     @AccessLog(title = "任务日志", operateType = OperateType.DELETE)

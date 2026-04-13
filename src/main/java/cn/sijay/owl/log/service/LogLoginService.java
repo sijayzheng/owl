@@ -33,7 +33,7 @@ public class LogLoginService extends ServiceImpl<LogLoginMapper, LogLogin> imple
      * 分页查询登录日志
      *
      * @param pageQuery 分页参数
-     * @param logLogin 查询条件
+     * @param logLogin  查询条件
      * @return 登录日志分页数据
      */
     public Page<LogLogin> page(PageQuery pageQuery, LogLogin logLogin) {
@@ -54,7 +54,7 @@ public class LogLoginService extends ServiceImpl<LogLoginMapper, LogLogin> imple
     }
 
     /**
-     * 查询登录日志列表(不分页)
+     * 查询登录日志列表
      *
      * @param logLogin 查询条件
      * @return 登录日志列表
@@ -77,4 +77,5 @@ public class LogLoginService extends ServiceImpl<LogLoginMapper, LogLogin> imple
         }
         return removeById(id);
     }
+
 }

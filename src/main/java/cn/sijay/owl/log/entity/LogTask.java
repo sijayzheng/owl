@@ -11,9 +11,10 @@ import lombok.Data;
 import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
 
-import java.time.LocalDateTime;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
  * 任务日志实体类
  *
@@ -102,6 +103,6 @@ public class LogTask implements Serializable {
     @ExcelProperty(value = "执行线程名")
     private String threadName;
 
-        private LocalDateTime[] startTimeRange;
+    private LocalDateTime[] startTimeRange;
 
 }

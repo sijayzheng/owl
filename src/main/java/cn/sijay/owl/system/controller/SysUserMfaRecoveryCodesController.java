@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * MFA备用验证码控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供MFA备用验证码的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -39,9 +39,9 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     /**
      * 分页查询MFA备用验证码列表
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery               分页参数
      * @param sysUserMfaRecoveryCodes 查询条件
-     * @return 用户分页列表
+     * @return MFA备用验证码分页列表
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUserMfaRecoveryCodes:query")
@@ -52,10 +52,10 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     }
 
     /**
-     * 查询MFA备用验证码列表(不分页)
+     * 查询MFA备用验证码列表
      *
      * @param sysUserMfaRecoveryCodes 查询条件
-     * @return 用户列表
+     * @return MFA备用验证码列表
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUserMfaRecoveryCodes:query")
@@ -68,8 +68,8 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     /**
      * 根据ID查询MFA备用验证码详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id MFA备用验证码ID
+     * @return MFA备用验证码详情
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUserMfaRecoveryCodes:query")
@@ -82,7 +82,7 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     /**
      * 新增MFA备用验证码
      *
-     * @param sysUserMfaRecoveryCodes 用户信息
+     * @param sysUserMfaRecoveryCodes MFA备用验证码信息
      * @return 操作结果
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     /**
      * 修改MFA备用验证码
      *
-     * @param sysUserMfaRecoveryCodes 用户信息
+     * @param sysUserMfaRecoveryCodes MFA备用验证码信息
      * @return 操作结果
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     /**
      * 删除MFA备用验证码
      *
-     * @param id 用户ID
+     * @param id MFA备用验证码ID
      * @return 操作结果
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.DELETE)

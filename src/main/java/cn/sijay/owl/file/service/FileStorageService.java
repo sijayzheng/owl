@@ -32,7 +32,7 @@ public class FileStorageService extends ServiceImpl<FileStorageMapper, FileStora
     /**
      * 分页查询文件存储
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery   分页参数
      * @param fileStorage 查询条件
      * @return 文件存储分页数据
      */
@@ -55,7 +55,7 @@ public class FileStorageService extends ServiceImpl<FileStorageMapper, FileStora
     }
 
     /**
-     * 查询文件存储列表(不分页)
+     * 查询文件存储列表
      *
      * @param fileStorage 查询条件
      * @return 文件存储列表
@@ -78,4 +78,5 @@ public class FileStorageService extends ServiceImpl<FileStorageMapper, FileStora
         }
         return removeById(id);
     }
+
 }

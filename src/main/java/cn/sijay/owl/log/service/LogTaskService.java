@@ -33,7 +33,7 @@ public class LogTaskService extends ServiceImpl<LogTaskMapper, LogTask> implemen
      * 分页查询任务日志
      *
      * @param pageQuery 分页参数
-     * @param logTask 查询条件
+     * @param logTask   查询条件
      * @return 任务日志分页数据
      */
     public Page<LogTask> page(PageQuery pageQuery, LogTask logTask) {
@@ -55,7 +55,7 @@ public class LogTaskService extends ServiceImpl<LogTaskMapper, LogTask> implemen
     }
 
     /**
-     * 查询任务日志列表(不分页)
+     * 查询任务日志列表
      *
      * @param logTask 查询条件
      * @return 任务日志列表
@@ -78,4 +78,5 @@ public class LogTaskService extends ServiceImpl<LogTaskMapper, LogTask> implemen
         }
         return removeById(id);
     }
+
 }

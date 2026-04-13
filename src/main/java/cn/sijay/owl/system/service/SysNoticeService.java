@@ -54,7 +54,7 @@ public class SysNoticeService extends ServiceImpl<SysNoticeMapper, SysNotice> im
     }
 
     /**
-     * 查询通知公告列表(不分页)
+     * 查询通知公告列表
      *
      * @param sysNotice 查询条件
      * @return 通知公告列表
@@ -77,4 +77,5 @@ public class SysNoticeService extends ServiceImpl<SysNoticeMapper, SysNotice> im
         }
         return removeById(id);
     }
+
 }

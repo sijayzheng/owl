@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 访问日志控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供访问日志的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -41,7 +41,7 @@ public class LogAccessController extends BaseController {
      *
      * @param pageQuery 分页参数
      * @param logAccess 查询条件
-     * @return 用户分页列表
+     * @return 访问日志分页列表
      */
     @AccessLog(title = "访问日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logAccess:query")
@@ -52,10 +52,10 @@ public class LogAccessController extends BaseController {
     }
 
     /**
-     * 查询访问日志列表(不分页)
+     * 查询访问日志列表
      *
      * @param logAccess 查询条件
-     * @return 用户列表
+     * @return 访问日志列表
      */
     @AccessLog(title = "访问日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logAccess:query")
@@ -68,8 +68,8 @@ public class LogAccessController extends BaseController {
     /**
      * 根据ID查询访问日志详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 访问日志ID
+     * @return 访问日志详情
      */
     @AccessLog(title = "访问日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logAccess:query")
@@ -82,7 +82,7 @@ public class LogAccessController extends BaseController {
     /**
      * 新增访问日志
      *
-     * @param logAccess 用户信息
+     * @param logAccess 访问日志信息
      * @return 操作结果
      */
     @AccessLog(title = "访问日志", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class LogAccessController extends BaseController {
     /**
      * 修改访问日志
      *
-     * @param logAccess 用户信息
+     * @param logAccess 访问日志信息
      * @return 操作结果
      */
     @AccessLog(title = "访问日志", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class LogAccessController extends BaseController {
     /**
      * 删除访问日志
      *
-     * @param id 用户ID
+     * @param id 访问日志ID
      * @return 操作结果
      */
     @AccessLog(title = "访问日志", operateType = OperateType.DELETE)

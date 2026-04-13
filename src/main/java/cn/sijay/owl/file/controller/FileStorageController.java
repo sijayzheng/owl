@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 文件存储控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供文件存储的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -39,9 +39,9 @@ public class FileStorageController extends BaseController {
     /**
      * 分页查询文件存储列表
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery   分页参数
      * @param fileStorage 查询条件
-     * @return 用户分页列表
+     * @return 文件存储分页列表
      */
     @AccessLog(title = "文件存储", operateType = OperateType.QUERY)
     @SaCheckPermission("file:fileStorage:query")
@@ -52,10 +52,10 @@ public class FileStorageController extends BaseController {
     }
 
     /**
-     * 查询文件存储列表(不分页)
+     * 查询文件存储列表
      *
      * @param fileStorage 查询条件
-     * @return 用户列表
+     * @return 文件存储列表
      */
     @AccessLog(title = "文件存储", operateType = OperateType.QUERY)
     @SaCheckPermission("file:fileStorage:query")
@@ -68,8 +68,8 @@ public class FileStorageController extends BaseController {
     /**
      * 根据ID查询文件存储详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 文件存储ID
+     * @return 文件存储详情
      */
     @AccessLog(title = "文件存储", operateType = OperateType.QUERY)
     @SaCheckPermission("file:fileStorage:query")
@@ -82,7 +82,7 @@ public class FileStorageController extends BaseController {
     /**
      * 新增文件存储
      *
-     * @param fileStorage 用户信息
+     * @param fileStorage 文件存储信息
      * @return 操作结果
      */
     @AccessLog(title = "文件存储", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class FileStorageController extends BaseController {
     /**
      * 修改文件存储
      *
-     * @param fileStorage 用户信息
+     * @param fileStorage 文件存储信息
      * @return 操作结果
      */
     @AccessLog(title = "文件存储", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class FileStorageController extends BaseController {
     /**
      * 删除文件存储
      *
-     * @param id 用户ID
+     * @param id 文件存储ID
      * @return 操作结果
      */
     @AccessLog(title = "文件存储", operateType = OperateType.DELETE)

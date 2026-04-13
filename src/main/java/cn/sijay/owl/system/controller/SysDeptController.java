@@ -3,7 +3,6 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
-import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.utils.ExcelUtil;
@@ -24,7 +23,7 @@ import java.util.List;
 
 /**
  * 系统部门控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供系统部门的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -37,25 +36,22 @@ public class SysDeptController extends BaseController {
     private final SysDeptService sysDeptService;
 
     /**
-     * 分页查询系统部门列表
+     * 查询系统部门树形结构数据
      *
-     * @param pageQuery 分页参数
-     * @param sysDept 查询条件
-     * @return 用户分页列表
+     * @return 树形结构数据列表
      */
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
-    @GetMapping("/page")
-    @Operation(summary = "查询系统部门列表")
-    public Result<List<SysDept>> page(PageQuery pageQuery, SysDept sysDept) {
-        return success(sysDeptService.page(pageQuery, sysDept));
+    @GetMapping("/tree")
+    public Result<List<SysDept>> getTree() {
+        return success(sysDeptService.getTree());
     }
 
     /**
-     * 查询系统部门列表(不分页)
+     * 查询系统部门列表
      *
      * @param sysDept 查询条件
-     * @return 用户列表
+     * @return 系统部门列表
      */
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
@@ -68,8 +64,8 @@ public class SysDeptController extends BaseController {
     /**
      * 根据ID查询系统部门详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 系统部门ID
+     * @return 系统部门详情
      */
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
@@ -82,7 +78,7 @@ public class SysDeptController extends BaseController {
     /**
      * 新增系统部门
      *
-     * @param sysDept 用户信息
+     * @param sysDept 系统部门信息
      * @return 操作结果
      */
     @AccessLog(title = "系统部门", operateType = OperateType.ADD)
@@ -96,7 +92,7 @@ public class SysDeptController extends BaseController {
     /**
      * 修改系统部门
      *
-     * @param sysDept 用户信息
+     * @param sysDept 系统部门信息
      * @return 操作结果
      */
     @AccessLog(title = "系统部门", operateType = OperateType.UPDATE)
@@ -110,7 +106,7 @@ public class SysDeptController extends BaseController {
     /**
      * 删除系统部门
      *
-     * @param id 用户ID
+     * @param id 系统部门ID
      * @return 操作结果
      */
     @AccessLog(title = "系统部门", operateType = OperateType.DELETE)

@@ -32,7 +32,7 @@ public class FileOssStorageService extends ServiceImpl<FileOssStorageMapper, Fil
     /**
      * 分页查询OSS
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery      分页参数
      * @param fileOssStorage 查询条件
      * @return OSS分页数据
      */
@@ -55,7 +55,7 @@ public class FileOssStorageService extends ServiceImpl<FileOssStorageMapper, Fil
     }
 
     /**
-     * 查询OSS列表(不分页)
+     * 查询OSS列表
      *
      * @param fileOssStorage 查询条件
      * @return OSS列表
@@ -78,4 +78,5 @@ public class FileOssStorageService extends ServiceImpl<FileOssStorageMapper, Fil
         }
         return removeById(id);
     }
+
 }

@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 登录日志控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供登录日志的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -40,8 +40,8 @@ public class LogLoginController extends BaseController {
      * 分页查询登录日志列表
      *
      * @param pageQuery 分页参数
-     * @param logLogin 查询条件
-     * @return 用户分页列表
+     * @param logLogin  查询条件
+     * @return 登录日志分页列表
      */
     @AccessLog(title = "登录日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logLogin:query")
@@ -52,10 +52,10 @@ public class LogLoginController extends BaseController {
     }
 
     /**
-     * 查询登录日志列表(不分页)
+     * 查询登录日志列表
      *
      * @param logLogin 查询条件
-     * @return 用户列表
+     * @return 登录日志列表
      */
     @AccessLog(title = "登录日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logLogin:query")
@@ -68,8 +68,8 @@ public class LogLoginController extends BaseController {
     /**
      * 根据ID查询登录日志详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 登录日志ID
+     * @return 登录日志详情
      */
     @AccessLog(title = "登录日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logLogin:query")
@@ -82,7 +82,7 @@ public class LogLoginController extends BaseController {
     /**
      * 新增登录日志
      *
-     * @param logLogin 用户信息
+     * @param logLogin 登录日志信息
      * @return 操作结果
      */
     @AccessLog(title = "登录日志", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class LogLoginController extends BaseController {
     /**
      * 修改登录日志
      *
-     * @param logLogin 用户信息
+     * @param logLogin 登录日志信息
      * @return 操作结果
      */
     @AccessLog(title = "登录日志", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class LogLoginController extends BaseController {
     /**
      * 删除登录日志
      *
-     * @param id 用户ID
+     * @param id 登录日志ID
      * @return 操作结果
      */
     @AccessLog(title = "登录日志", operateType = OperateType.DELETE)

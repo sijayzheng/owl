@@ -19,10 +19,10 @@ public interface GenConstants {
             "mapper.java",
 //                "req.java",
 //                "resp.java",
-            "service.java"
+            "service.java",
 //                "api.ts",
 //                "types.ts",
 //                "dialog.vue",
-//               "sql"
+            "sql"
     );
 }

@@ -32,7 +32,7 @@ public class SysMessageService extends ServiceImpl<SysMessageMapper, SysMessage>
     /**
      * 分页查询系统消息
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery  分页参数
      * @param sysMessage 查询条件
      * @return 系统消息分页数据
      */
@@ -54,7 +54,7 @@ public class SysMessageService extends ServiceImpl<SysMessageMapper, SysMessage>
     }
 
     /**
-     * 查询系统消息列表(不分页)
+     * 查询系统消息列表
      *
      * @param sysMessage 查询条件
      * @return 系统消息列表
@@ -77,4 +77,5 @@ public class SysMessageService extends ServiceImpl<SysMessageMapper, SysMessage>
         }
         return removeById(id);
     }
+
 }

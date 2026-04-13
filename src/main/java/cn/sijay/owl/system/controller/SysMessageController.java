@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 系统消息控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供系统消息的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -39,9 +39,9 @@ public class SysMessageController extends BaseController {
     /**
      * 分页查询系统消息列表
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery  分页参数
      * @param sysMessage 查询条件
-     * @return 用户分页列表
+     * @return 系统消息分页列表
      */
     @AccessLog(title = "系统消息", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMessage:query")
@@ -52,10 +52,10 @@ public class SysMessageController extends BaseController {
     }
 
     /**
-     * 查询系统消息列表(不分页)
+     * 查询系统消息列表
      *
      * @param sysMessage 查询条件
-     * @return 用户列表
+     * @return 系统消息列表
      */
     @AccessLog(title = "系统消息", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMessage:query")
@@ -68,8 +68,8 @@ public class SysMessageController extends BaseController {
     /**
      * 根据ID查询系统消息详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 系统消息ID
+     * @return 系统消息详情
      */
     @AccessLog(title = "系统消息", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMessage:query")
@@ -82,7 +82,7 @@ public class SysMessageController extends BaseController {
     /**
      * 新增系统消息
      *
-     * @param sysMessage 用户信息
+     * @param sysMessage 系统消息信息
      * @return 操作结果
      */
     @AccessLog(title = "系统消息", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysMessageController extends BaseController {
     /**
      * 修改系统消息
      *
-     * @param sysMessage 用户信息
+     * @param sysMessage 系统消息信息
      * @return 操作结果
      */
     @AccessLog(title = "系统消息", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysMessageController extends BaseController {
     /**
      * 删除系统消息
      *
-     * @param id 用户ID
+     * @param id 系统消息ID
      * @return 操作结果
      */
     @AccessLog(title = "系统消息", operateType = OperateType.DELETE)

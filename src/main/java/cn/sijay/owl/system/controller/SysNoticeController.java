@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 通知公告控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供通知公告的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -41,7 +41,7 @@ public class SysNoticeController extends BaseController {
      *
      * @param pageQuery 分页参数
      * @param sysNotice 查询条件
-     * @return 用户分页列表
+     * @return 通知公告分页列表
      */
     @AccessLog(title = "通知公告", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysNotice:query")
@@ -52,10 +52,10 @@ public class SysNoticeController extends BaseController {
     }
 
     /**
-     * 查询通知公告列表(不分页)
+     * 查询通知公告列表
      *
      * @param sysNotice 查询条件
-     * @return 用户列表
+     * @return 通知公告列表
      */
     @AccessLog(title = "通知公告", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysNotice:query")
@@ -68,8 +68,8 @@ public class SysNoticeController extends BaseController {
     /**
      * 根据ID查询通知公告详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 通知公告ID
+     * @return 通知公告详情
      */
     @AccessLog(title = "通知公告", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysNotice:query")
@@ -82,7 +82,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 新增通知公告
      *
-     * @param sysNotice 用户信息
+     * @param sysNotice 通知公告信息
      * @return 操作结果
      */
     @AccessLog(title = "通知公告", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 修改通知公告
      *
-     * @param sysNotice 用户信息
+     * @param sysNotice 通知公告信息
      * @return 操作结果
      */
     @AccessLog(title = "通知公告", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 删除通知公告
      *
-     * @param id 用户ID
+     * @param id 通知公告ID
      * @return 操作结果
      */
     @AccessLog(title = "通知公告", operateType = OperateType.DELETE)

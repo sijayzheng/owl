@@ -66,11 +66,11 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
 
 </#list>
 <#list columns?filter(item -> item.queryable) as column>
-    <#if column.queryType=="BETWEEN">
-        private ${column.javaType.code}[] ${column.javaField}Range;
+    <#if column.queryType=='BETWEEN'>
+    private ${column.javaType.code}[] ${column.javaField}Range;
 
-    <#elseif column.queryType=="IN">
-        private List<${column.javaType.code}> ${column.javaField}s;
+    <#elseif column.queryType=='IN'>
+    private List<${column.javaType.code}> ${column.javaField}s;
 
     </#if>
 </#list>

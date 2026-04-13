@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * ${classComment}控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供${classComment}的增删改查、导入导出等功能
  *
  * @author ${author}
  * @since ${date}
@@ -36,12 +36,25 @@ import java.util.List;
 public class ${className}Controller extends BaseController {
     private final ${className}Service ${functionName}Service;
 
+<#if isTree>
+    /**
+     * 查询${classComment}树形结构数据
+     *
+     * @return 树形结构数据列表
+     */
+    @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
+    @SaCheckPermission("${moduleName}:${functionName}:query")
+    @GetMapping("/tree")
+    public Result<List<${className}>> getTree() {
+        return success(${functionName}Service.getTree());
+    }
+<#else>
     /**
      * 分页查询${classComment}列表
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery       分页参数
      * @param ${functionName} 查询条件
-     * @return 用户分页列表
+     * @return ${classComment}分页列表
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
@@ -50,12 +63,13 @@ public class ${className}Controller extends BaseController {
     public Result<List<${className}>> page(PageQuery pageQuery, ${className} ${functionName}) {
         return success(${functionName}Service.page(pageQuery, ${functionName}));
     }
+</#if>
 
     /**
-     * 查询${classComment}列表(不分页)
+     * 查询${classComment}列表
      *
      * @param ${functionName} 查询条件
-     * @return 用户列表
+     * @return ${classComment}列表
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
@@ -68,8 +82,8 @@ public class ${className}Controller extends BaseController {
     /**
      * 根据ID查询${classComment}详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id ${classComment}ID
+     * @return ${classComment}详情
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
@@ -82,7 +96,7 @@ public class ${className}Controller extends BaseController {
     /**
      * 新增${classComment}
      *
-     * @param ${functionName} 用户信息
+     * @param ${functionName} ${classComment}信息
      * @return 操作结果
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.ADD)
@@ -96,7 +110,7 @@ public class ${className}Controller extends BaseController {
     /**
      * 修改${classComment}
      *
-     * @param ${functionName} 用户信息
+     * @param ${functionName} ${classComment}信息
      * @return 操作结果
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.UPDATE)
@@ -110,7 +124,7 @@ public class ${className}Controller extends BaseController {
     /**
      * 删除${classComment}
      *
-     * @param id 用户ID
+     * @param id ${classComment}ID
      * @return 操作结果
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.DELETE)

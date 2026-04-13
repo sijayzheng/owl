@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 参数配置控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供参数配置的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -41,7 +41,7 @@ public class SysConfigController extends BaseController {
      *
      * @param pageQuery 分页参数
      * @param sysConfig 查询条件
-     * @return 用户分页列表
+     * @return 参数配置分页列表
      */
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
@@ -52,10 +52,10 @@ public class SysConfigController extends BaseController {
     }
 
     /**
-     * 查询参数配置列表(不分页)
+     * 查询参数配置列表
      *
      * @param sysConfig 查询条件
-     * @return 用户列表
+     * @return 参数配置列表
      */
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
@@ -68,8 +68,8 @@ public class SysConfigController extends BaseController {
     /**
      * 根据ID查询参数配置详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 参数配置ID
+     * @return 参数配置详情
      */
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
@@ -82,7 +82,7 @@ public class SysConfigController extends BaseController {
     /**
      * 新增参数配置
      *
-     * @param sysConfig 用户信息
+     * @param sysConfig 参数配置信息
      * @return 操作结果
      */
     @AccessLog(title = "参数配置", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysConfigController extends BaseController {
     /**
      * 修改参数配置
      *
-     * @param sysConfig 用户信息
+     * @param sysConfig 参数配置信息
      * @return 操作结果
      */
     @AccessLog(title = "参数配置", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysConfigController extends BaseController {
     /**
      * 删除参数配置
      *
-     * @param id 用户ID
+     * @param id 参数配置ID
      * @return 操作结果
      */
     @AccessLog(title = "参数配置", operateType = OperateType.DELETE)

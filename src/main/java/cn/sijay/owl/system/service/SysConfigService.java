@@ -54,7 +54,7 @@ public class SysConfigService extends ServiceImpl<SysConfigMapper, SysConfig> im
     }
 
     /**
-     * 查询参数配置列表(不分页)
+     * 查询参数配置列表
      *
      * @param sysConfig 查询条件
      * @return 参数配置列表
@@ -77,4 +77,5 @@ public class SysConfigService extends ServiceImpl<SysConfigMapper, SysConfig> im
         }
         return removeById(id);
     }
+
 }

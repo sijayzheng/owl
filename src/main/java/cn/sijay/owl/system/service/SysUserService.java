@@ -33,7 +33,7 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUser> implemen
      * 分页查询系统用户
      *
      * @param pageQuery 分页参数
-     * @param sysUser 查询条件
+     * @param sysUser   查询条件
      * @return 系统用户分页数据
      */
     public Page<SysUser> page(PageQuery pageQuery, SysUser sysUser) {
@@ -56,7 +56,7 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUser> implemen
     }
 
     /**
-     * 查询系统用户列表(不分页)
+     * 查询系统用户列表
      *
      * @param sysUser 查询条件
      * @return 系统用户列表
@@ -79,4 +79,5 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUser> implemen
         }
         return removeById(id);
     }
+
 }

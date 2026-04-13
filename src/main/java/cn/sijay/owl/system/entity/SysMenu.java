@@ -6,12 +6,12 @@ import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
 
-import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * 系统菜单实体类
  *
@@ -121,5 +121,11 @@ public class SysMenu extends BaseEntity {
     @Column(value = "icon", comment = "菜单图标")
     @ExcelProperty(value = "菜单图标")
     private String icon;
+
+    /**
+     * 子列表
+     */
+    @Column(ignore = true)
+    private List<SysMenu> children;
 
 }

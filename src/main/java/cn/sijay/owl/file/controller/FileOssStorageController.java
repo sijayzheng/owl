@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * OSS控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供OSS的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -39,9 +39,9 @@ public class FileOssStorageController extends BaseController {
     /**
      * 分页查询OSS列表
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery      分页参数
      * @param fileOssStorage 查询条件
-     * @return 用户分页列表
+     * @return OSS分页列表
      */
     @AccessLog(title = "OSS", operateType = OperateType.QUERY)
     @SaCheckPermission("file:fileOssStorage:query")
@@ -52,10 +52,10 @@ public class FileOssStorageController extends BaseController {
     }
 
     /**
-     * 查询OSS列表(不分页)
+     * 查询OSS列表
      *
      * @param fileOssStorage 查询条件
-     * @return 用户列表
+     * @return OSS列表
      */
     @AccessLog(title = "OSS", operateType = OperateType.QUERY)
     @SaCheckPermission("file:fileOssStorage:query")
@@ -68,8 +68,8 @@ public class FileOssStorageController extends BaseController {
     /**
      * 根据ID查询OSS详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id OSSID
+     * @return OSS详情
      */
     @AccessLog(title = "OSS", operateType = OperateType.QUERY)
     @SaCheckPermission("file:fileOssStorage:query")
@@ -82,7 +82,7 @@ public class FileOssStorageController extends BaseController {
     /**
      * 新增OSS
      *
-     * @param fileOssStorage 用户信息
+     * @param fileOssStorage OSS信息
      * @return 操作结果
      */
     @AccessLog(title = "OSS", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class FileOssStorageController extends BaseController {
     /**
      * 修改OSS
      *
-     * @param fileOssStorage 用户信息
+     * @param fileOssStorage OSS信息
      * @return 操作结果
      */
     @AccessLog(title = "OSS", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class FileOssStorageController extends BaseController {
     /**
      * 删除OSS
      *
-     * @param id 用户ID
+     * @param id OSSID
      * @return 操作结果
      */
     @AccessLog(title = "OSS", operateType = OperateType.DELETE)

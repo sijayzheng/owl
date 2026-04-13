@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 系统用户控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供系统用户的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -40,8 +40,8 @@ public class SysUserController extends BaseController {
      * 分页查询系统用户列表
      *
      * @param pageQuery 分页参数
-     * @param sysUser 查询条件
-     * @return 用户分页列表
+     * @param sysUser   查询条件
+     * @return 系统用户分页列表
      */
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
@@ -52,10 +52,10 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * 查询系统用户列表(不分页)
+     * 查询系统用户列表
      *
      * @param sysUser 查询条件
-     * @return 用户列表
+     * @return 系统用户列表
      */
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
@@ -68,8 +68,8 @@ public class SysUserController extends BaseController {
     /**
      * 根据ID查询系统用户详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 系统用户ID
+     * @return 系统用户详情
      */
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
@@ -82,7 +82,7 @@ public class SysUserController extends BaseController {
     /**
      * 新增系统用户
      *
-     * @param sysUser 用户信息
+     * @param sysUser 系统用户信息
      * @return 操作结果
      */
     @AccessLog(title = "系统用户", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysUserController extends BaseController {
     /**
      * 修改系统用户
      *
-     * @param sysUser 用户信息
+     * @param sysUser 系统用户信息
      * @return 操作结果
      */
     @AccessLog(title = "系统用户", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysUserController extends BaseController {
     /**
      * 删除系统用户
      *
-     * @param id 用户ID
+     * @param id 系统用户ID
      * @return 操作结果
      */
     @AccessLog(title = "系统用户", operateType = OperateType.DELETE)

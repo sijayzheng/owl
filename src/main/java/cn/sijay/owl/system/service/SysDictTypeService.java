@@ -32,7 +32,7 @@ public class SysDictTypeService extends ServiceImpl<SysDictTypeMapper, SysDictTy
     /**
      * 分页查询字典类型
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery   分页参数
      * @param sysDictType 查询条件
      * @return 字典类型分页数据
      */
@@ -54,7 +54,7 @@ public class SysDictTypeService extends ServiceImpl<SysDictTypeMapper, SysDictTy
     }
 
     /**
-     * 查询字典类型列表(不分页)
+     * 查询字典类型列表
      *
      * @param sysDictType 查询条件
      * @return 字典类型列表
@@ -77,4 +77,5 @@ public class SysDictTypeService extends ServiceImpl<SysDictTypeMapper, SysDictTy
         }
         return removeById(id);
     }
+
 }

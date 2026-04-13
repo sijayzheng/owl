@@ -33,7 +33,7 @@ public class SysTaskService extends ServiceImpl<SysTaskMapper, SysTask> implemen
      * 分页查询任务配置
      *
      * @param pageQuery 分页参数
-     * @param sysTask 查询条件
+     * @param sysTask   查询条件
      * @return 任务配置分页数据
      */
     public Page<SysTask> page(PageQuery pageQuery, SysTask sysTask) {
@@ -53,7 +53,7 @@ public class SysTaskService extends ServiceImpl<SysTaskMapper, SysTask> implemen
     }
 
     /**
-     * 查询任务配置列表(不分页)
+     * 查询任务配置列表
      *
      * @param sysTask 查询条件
      * @return 任务配置列表
@@ -76,4 +76,5 @@ public class SysTaskService extends ServiceImpl<SysTaskMapper, SysTask> implemen
         }
         return removeById(id);
     }
+
 }

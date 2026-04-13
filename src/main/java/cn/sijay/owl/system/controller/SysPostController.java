@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 系统岗位控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供系统岗位的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -40,8 +40,8 @@ public class SysPostController extends BaseController {
      * 分页查询系统岗位列表
      *
      * @param pageQuery 分页参数
-     * @param sysPost 查询条件
-     * @return 用户分页列表
+     * @param sysPost   查询条件
+     * @return 系统岗位分页列表
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysPost:query")
@@ -52,10 +52,10 @@ public class SysPostController extends BaseController {
     }
 
     /**
-     * 查询系统岗位列表(不分页)
+     * 查询系统岗位列表
      *
      * @param sysPost 查询条件
-     * @return 用户列表
+     * @return 系统岗位列表
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysPost:query")
@@ -68,8 +68,8 @@ public class SysPostController extends BaseController {
     /**
      * 根据ID查询系统岗位详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 系统岗位ID
+     * @return 系统岗位详情
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysPost:query")
@@ -82,7 +82,7 @@ public class SysPostController extends BaseController {
     /**
      * 新增系统岗位
      *
-     * @param sysPost 用户信息
+     * @param sysPost 系统岗位信息
      * @return 操作结果
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysPostController extends BaseController {
     /**
      * 修改系统岗位
      *
-     * @param sysPost 用户信息
+     * @param sysPost 系统岗位信息
      * @return 操作结果
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysPostController extends BaseController {
     /**
      * 删除系统岗位
      *
-     * @param id 用户ID
+     * @param id 系统岗位ID
      * @return 操作结果
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.DELETE)

@@ -57,7 +57,7 @@ public class LogAccessService extends ServiceImpl<LogAccessMapper, LogAccess> im
     }
 
     /**
-     * 查询访问日志列表(不分页)
+     * 查询访问日志列表
      *
      * @param logAccess 查询条件
      * @return 访问日志列表
@@ -80,4 +80,5 @@ public class LogAccessService extends ServiceImpl<LogAccessMapper, LogAccess> im
         }
         return removeById(id);
     }
+
 }

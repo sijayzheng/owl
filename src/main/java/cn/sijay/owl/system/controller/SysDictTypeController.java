@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * 字典类型控制器
- * 提供用户的增删改查、导入导出等功能
+ * 提供字典类型的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -39,9 +39,9 @@ public class SysDictTypeController extends BaseController {
     /**
      * 分页查询字典类型列表
      *
-     * @param pageQuery 分页参数
+     * @param pageQuery   分页参数
      * @param sysDictType 查询条件
-     * @return 用户分页列表
+     * @return 字典类型分页列表
      */
     @AccessLog(title = "字典类型", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDictType:query")
@@ -52,10 +52,10 @@ public class SysDictTypeController extends BaseController {
     }
 
     /**
-     * 查询字典类型列表(不分页)
+     * 查询字典类型列表
      *
      * @param sysDictType 查询条件
-     * @return 用户列表
+     * @return 字典类型列表
      */
     @AccessLog(title = "字典类型", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDictType:query")
@@ -68,8 +68,8 @@ public class SysDictTypeController extends BaseController {
     /**
      * 根据ID查询字典类型详情
      *
-     * @param id 用户ID
-     * @return 用户详情
+     * @param id 字典类型ID
+     * @return 字典类型详情
      */
     @AccessLog(title = "字典类型", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDictType:query")
@@ -82,7 +82,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 新增字典类型
      *
-     * @param sysDictType 用户信息
+     * @param sysDictType 字典类型信息
      * @return 操作结果
      */
     @AccessLog(title = "字典类型", operateType = OperateType.ADD)
@@ -96,7 +96,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 修改字典类型
      *
-     * @param sysDictType 用户信息
+     * @param sysDictType 字典类型信息
      * @return 操作结果
      */
     @AccessLog(title = "字典类型", operateType = OperateType.UPDATE)
@@ -110,7 +110,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 删除字典类型
      *
-     * @param id 用户ID
+     * @param id 字典类型ID
      * @return 操作结果
      */
     @AccessLog(title = "字典类型", operateType = OperateType.DELETE)
