@@ -12,7 +12,7 @@ import java.util.List;
  * BaseController
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 public class BaseController {
     /**

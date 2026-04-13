@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * 所有实体类的基类，包含通用的审计字段
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @Data
 public class BaseEntity {

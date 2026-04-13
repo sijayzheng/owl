@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @param <T> 响应数据类型
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 public record Result<T>(
         /**

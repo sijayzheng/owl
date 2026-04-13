@@ -12,7 +12,7 @@ import java.util.List;
  * GenTest
  *
  * @author sijay
- * @since 2026/4/9
+ * @since 2026-04-09
  */
 @SpringBootTest
 public class GenTest {

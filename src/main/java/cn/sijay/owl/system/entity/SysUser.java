@@ -1,6 +1,7 @@
 package cn.sijay.owl.system.entity;
 
 import cn.sijay.owl.common.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -11,7 +12,7 @@ import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
 
 /**
- * 用户实体类
+ * 系统用户实体类
  *
  * @author sijay
  * @since 2026-04-09
@@ -75,36 +76,32 @@ public class SysUser extends BaseEntity {
      * 头像地址
      */
     @Column(value = "avatar", comment = "头像地址")
-    @ExcelProperty(value = "头像地址")
     private Long avatar;
 
     /**
      * 密码
      */
+    @JsonIgnore
     @Column(value = "password", comment = "密码")
-    @NotBlank(message = "密码不能为空")
-    @ExcelProperty(value = "密码")
     private String password;
 
     /**
      * 是否启用MFA
      */
     @Column(value = "mfa_enabled", comment = "是否启用MFA")
-    @ExcelProperty(value = "是否启用MFA")
     private Boolean mfaEnabled;
 
     /**
      * totp密钥
      */
+    @JsonIgnore
     @Column(value = "totp_secret", comment = "totp密钥")
-    @ExcelProperty(value = "totp密钥")
     private String totpSecret;
 
     /**
      * 启用
      */
     @Column(value = "enabled", comment = "启用")
-    @ExcelProperty(value = "启用")
     private Boolean enabled;
 
     /**

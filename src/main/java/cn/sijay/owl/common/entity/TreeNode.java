@@ -7,7 +7,7 @@ import java.util.List;
  * TreeNode
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 public record TreeNode<T>(
         String label,

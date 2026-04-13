@@ -3,7 +3,10 @@ package cn.sijay.owl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
+@EnableTransactionManagement(proxyTargetClass = true)
 @EnableAspectJAutoProxy // 开启 AOP 支持
 @SpringBootApplication
 public class OwlApplication {

@@ -5,7 +5,7 @@ package cn.sijay.owl.common.constants;
  * ErrorConstants
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 public interface ErrorConstants {
     String UNKNOWN_ERROR = "未知错误";

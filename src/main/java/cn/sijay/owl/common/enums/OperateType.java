@@ -8,7 +8,7 @@ import lombok.Getter;
  * OperateType
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @AllArgsConstructor
 @Getter

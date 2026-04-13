@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * GenColumnMapper
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @Mapper
 public interface GenColumnMapper extends BaseMapper<GenColumn> {

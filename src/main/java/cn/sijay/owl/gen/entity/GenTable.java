@@ -17,7 +17,7 @@ import java.util.List;
  * GenTable
  *
  * @author sijay
- * @since 2026/4/7
+ * @since 2026-04-07
  */
 @NoArgsConstructor
 @AllArgsConstructor

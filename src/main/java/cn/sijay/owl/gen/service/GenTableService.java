@@ -18,7 +18,7 @@ import static cn.sijay.owl.gen.entity.table.GenTableTableDef.GEN_TABLE;
  * GenTableService
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @Slf4j
 @RequiredArgsConstructor

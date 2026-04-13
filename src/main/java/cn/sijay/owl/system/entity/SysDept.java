@@ -14,7 +14,7 @@ import org.apache.fesod.sheet.annotation.ExcelProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 /**
- * 部门实体类
+ * 系统部门实体类
  *
  * @author sijay
  * @since 2026-04-09

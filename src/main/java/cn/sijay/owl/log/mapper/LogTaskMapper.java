@@ -5,7 +5,7 @@ import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 定时任务执行日志Mapper
+ * 任务日志Mapper
  *
  * @author sijay
  * @since 2026-04-09

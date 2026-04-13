@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
  * JacksonConfig
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @Slf4j
 @Configuration

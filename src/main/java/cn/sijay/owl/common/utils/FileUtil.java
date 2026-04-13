@@ -15,7 +15,7 @@ import java.nio.file.StandardOpenOption;
  * FileUtil
  *
  * @author sijay
- * @since 2026/4/9
+ * @since 2026-04-09
  */
 public class FileUtil {
     static final String DATE_FILE_NAME_FORMAT = "yyyyMMdd";

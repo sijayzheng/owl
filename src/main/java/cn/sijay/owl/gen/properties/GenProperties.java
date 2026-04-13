@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * GenProperties
  *
  * @author sijay
- * @since 2026/4/7
+ * @since 2026-04-07
  */
 @Data
 @Component

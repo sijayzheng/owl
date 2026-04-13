@@ -13,7 +13,7 @@ import org.apache.fesod.sheet.annotation.ExcelProperty;
 
 import java.time.LocalDateTime;
 /**
- * OSS对象存储实体类
+ * OSS实体类
  *
  * @author sijay
  * @since 2026-04-09

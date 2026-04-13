@@ -80,6 +80,25 @@ mybatis-flex:
       key-type: auto
   mapper-locations: classpath*:/mapper/**/*Mapper.xml
 
+easy-trans:
+  #启用redis缓存 如果不用redis请设置为false
+  is-enable-redis: false
+  #启用全局翻译(拦截所有responseBody进行自动翻译)，如果对于性能要求很高可关闭此配置在方法上使用注解翻译
+  is-enable-global: true
+  #启用平铺模式 手动翻译无效
+  is-enable-tile: true
+  #字典缓存放到redis 微服务模式请开启
+  dict-use-redis: false
+  #使用@RpcTrans来标记哪些类可以进行RPC翻译，默认为关闭，多团队协作推荐开启
+  is-enable-custom-rpc: false
+  # ruoyi相关的框架请开启
+  is-enable-map-result: false
+  # 反向翻译数据库类型 mysql
+  db-type: mysql
+  # Mybatis-plus 为 3.5.3.2版本以上的3.x 版本请设置为true
+  mp-new: false
+
+
 decorator:
   datasource:
     p6spy:

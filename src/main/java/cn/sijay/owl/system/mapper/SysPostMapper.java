@@ -5,7 +5,7 @@ import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 岗位Mapper
+ * 系统岗位Mapper
  *
  * @author sijay
  * @since 2026-04-09

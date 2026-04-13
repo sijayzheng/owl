@@ -13,7 +13,7 @@ import java.util.Objects;
  * GlobalExceptionHandler
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {

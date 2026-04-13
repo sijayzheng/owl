@@ -15,7 +15,7 @@ import static cn.sijay.owl.gen.entity.table.GenColumnTableDef.GEN_COLUMN;
  * GenColumnService
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @Service
 public class GenColumnService extends ServiceImpl<GenColumnMapper, GenColumn> implements IService<GenColumn> {

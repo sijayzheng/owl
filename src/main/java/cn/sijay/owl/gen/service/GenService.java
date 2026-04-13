@@ -37,7 +37,7 @@ import java.util.Map;
  * GenService
  *
  * @author sijay
- * @since 2026/4/8
+ * @since 2026-04-08
  */
 @RequiredArgsConstructor
 @Slf4j
@@ -61,9 +61,9 @@ public class GenService {
                 throw new ServiceException(GenService.class, "表{}不存在", table);
             }
             genTable.setModuleName(StringUtils.substringBefore(table, "_"));
-            genTable.setClassName(StringUtil.toUpperCamelCase(table));
+            genTable.setClassName(StringUtil.toUpperCamelCase(table, "_"));
             genTable.setClassComment(genTable.getTableComment().replaceAll("表$", ""));
-            genTable.setFunctionName(StringUtil.toLowerSnakeCase(table));
+            genTable.setFunctionName(StringUtil.toLowerCamelCase(table, "_"));
             tableService.save(genTable);
             Long tableId = genTable.getId();
             QueryWrapper query = QueryWrapper.create()
@@ -102,7 +102,7 @@ public class GenService {
                     case "binary", "varbinary", "tinyblob", "blob", "mediumblob", "longblob" -> JavaType.BYTE_ARRAY;
                     default -> JavaType.STRING;
                 });
-                column.setJavaField(StringUtil.toLowerCamelCase(column.getColumnName()));
+                column.setJavaField(StringUtil.toLowerCamelCase(column.getColumnName(), "_"));
                 boolean isSelect = Strings.CS.containsAny(dataType, "enum", "set");
                 column.setQueryType(switch (column.getJavaType()) {
                     case JavaType.STRING -> isSelect ? QueryType.EQUALS : QueryType.LIKE;
@@ -170,9 +170,8 @@ public class GenService {
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "req", className + "Req.java"), codeMap.get("req.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "resp", className + "Resp.java"), codeMap.get("resp.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", "I" + className + "Service.java"), codeMap.get("service.java"));
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", "impl", className + "ServiceImpl.java"), codeMap.get("serviceImpl.java"));
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
+            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
+            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName, "index.ts"), codeMap.get("api.ts"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName, "types.ts"), codeMap.get("types.ts"));
 //            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName, "index.vue"), codeMap.get("index.vue"));
@@ -205,6 +204,8 @@ public class GenService {
         data.put("moduleName", table.getModuleName());
         data.put("className", table.getClassName());
         data.put("classComment", table.getClassComment());
+        data.put("path", StringUtil.toLowerKebabCase(table.getTableName(), "_"));
+        data.put("tableDef", table.getTableName().toUpperCase());
         data.put("functionName", table.getFunctionName());
         data.put("author", genProperties.getAuthor());
         data.put("isTree", table.getTreeTable());

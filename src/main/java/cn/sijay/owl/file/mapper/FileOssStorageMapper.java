@@ -5,7 +5,7 @@ import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * OSS对象存储Mapper
+ * OSSMapper
  *
  * @author sijay
  * @since 2026-04-09

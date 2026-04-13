@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.io.Serial;
 import java.io.Serializable;
 /**
- * 定时任务执行日志实体类
+ * 任务日志实体类
  *
  * @author sijay
  * @since 2026-04-09
@@ -101,5 +101,7 @@ public class LogTask implements Serializable {
     @Column(value = "thread_name", comment = "执行线程名")
     @ExcelProperty(value = "执行线程名")
     private String threadName;
+
+        private LocalDateTime[] startTimeRange;
 
 }

@@ -91,4 +91,6 @@ public class LogLogin implements Serializable {
     @ExcelProperty(value = "登录时间")
     private LocalDateTime loginTime;
 
+        private LocalDateTime[] loginTimeRange;
+
 }

@@ -5,7 +5,7 @@ import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 消息Mapper
+ * 系统消息Mapper
  *
  * @author sijay
  * @since 2026-04-09
