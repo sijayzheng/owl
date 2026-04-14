@@ -1,0 +1,129 @@
+package cn.sijay.owl.common.config;
+
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.filter.SaServletFilter;
+import cn.dev33.satoken.httpauth.basic.SaHttpBasicUtil;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
+import cn.sijay.owl.common.exceptions.BaseException;
+import cn.sijay.owl.common.exceptions.GlobalExceptionHandler;
+import cn.sijay.owl.common.utils.ServletUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Validator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.HibernateValidator;
+import org.jspecify.annotations.NonNull;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
+
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Properties;
+
+/**
+ * WebConfig
+ *
+ * @author sijay
+ * @since 2026-04-14
+ */
+@Slf4j
+@Configuration
+@RequiredArgsConstructor
+public class WebConfig implements WebMvcConfigurer {
+
+    /**
+     * 注册sa-token的拦截器
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 注册路由拦截器，自定义验证规则
+        registry.addInterceptor(new SaInterceptor(handler -> {
+                    SaRouter
+                        // 获取所有的
+                        .match("/**")
+                        // 对未排除的路径进行检查
+                        .check(() -> {
+                            HttpServletRequest request = ServletUtil.getRequest();
+                            // 检查是否登录 是否有token
+                            try {
+                                StpUtil.checkLogin();
+                            } catch (NotLoginException e) {
+                                if (Objects.requireNonNull(request).getRequestURI().contains("sse")) {
+                                    throw new BaseException(e.getMessage(), e.getCode());
+                                } else {
+                                    throw e;
+                                }
+                            }
+                        });
+                }))
+                .addPathPatterns("/**")
+                // 排除不需要拦截的路径
+                .excludePathPatterns("/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/favicon.ico", "/error", "/*/api-docs", "/*/api-docs/**");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/templates/")
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver() {
+                    @Override
+                    protected Resource getResource(@NonNull String resourcePath, @NonNull Resource location) throws IOException {
+                        Resource requestedResource = location.createRelative(resourcePath);
+                        return requestedResource.exists() && requestedResource.isReadable() ? requestedResource :
+                            new ClassPathResource("/templates/index.html");
+                    }
+                });
+    }
+
+
+    /**
+     * 配置校验框架 快速返回模式
+     */
+    @Bean
+    public Validator validator(MessageSource messageSource) {
+        try (LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean()) {
+            // 设置使用 HibernateValidator 校验器
+            factoryBean.setProviderClass(HibernateValidator.class);
+            Properties properties = new Properties();
+            // 设置 快速异常返回
+            properties.setProperty("hibernate.validator.fail_fast", "true");
+            factoryBean.setValidationProperties(properties);
+            // 加载配置
+            factoryBean.afterPropertiesSet();
+            return factoryBean.getValidator();
+        }
+    }
+
+    /**
+     * 全局异常处理器
+     */
+    @Bean
+    public GlobalExceptionHandler globalExceptionHandler() {
+        return new GlobalExceptionHandler();
+    }
+
+    /**
+     * 对 actuator 健康检查接口 做账号密码鉴权
+     */
+    @Bean
+    public SaServletFilter getSaServletFilter() {
+        return new SaServletFilter()
+            .addInclude("/actuator", "/actuator/**")
+            .setAuth(obj -> SaHttpBasicUtil.check("root:root"))
+            .setError(e -> SaResult.error(e.getMessage()).setCode(HttpStatus.UNAUTHORIZED.value()));
+    }
+
+}

@@ -1,9 +1,14 @@
 package cn.sijay.owl.common.config;
 
 
+import cn.sijay.owl.common.utils.XssUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.NumberSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -40,8 +45,22 @@ public class JacksonConfig {
         builder.serializerByType(BigDecimal.class, ToStringSerializer.instance);
         builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
         builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(String.class, new XssStringDeserializer());
+        builder.modules(module);
         log.info("初始化 jackson 配置");
         return builder;
+    }
+
+    /**
+     * 自定义字符串反序列化器，对 JSON 字符串值进行 XSS 过滤
+     */
+    static class XssStringDeserializer extends JsonDeserializer<String> {
+        @Override
+        public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+            String value = p.getValueAsString();
+            return XssUtil.clean(value);
+        }
     }
 
     @JacksonStdImpl
