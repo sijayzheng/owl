@@ -1,6 +1,8 @@
 package cn.sijay.owl.common.utils;
 
 
+import cn.sijay.owl.common.constants.ErrorConstants;
+import cn.sijay.owl.common.exceptions.BaseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,6 +16,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * JsonUtil
@@ -32,7 +35,18 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("对象转 JSON 失败", e);
+            throw new RuntimeException(ErrorConstants.JSON_SERIAL_ERROR, e);
+        }
+    }
+
+    public static String toPrettyJson(Object object) {
+        if (Objects.isNull(object)) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new BaseException(ErrorConstants.JSON_SERIAL_ERROR, e.getMessage());
         }
     }
 
@@ -43,7 +57,7 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.readValue(json, clazz);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 转对象失败", e);
+            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
         }
     }
 
@@ -55,7 +69,7 @@ public class JsonUtil {
             return OBJECT_MAPPER.readValue(json,
                 OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, elementClass));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 转 List 失败", e);
+            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
         }
     }
 
@@ -66,7 +80,7 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.readValue(json, typeReference);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 转复杂对象失败", e);
+            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
         }
     }
 
@@ -79,7 +93,7 @@ public class JsonUtil {
                 .addFilter(filterName, SimpleBeanPropertyFilter.serializeAllExcept(fieldsToExclude));
             return OBJECT_MAPPER.writer(filters).writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 序列化字段过滤失败", e);
+            throw new RuntimeException(ErrorConstants.JSON_SERIAL_ERROR, e);
         }
     }
 
@@ -90,7 +104,7 @@ public class JsonUtil {
         try {
             return OBJECT_MAPPER.readTree(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("JSON 转 JsonNode 失败", e);
+            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
         }
     }
 

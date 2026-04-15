@@ -3,6 +3,7 @@ package cn.sijay.owl.common.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -129,13 +130,13 @@ public class StreamUtil {
      * @param list  需要转化的集合
      * @param key   E类型转化为K类型的lambda方法
      * @param value E类型转化为V类型的lambda方法
-     * @param <E>   list中的泛型
+     * @param <T>   list中的泛型
      * @param <K>   map中的key类型
-     * @param <V>   map中的value类型
+     * @param <U>   map中的value类型
      * @return 转化后的map
      */
-    public static <E, K, V> Map<K, V> toMap(List<E> list, Function<E, K> key, Function<E, V> value) {
-        if (list.isEmpty()) {
+    public static <T, K, U> Map<K, U> toMap(List<T> list, Function<? super T, ? extends K> key, Function<? super T, ? extends U> value) {
+        if (CollectionUtils.isEmpty(list)) {
             return new HashMap<>();
         }
         return list.stream().filter(Objects::nonNull).collect(Collectors.toMap(key, value, (l, r) -> l));
@@ -158,6 +159,27 @@ public class StreamUtil {
         return collection
             .stream().filter(Objects::nonNull)
             .collect(Collectors.groupingBy(key, LinkedHashMap::new, Collectors.toList()));
+    }
+
+    /**
+     * 将collection按照两个规则(比如有相同的年级id,班级id)分类成双层map<br>
+     * <B>{@code Collection<E>  --->  Map<T,Map<U,E>> } </B>
+     *
+     * @param collection 需要分类的集合
+     * @param key1       第一个分类的规则
+     * @param key2       第二个分类的规则
+     * @param <T>        第一个map中的key类型
+     * @param <U>        第二个map中的key类型
+     * @param <E>        collection中的泛型
+     * @return 分类后的map
+     */
+    public static <E, T, U> Map<T, Map<U, E>> groupMap(Collection<E> collection, Function<E, T> key1, Function<E, U> key2) {
+        if (collection.isEmpty() || key1 == null || key2 == null) {
+            return new HashMap<>();
+        }
+        return collection
+            .stream().filter(Objects::nonNull)
+            .collect(Collectors.groupingBy(key1, LinkedHashMap::new, Collectors.toMap(key2, Function.identity(), (l, r) -> l)));
     }
 
     /**

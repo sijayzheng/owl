@@ -1,10 +1,9 @@
 package cn.sijay.owl.common.utils;
 
+import org.bouncycastle.crypto.digests.SM3Digest;
 import org.bouncycastle.crypto.engines.SM2Engine;
-import org.bouncycastle.crypto.params.ECDomainParameters;
-import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
-import org.bouncycastle.crypto.params.ECPublicKeyParameters;
-import org.bouncycastle.crypto.params.ParametersWithRandom;
+import org.bouncycastle.crypto.macs.HMac;
+import org.bouncycastle.crypto.params.*;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -123,6 +122,48 @@ public final class SmUtil {
 
         byte[] decryptedData = engine.processBlock(cipherData, 0, cipherData.length);
         return new String(decryptedData, StandardCharsets.UTF_8);
+    }
+
+    // ---------- SM3 哈希 ----------
+
+    /**
+     * 对字节数组进行 SM3 哈希运算
+     *
+     * @param data 原始数据
+     * @return 32字节的哈希值
+     */
+    public static String sm3Hash(byte[] data) {
+        SM3Digest digest = new SM3Digest();
+        digest.update(data, 0, data.length);
+        byte[] hash = new byte[digest.getDigestSize()];
+        digest.doFinal(hash, 0);
+        return Hex.toHexString(hash);
+    }
+
+    /**
+     * 对字符串进行 SM3 哈希运算（UTF-8 编码）
+     *
+     * @param data 原始字符串
+     * @return 32字节的哈希值
+     */
+    public static String sm3Hash(String data) {
+        return sm3Hash(data.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 计算 SM3-HMAC 并返回十六进制字符串
+     */
+    public static String sm3Hmac(String key, String data) {
+        byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
+        byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+        KeyParameter keyParameter = new KeyParameter(keyBytes);
+        SM3Digest digest = new SM3Digest();
+        HMac mac = new HMac(digest);
+        mac.init(keyParameter);
+        mac.update(dataBytes, 0, dataBytes.length);
+        byte[] result = new byte[mac.getMacSize()];
+        mac.doFinal(result, 0);
+        return Hex.toHexString(result);
     }
 
     // ---------- SM4 加密/解密 (CBC 模式，PKCS5Padding) ----------

@@ -1,9 +1,18 @@
 package cn.sijay.owl.common.utils;
 
 
+import io.swagger.v3.core.util.Constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * StringUtil
@@ -17,103 +26,7 @@ public class StringUtil {
      * 默认分隔符
      */
     public static final String SEPARATOR = ",";
-
-    /**
-     * 将字符串转换为小驼峰命名
-     *
-     * @param string    待转换的字符串
-     * @param delimiter 分隔符
-     * @return 小驼峰命名格式的字符串
-     * <code>toLowerCamelCase("hello-world","-")</code>返回"helloWorld"
-     */
-    public static String toLowerCamelCase(String string, String delimiter) {
-        return StringUtils.uncapitalize(toUpperCamelCase(string, delimiter));
-    }
-
-    /**
-     * 将字符串转换为大驼峰命名（帕斯卡命名法）
-     *
-     * @param string    待转换的字符串
-     * @param delimiter 分隔符
-     * @return 大驼峰命名格式的字符串
-     * <code>toUpperCamelCase("hello_world","_")</code>返回"HelloWorld"
-     * <code>toUpperCamelCase("hello-world","-")</code>返回"HelloWorld"
-     */
-    public static String toUpperCamelCase(String string, String delimiter) {
-        if (StringUtils.isBlank(string)) {
-            return string;
-        }
-        string = string.toLowerCase();
-        StringBuilder builder = new StringBuilder();
-        for (String s : string.split(delimiter)) {
-            builder.append(StringUtils.capitalize(s));
-        }
-        return builder.toString();
-    }
-
-    /**
-     * 将字符串转换为小写蛇形命名（下划线分隔）
-     *
-     * @param string    待转换的字符串
-     * @param delimiter 额外的分隔符
-     * @return 小写蛇形命名格式的字符串
-     * <code>toLowerSnakeCase("HelloWorld","")</code>返回"hello_world"
-     * <code>toLowerSnakeCase("Hello-World","-")</code>返回"hello_world"
-     */
-    public static String toLowerSnakeCase(String string, String delimiter) {
-        if (StringUtils.isBlank(string)) {
-            return string;
-        }
-        return string.replaceAll("([a-z])" + delimiter + "([A-Z])", "$1_$2").toLowerCase();
-    }
-
-    /**
-     * 将字符串转换为大写蛇形命名（下划线分隔）
-     *
-     * @param string    待转换的字符串
-     * @param delimiter 额外的分隔符
-     * @return 大写蛇形命名格式的字符串
-     * <code>toUpperSnakeCase("HelloWorld","")</code>返回"HELLO_WORLD"
-     * <code>toUpperSnakeCase("Hello-World","-")</code>返回"HELLO_WORLD"
-     */
-    public static String toUpperSnakeCase(String string, String delimiter) {
-        if (StringUtils.isBlank(string)) {
-            return string;
-        }
-        return toUpperSnakeCase(string, delimiter).toUpperCase();
-    }
-
-    /**
-     * 将字符串转换为小写短横线命名（短横线分隔）
-     *
-     * @param string    待转换的字符串
-     * @param delimiter 额外的分隔符
-     * @return 小写蛇形命名格式的字符串
-     * <code>toLowerSnakeCase("HelloWorld","")</code>返回"hello_world"
-     * <code>toLowerSnakeCase("Hello-World","-")</code>返回"hello_world"
-     */
-    public static String toLowerKebabCase(String string, String delimiter) {
-        if (StringUtils.isBlank(string)) {
-            return string;
-        }
-        return string.replaceAll("([a-z])" + delimiter + "([A-Z])", "$1-$2").toLowerCase();
-    }
-
-    /**
-     * 将字符串转换为大写短横线命名（短横线分隔）
-     *
-     * @param string    待转换的字符串
-     * @param delimiter 额外的分隔符
-     * @return 大写蛇形命名格式的字符串
-     * <code>toUpperSnakeCase("HelloWorld","")</code>返回"HELLO_WORLD"
-     * <code>toUpperSnakeCase("Hello-World","-")</code>返回"HELLO_WORLD"
-     */
-    public static String toUpperKebabCase(String string, String delimiter) {
-        if (StringUtils.isBlank(string)) {
-            return string;
-        }
-        return toLowerKebabCase(string, delimiter).toUpperCase();
-    }
+    static final String[] CHARSET_ARR = {"UTF-8", "GB2312", "GBK", "Windows-1252", "ISO8859-1"};
 
     /**
      * 格式化字符串消息
@@ -124,8 +37,8 @@ public class StringUtil {
      * @param message 消息模板
      * @param args    格式化参数（可变参数）
      * @return 格式化后的字符串
-     * <code>format("Hello { }, you are { } years old","张三", 25)</code>返回"Hello 张三, you are 25 years old"
-     * <code>format("Hello { 0 }, you are { 1 } years old","张三", 25)</code>返回"Hello 张三, you are 25 years old"
+     * <code>format("Hello {}, you are {} years old","张三", 25)</code>返回"Hello 张三, you are 25 years old"
+     * <code>format("Hello {0}, you are {1} years old","张三", 25)</code>返回"Hello 张三, you are 25 years old"
      */
     public static String format(String message, Object... args) {
         if (StringUtils.isBlank(message) || args == null || args.length == 0) {
@@ -150,26 +63,128 @@ public class StringUtil {
         return result;
     }
 
-    // 字节数组转十六进制字符串
-    public static String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b & 0xFF));
+    /**
+     * 数字左边补齐0，使之达到指定长度。注意，如果数字转换为字符串后，长度大于size，则只保留 最后size个字符。
+     *
+     * @param num  数字对象
+     * @param size 字符串指定长度
+     * @return 返回数字的字符串格式，该字符串为指定长度。
+     */
+    public static String padl(final Number num, final int size) {
+        return padl(num.toString(), size, '0');
+    }
+
+    /**
+     * 字符串左补齐。如果原始字符串s长度大于size，则只保留最后size个字符。
+     *
+     * @param s    原始字符串
+     * @param size 字符串指定长度
+     * @param c    用于补齐的字符
+     * @return 返回指定长度的字符串，由原字符串左补齐或截取得到。
+     */
+    public static String padl(final String s, final int size, final char c) {
+        final StringBuilder sb = new StringBuilder(size);
+        if (s != null) {
+            final int len = s.length();
+            if (s.length() <= size) {
+                sb.repeat(String.valueOf(c), size - len);
+                sb.append(s);
+            } else {
+                return s.substring(len - size, len);
+            }
+        } else {
+            sb.repeat(String.valueOf(c), Math.max(0, size));
         }
         return sb.toString();
     }
 
-    //十六进制字符串转字节数组
-    public static byte[] hexToBytes(String hex) {
-        int length = hex.length();
-        if (length % 2 != 0) {
-            throw new IllegalArgumentException("hex需要偶数位长度");
+    /**
+     * 切分字符串(分隔符默认逗号)
+     *
+     * @param str 被切分的字符串
+     * @return 分割后的数据列表
+     */
+    public static List<String> splitList(String str) {
+        return splitList(str, Constants.COMMA);
+    }
+
+    /**
+     * 切分字符串
+     *
+     * @param str       被切分的字符串
+     * @param separator 分隔符
+     * @return 分割后的数据列表
+     */
+    public static List<String> splitList(String str, String separator) {
+        return Arrays.stream(str.split(separator))
+                     .toList();
+    }
+
+    /**
+     * 切分字符串自定义转换(分隔符默认逗号)
+     *
+     * @param str    被切分的字符串
+     * @param mapper 自定义转换
+     * @return 分割后的数据列表
+     */
+    public static <T> List<T> splitTo(String str, Function<? super Object, T> mapper) {
+        return splitTo(str, SEPARATOR, mapper);
+    }
+
+    /**
+     * 切分字符串自定义转换
+     *
+     * @param str       被切分的字符串
+     * @param separator 分隔符
+     * @param mapper    自定义转换
+     * @return 分割后的数据列表
+     */
+    public static <T> List<T> splitTo(String str, String separator, Function<? super Object, T> mapper) {
+        if (StringUtils.isBlank(str)) {
+            return new ArrayList<>(0);
         }
-        byte[] bytes = new byte[length / 2];
-        for (int i = 0; i < length; i += 2) {
-            String hexByte = hex.substring(i, i + 2);
-            bytes[i / 2] = (byte) Integer.parseInt(hexByte, 16);
+        return splitList(str, separator)
+            .stream()
+            .filter(Objects::nonNull)
+            .map(mapper)
+            .collect(Collectors.toList());
+    }
+
+    public static String unicode2String(String unicode) {
+        if (StringUtils.isBlank(unicode)) {
+            return "";
         }
-        return bytes;
+        StringBuilder sb = new StringBuilder();
+        int i;
+        int pos = 0;
+
+        while ((i = unicode.indexOf("\\u", pos)) != -1) {
+            sb.append(unicode, pos, i);
+            if (i + 5 < unicode.length()) {
+                pos = i + 6;
+                sb.append((char) Integer.parseInt(unicode.substring(i + 2, i + 6), 16));
+            }
+        }
+        //如果pos位置后，有非中文字符，直接添加
+        sb.append(unicode.substring(pos));
+        return sb.toString();
+    }
+
+    public static void testAllCharset(String text) throws UnsupportedEncodingException {
+        if (text == null || text.isEmpty()) {
+            System.out.println("文本不能为空");
+            return;
+        }
+        System.out.println("假设当前编码       假设原始编码          编码后的内容");
+        for (String curCharset : CHARSET_ARR) {
+            byte[] btArr = text.getBytes(curCharset);
+            for (String originCharset : CHARSET_ARR) {
+                if (originCharset.equals(curCharset)) {
+                    continue;
+                }
+                String encodeText = new String(btArr, originCharset);
+                System.out.println(curCharset + "___" + originCharset + "___" + encodeText);
+            }
+        }
     }
 }

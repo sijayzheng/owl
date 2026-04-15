@@ -26,8 +26,6 @@ import java.util.List;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileUtil {
-    static final String DATE_FILE_NAME_FORMAT = "yyyyMMdd";
-    static final String DATE_TIME_FILE_NAME_FORMAT = "yyyyMMddHHmmss";
     static final String CODE_UTF8 = "UTF-8";
     static final String CODE_UTF8_BOM = "UTF-8_BOM";
     static final String CODE_GBK = "GBK";

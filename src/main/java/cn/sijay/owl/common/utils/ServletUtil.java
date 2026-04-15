@@ -12,6 +12,7 @@ import org.apache.commons.lang3.Strings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedCaseInsensitiveMap;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -80,7 +81,7 @@ public class ServletUtil {
      * 获取session
      */
     public static HttpSession getSession() {
-        return getAttributes().getRequest().getSession(false);
+        return getRequest().getSession(false);
     }
 
     public static String getHeader(HttpServletRequest request, String name) {
@@ -184,5 +185,16 @@ public class ServletUtil {
         }
         return attributes;
     }
+
+
+    public static ServletRequestAttributes getRequestAttributes() {
+        try {
+            RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+            return (ServletRequestAttributes) attributes;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
 
