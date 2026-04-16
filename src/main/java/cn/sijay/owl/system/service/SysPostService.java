@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysPost;
 import cn.sijay.owl.system.mapper.SysPostMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -61,21 +60,6 @@ public class SysPostService extends ServiceImpl<SysPostMapper, SysPost> implemen
      */
     public List<SysPost> list(SysPost sysPost) {
         return list(query(sysPost));
-    }
-
-    /**
-     * 删除系统岗位
-     *
-     * @param id 系统岗位ID
-     * @return 删除结果
-     * @throws ServiceException 当系统岗位不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysPost user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysPostService.class, "主键为{}的系统岗位不存在", id);
-        }
-        return removeById(id);
     }
 
 }

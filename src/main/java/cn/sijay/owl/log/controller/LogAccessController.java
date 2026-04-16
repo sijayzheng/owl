@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/log/log_access")
+@RequestMapping("/log/log-access")
 @RestController
 public class LogAccessController extends BaseController {
     private final LogAccessService logAccessService;
@@ -110,15 +110,15 @@ public class LogAccessController extends BaseController {
     /**
      * 删除访问日志
      *
-     * @param id 访问日志ID
+     * @param ids 访问日志ID
      * @return 操作结果
      */
     @AccessLog(title = "访问日志", operateType = OperateType.DELETE)
     @SaCheckPermission("log:logAccess:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除访问日志")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(logAccessService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(logAccessService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

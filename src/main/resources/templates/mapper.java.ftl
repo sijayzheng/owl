@@ -1,4 +1,5 @@
 package ${packageName}.${moduleName}.mapper;
+
 import ${packageName}.${moduleName}.entity.${className};
 import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

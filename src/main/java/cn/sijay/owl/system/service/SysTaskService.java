@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysTask;
 import cn.sijay.owl.system.mapper.SysTaskMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -60,21 +59,6 @@ public class SysTaskService extends ServiceImpl<SysTaskMapper, SysTask> implemen
      */
     public List<SysTask> list(SysTask sysTask) {
         return list(query(sysTask));
-    }
-
-    /**
-     * 删除任务配置
-     *
-     * @param id 任务配置ID
-     * @return 删除结果
-     * @throws ServiceException 当任务配置不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysTask user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysTaskService.class, "主键为{}的任务配置不存在", id);
-        }
-        return removeById(id);
     }
 
 }

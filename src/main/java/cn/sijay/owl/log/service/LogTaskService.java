@@ -1,7 +1,6 @@
 package cn.sijay.owl.log.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.log.entity.LogTask;
 import cn.sijay.owl.log.mapper.LogTaskMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -62,21 +61,6 @@ public class LogTaskService extends ServiceImpl<LogTaskMapper, LogTask> implemen
      */
     public List<LogTask> list(LogTask logTask) {
         return list(query(logTask));
-    }
-
-    /**
-     * 删除任务日志
-     *
-     * @param id 任务日志ID
-     * @return 删除结果
-     * @throws ServiceException 当任务日志不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        LogTask user = getById(id);
-        if (user == null) {
-            throw new ServiceException(LogTaskService.class, "主键为{}的任务日志不存在", id);
-        }
-        return removeById(id);
     }
 
 }

@@ -2,6 +2,7 @@ package cn.sijay.owl.common.utils;
 
 import cn.sijay.owl.common.enums.NamingCase;
 import com.fasterxml.jackson.databind.util.NamingStrategyImpls;
+import com.google.common.base.CaseFormat;
 
 /**
  * NamingUtil
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.util.NamingStrategyImpls;
  */
 public class NamingUtil {
     public static String caseConvert(String string, NamingCase namingCase) {
+        string = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, NamingStrategyImpls.SNAKE_CASE.translate(string.replace("-", "_")));
         return switch (namingCase) {
             case LOWER_CAMEL_CASE -> NamingStrategyImpls.LOWER_CAMEL_CASE.translate(string);
             case UPPER_CAMEL_CASE -> NamingStrategyImpls.UPPER_CAMEL_CASE.translate(string);

@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/file/file_oss_storage")
+@RequestMapping("/file/file-oss-storage")
 @RestController
 public class FileOssStorageController extends BaseController {
     private final FileOssStorageService fileOssStorageService;
@@ -110,15 +110,15 @@ public class FileOssStorageController extends BaseController {
     /**
      * 删除OSS
      *
-     * @param id OSSID
+     * @param ids OSSID
      * @return 操作结果
      */
     @AccessLog(title = "OSS", operateType = OperateType.DELETE)
     @SaCheckPermission("file:fileOssStorage:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除OSS")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(fileOssStorageService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(fileOssStorageService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

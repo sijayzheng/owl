@@ -1,4 +1,5 @@
 package ${packageName}.${moduleName}.service;
+
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.exceptions.ServiceException;
 import ${packageName}.${moduleName}.entity.${className};
@@ -45,7 +46,7 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
      * @param list 所有数据列表
      * @return 树形结构列表
      */
-    private List<${className}> buildTree(List<${className}> list) {
+    public List<${className}> buildTree(List<${className}> list) {
         List<${className}> result = new ArrayList<>();
         List<Long> ids = list.stream().map(${className}::get${treeKey?cap_first}).toList();
         for (${className} item : list) {

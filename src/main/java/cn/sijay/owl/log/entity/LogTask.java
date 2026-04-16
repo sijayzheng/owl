@@ -102,6 +102,13 @@ public class LogTask implements Serializable {
     @ExcelProperty(value = "执行线程名")
     private String threadName;
 
+    /**
+     * 日志创建时间
+     */
+    @Column(value = "create_time", comment = "日志创建时间")
+    @NotNull(message = "日志创建时间不能为空")
+    private LocalDateTime createTime;
+
     private LocalDateTime[] startTimeRange;
 
 }

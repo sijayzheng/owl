@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_role")
+@RequestMapping("/system/sys-role")
 @RestController
 public class SysRoleController extends BaseController {
     private final SysRoleService sysRoleService;
@@ -110,15 +110,15 @@ public class SysRoleController extends BaseController {
     /**
      * 删除系统角色
      *
-     * @param id 系统角色ID
+     * @param ids 系统角色ID
      * @return 操作结果
      */
     @AccessLog(title = "系统角色", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysRole:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除系统角色")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysRoleService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysRoleService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

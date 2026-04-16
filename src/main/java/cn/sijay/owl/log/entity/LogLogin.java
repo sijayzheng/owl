@@ -53,8 +53,9 @@ public class LogLogin implements Serializable {
     @Column(value = "login_ip", comment = "登录ip地址")
     @ExcelProperty(value = "登录ip地址")
     private String loginIp;
+
     /**
-     * 登录ip地址
+     * 登录地址
      */
     @Column(value = "location", comment = "登录地址")
     @ExcelProperty(value = "登录地址")

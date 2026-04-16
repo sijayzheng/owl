@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_config")
+@RequestMapping("/system/sys-config")
 @RestController
 public class SysConfigController extends BaseController {
     private final SysConfigService sysConfigService;
@@ -110,15 +110,15 @@ public class SysConfigController extends BaseController {
     /**
      * 删除参数配置
      *
-     * @param id 参数配置ID
+     * @param ids 参数配置ID
      * @return 操作结果
      */
     @AccessLog(title = "参数配置", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysConfig:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除参数配置")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysConfigService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysConfigService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

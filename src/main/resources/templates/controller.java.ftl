@@ -1,4 +1,5 @@
 package ${packageName}.${moduleName}.controller;
+
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
@@ -127,7 +128,7 @@ public class ${className}Controller extends BaseController {
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.DELETE)
     @SaCheckPermission("${moduleName}:${functionName}:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除${classComment}")
     public Result<Boolean> remove(List<Long> ids) {
         return result(${functionName}Service.removeByIds(ids), OperateType.DELETE);

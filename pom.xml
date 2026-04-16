@@ -10,15 +10,21 @@
     </parent>
     <groupId>cn.sijay</groupId>
     <artifactId>owl</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>owl</name>
     <description>owl</description>
     <url/>
     <licenses>
-        <license/>
+        <license>
+            <name>MIT</name>
+            <url>https://mit-license.org/</url>
+        </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <name>Sijay Zheng</name>
+            <email>sijayzheng@gmail.com</email>
+        </developer>
     </developers>
     <scm>
         <connection/>
@@ -44,10 +50,14 @@
         <fesod.version>2.0.1-incubating</fesod.version>
         <ttl.version>2.14.0</ttl.version>
         <caffeine.version>3.1.8</caffeine.version>
-        <UserAgentUtils.version>1.21</UserAgentUtils.version>
-        <ip2region.version>3.1.0</ip2region.version>
+        <ip2region.version>3.3.7</ip2region.version>
         <oshi.version>6.4.0</oshi.version>
         <springdoc.version>2.8.16</springdoc.version>
+        <uap-java.version>1.6.1</uap-java.version>
+        <password4j.version>1.8.4</password4j.version>
+        <bcprov-jdk18on.version>1.84</bcprov-jdk18on.version>
+        <jsoup.version>1.16.1</jsoup.version>
+        <redisson.version>3.52.0</redisson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -119,8 +129,20 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.10.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot3-starter</artifactId>
+            <version>${sa-token.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-template</artifactId>
             <version>${sa-token.version}</version>
         </dependency>
 
@@ -168,9 +190,27 @@
         </dependency>
 
         <dependency>
-            <groupId>eu.bitwalker</groupId>
-            <artifactId>UserAgentUtils</artifactId>
-            <version>${UserAgentUtils.version}</version>
+            <groupId>com.github.ua-parser</groupId>
+            <artifactId>uap-java</artifactId>
+            <version>${uap-java.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.password4j</groupId>
+            <artifactId>password4j</artifactId>
+            <version>${password4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bcprov-jdk18on.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
 
         <dependency>
@@ -183,6 +223,12 @@
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>${oshi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>${redisson.version}</version>
         </dependency>
 
         <dependency>

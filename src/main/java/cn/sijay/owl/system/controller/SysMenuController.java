@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_menu")
+@RequestMapping("/system/sys-menu")
 @RestController
 public class SysMenuController extends BaseController {
     private final SysMenuService sysMenuService;
@@ -106,15 +106,15 @@ public class SysMenuController extends BaseController {
     /**
      * 删除系统菜单
      *
-     * @param id 系统菜单ID
+     * @param ids 系统菜单ID
      * @return 操作结果
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysMenu:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除系统菜单")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysMenuService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysMenuService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

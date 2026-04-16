@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysMessage;
 import cn.sijay.owl.system.mapper.SysMessageMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -61,21 +60,6 @@ public class SysMessageService extends ServiceImpl<SysMessageMapper, SysMessage>
      */
     public List<SysMessage> list(SysMessage sysMessage) {
         return list(query(sysMessage));
-    }
-
-    /**
-     * 删除系统消息
-     *
-     * @param id 系统消息ID
-     * @return 删除结果
-     * @throws ServiceException 当系统消息不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysMessage user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysMessageService.class, "主键为{}的系统消息不存在", id);
-        }
-        return removeById(id);
     }
 
 }

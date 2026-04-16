@@ -1,7 +1,6 @@
 package cn.sijay.owl.file.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.file.entity.FileOssStorage;
 import cn.sijay.owl.file.mapper.FileOssStorageMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -62,21 +61,6 @@ public class FileOssStorageService extends ServiceImpl<FileOssStorageMapper, Fil
      */
     public List<FileOssStorage> list(FileOssStorage fileOssStorage) {
         return list(query(fileOssStorage));
-    }
-
-    /**
-     * 删除OSS
-     *
-     * @param id OSSID
-     * @return 删除结果
-     * @throws ServiceException 当OSS不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        FileOssStorage user = getById(id);
-        if (user == null) {
-            throw new ServiceException(FileOssStorageService.class, "主键为{}的OSS不存在", id);
-        }
-        return removeById(id);
     }
 
 }

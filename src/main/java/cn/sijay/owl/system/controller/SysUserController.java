@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaIgnore;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.PageQuery;
@@ -30,10 +29,9 @@ import java.util.List;
  * @author sijay
  * @since 2026-04-09
  */
-@SaIgnore
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_user")
+@RequestMapping("/system/sys-user")
 @RestController
 public class SysUserController extends BaseController {
     private final SysUserService sysUserService;
@@ -119,7 +117,7 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("system:sysUser:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统用户")
-    public Result<Boolean> remove(@RequestBody List<Long> ids) {
+    public Result<Boolean> remove(List<Long> ids) {
         return result(sysUserService.removeByIds(ids), OperateType.DELETE);
     }
 

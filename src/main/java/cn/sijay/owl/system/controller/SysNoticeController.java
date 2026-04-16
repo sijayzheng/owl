@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_notice")
+@RequestMapping("/system/sys-notice")
 @RestController
 public class SysNoticeController extends BaseController {
     private final SysNoticeService sysNoticeService;
@@ -110,15 +110,15 @@ public class SysNoticeController extends BaseController {
     /**
      * 删除通知公告
      *
-     * @param id 通知公告ID
+     * @param ids 通知公告ID
      * @return 操作结果
      */
     @AccessLog(title = "通知公告", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysNotice:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除通知公告")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysNoticeService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysNoticeService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

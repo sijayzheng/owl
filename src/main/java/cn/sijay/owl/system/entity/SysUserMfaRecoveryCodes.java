@@ -65,4 +65,10 @@ public class SysUserMfaRecoveryCodes implements Serializable {
     @ExcelProperty(value = "使用时间")
     private LocalDateTime usedTime;
 
+    /**
+     * 创建时间
+     */
+    @Column(value = "create_time", comment = "创建时间")
+    private LocalDateTime createTime;
+
 }

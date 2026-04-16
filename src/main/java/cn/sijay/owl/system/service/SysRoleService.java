@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysRole;
 import cn.sijay.owl.system.mapper.SysRoleMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -60,21 +59,6 @@ public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole> implemen
      */
     public List<SysRole> list(SysRole sysRole) {
         return list(query(sysRole));
-    }
-
-    /**
-     * 删除系统角色
-     *
-     * @param id 系统角色ID
-     * @return 删除结果
-     * @throws ServiceException 当系统角色不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysRole user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysRoleService.class, "主键为{}的系统角色不存在", id);
-        }
-        return removeById(id);
     }
 
 }

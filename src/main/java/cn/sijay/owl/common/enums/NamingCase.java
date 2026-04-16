@@ -15,5 +15,4 @@ public enum NamingCase {
     KEBAB_CASE,
     LOWER_DOT_CASE,
     LOWER_CASE,
-    ;
 }

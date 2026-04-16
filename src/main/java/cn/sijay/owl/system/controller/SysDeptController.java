@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_dept")
+@RequestMapping("/system/sys-dept")
 @RestController
 public class SysDeptController extends BaseController {
     private final SysDeptService sysDeptService;
@@ -106,15 +106,15 @@ public class SysDeptController extends BaseController {
     /**
      * 删除系统部门
      *
-     * @param id 系统部门ID
+     * @param ids 系统部门ID
      * @return 操作结果
      */
     @AccessLog(title = "系统部门", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysDept:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除系统部门")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysDeptService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysDeptService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

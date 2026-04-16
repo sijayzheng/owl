@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_task")
+@RequestMapping("/system/sys-task")
 @RestController
 public class SysTaskController extends BaseController {
     private final SysTaskService sysTaskService;
@@ -110,15 +110,15 @@ public class SysTaskController extends BaseController {
     /**
      * 删除任务配置
      *
-     * @param id 任务配置ID
+     * @param ids 任务配置ID
      * @return 操作结果
      */
     @AccessLog(title = "任务配置", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysTask:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除任务配置")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysTaskService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysTaskService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

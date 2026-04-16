@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysConfig;
 import cn.sijay.owl.system.mapper.SysConfigMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -61,21 +60,6 @@ public class SysConfigService extends ServiceImpl<SysConfigMapper, SysConfig> im
      */
     public List<SysConfig> list(SysConfig sysConfig) {
         return list(query(sysConfig));
-    }
-
-    /**
-     * 删除参数配置
-     *
-     * @param id 参数配置ID
-     * @return 删除结果
-     * @throws ServiceException 当参数配置不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysConfig user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysConfigService.class, "主键为{}的参数配置不存在", id);
-        }
-        return removeById(id);
     }
 
 }

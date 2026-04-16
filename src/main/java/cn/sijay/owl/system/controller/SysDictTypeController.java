@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_dict_type")
+@RequestMapping("/system/sys-dict-type")
 @RestController
 public class SysDictTypeController extends BaseController {
     private final SysDictTypeService sysDictTypeService;
@@ -110,15 +110,15 @@ public class SysDictTypeController extends BaseController {
     /**
      * 删除字典类型
      *
-     * @param id 字典类型ID
+     * @param ids 字典类型ID
      * @return 操作结果
      */
     @AccessLog(title = "字典类型", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysDictType:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除字典类型")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysDictTypeService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysDictTypeService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

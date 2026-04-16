@@ -8,9 +8,11 @@ import org.lionsoul.ip2region.service.Config;
 import org.lionsoul.ip2region.service.InvalidConfigException;
 import org.lionsoul.ip2region.service.Ip2Region;
 import org.lionsoul.ip2region.xdb.XdbException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Ip2RegionService
@@ -26,27 +28,22 @@ public class Ip2RegionService {
 
     @PostConstruct
     public void init() {
-        try {
-            // 1, 创建 v4 的配置：指定缓存策略和 v4 的 xdb 文件路径
+        try (
+            InputStream is4 = new ClassPathResource("ip2region_v4.xdb").getInputStream();
+            InputStream is6 = new ClassPathResource("ip2region_v6.xdb").getInputStream()
+        ) {
+            // 1, 创建 v4 的配置
             final Config v4Config = Config.custom()
-                                          .setCachePolicy(Config.VIndexCache)     // 指定缓存策略:  NoCache / VIndexCache / BufferCache
-                                          .setSearchers(15)                       // 设置初始化的查询器数量
-                                          // .setCacheSliceBytes(int)             // 设置缓存的分片字节数，默认为 50MiB
-                                          // .setXdbInputStream(InputStream)      // 设置 v4 xdb 文件的 inputstream 对象
-                                          // .setXdbFile(File)                    // 设置 v4 xdb File 对象
-                                          // .setFairLock(boolean)                // 设置 ReentrantLock 是否使用公平锁
-                                          .setXdbPath("ip2region_v4.xdb")    // 设置 v4 xdb 文件的路径
-                                          .asV4();    // 指定为 v4 配置
-            // 2, 创建 v6 的配置：指定缓存策略和 v6 的 xdb 文件路径
+                                          .setCachePolicy(Config.BufferCache)
+                                          .setSearchers(15)
+                                          .setXdbInputStream(is4)
+                                          .asV4();
+            // 2, 创建 v6 的配置
             final Config v6Config = Config.custom()
-                                          .setCachePolicy(Config.VIndexCache)     // 指定缓存策略: NoCache / VIndexCache / BufferCache
-                                          .setSearchers(15)                       // 设置初始化的查询器数量
-                                          // .setCacheSliceBytes(int)             // 设置缓存的分片字节数，默认为 50MiB
-                                          // .setXdbInputStream(InputStream)      // 设置 v6 xdb 文件的 inputstream 对象
-                                          // .setXdbFile(File)                    // 设置 v6 xdb File 对象
-                                          // .setFairLock(boolean)                // 设置 ReentrantLock 是否使用公平锁
-                                          .setXdbPath("ip2region_v6.xdb")    // 设置 v6 xdb 文件的路径
-                                          .asV6();    // 指定为 v6 配置
+                                          .setCachePolicy(Config.BufferCache)
+                                          .setSearchers(15)
+                                          .setXdbInputStream(is6)
+                                          .asV6();
             // 备注：Xdb 三种初始化输入的优先级：XdbInputStream -> XdbFile -> XdbPath
             // setXdbInputStream 仅方便使用者从 jar 包中加载 xdb 文件内容，这时 cachePolicy 只能设置为 Config.BufferCache
             // 3，通过上述配置创建 Ip2Region 查询服务

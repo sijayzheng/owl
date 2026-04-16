@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysDictData;
 import cn.sijay.owl.system.mapper.SysDictDataMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -61,21 +60,6 @@ public class SysDictDataService extends ServiceImpl<SysDictDataMapper, SysDictDa
      */
     public List<SysDictData> list(SysDictData sysDictData) {
         return list(query(sysDictData));
-    }
-
-    /**
-     * 删除字典数据
-     *
-     * @param id 字典数据ID
-     * @return 删除结果
-     * @throws ServiceException 当字典数据不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysDictData user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysDictDataService.class, "主键为{}的字典数据不存在", id);
-        }
-        return removeById(id);
     }
 
 }

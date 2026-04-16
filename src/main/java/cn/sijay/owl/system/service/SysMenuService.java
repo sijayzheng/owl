@@ -1,6 +1,5 @@
 package cn.sijay.owl.system.service;
 
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.mapper.SysMenuMapper;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -122,21 +121,6 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      */
     public List<SysMenu> list(SysMenu sysMenu) {
         return list(query(sysMenu));
-    }
-
-    /**
-     * 删除系统菜单
-     *
-     * @param id 系统菜单ID
-     * @return 删除结果
-     * @throws ServiceException 当系统菜单不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysMenu user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysMenuService.class, "主键为{}的系统菜单不存在", id);
-        }
-        return removeById(id);
     }
 
 }

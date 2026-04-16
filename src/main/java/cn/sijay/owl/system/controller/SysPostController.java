@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_post")
+@RequestMapping("/system/sys-post")
 @RestController
 public class SysPostController extends BaseController {
     private final SysPostService sysPostService;
@@ -110,15 +110,15 @@ public class SysPostController extends BaseController {
     /**
      * 删除系统岗位
      *
-     * @param id 系统岗位ID
+     * @param ids 系统岗位ID
      * @return 操作结果
      */
     @AccessLog(title = "系统岗位", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysPost:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除系统岗位")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysPostService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysPostService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

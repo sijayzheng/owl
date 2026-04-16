@@ -1,5 +1,4 @@
 package ${packageName}.${moduleName}.entity;
-
 <#if hasBase>import cn.sijay.owl.common.base.BaseEntity;</#if>
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
@@ -37,7 +36,7 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
     private static final long serialVersionUID = 1L;
 
 </#if>
-<#list columns?filter(item -> !item.based()) as column>
+<#list columns?filter(item -> !item.based(hasBase)) as column>
     /**
      * ${column.columnComment}
      */

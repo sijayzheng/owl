@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_message")
+@RequestMapping("/system/sys-message")
 @RestController
 public class SysMessageController extends BaseController {
     private final SysMessageService sysMessageService;
@@ -110,15 +110,15 @@ public class SysMessageController extends BaseController {
     /**
      * 删除系统消息
      *
-     * @param id 系统消息ID
+     * @param ids 系统消息ID
      * @return 操作结果
      */
     @AccessLog(title = "系统消息", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysMessage:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除系统消息")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysMessageService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysMessageService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

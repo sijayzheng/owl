@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysUserMfaRecoveryCodes;
 import cn.sijay.owl.system.mapper.SysUserMfaRecoveryCodesMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -57,21 +56,6 @@ public class SysUserMfaRecoveryCodesService extends ServiceImpl<SysUserMfaRecove
      */
     public List<SysUserMfaRecoveryCodes> list(SysUserMfaRecoveryCodes sysUserMfaRecoveryCodes) {
         return list(query(sysUserMfaRecoveryCodes));
-    }
-
-    /**
-     * 删除MFA备用验证码
-     *
-     * @param id MFA备用验证码ID
-     * @return 删除结果
-     * @throws ServiceException 当MFA备用验证码不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysUserMfaRecoveryCodes user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysUserMfaRecoveryCodesService.class, "主键为{}的MFA备用验证码不存在", id);
-        }
-        return removeById(id);
     }
 
 }

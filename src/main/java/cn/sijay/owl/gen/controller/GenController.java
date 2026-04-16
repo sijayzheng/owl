@@ -63,7 +63,7 @@ public class GenController extends BaseController {
 
     @AccessLog(title = "代码生成", operateType = OperateType.DELETE)
     @SaCheckPermission("gen:gen:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除代码生成表")
     public Result<Boolean> remove(@PathVariable Long id) {
         return result(tableService.removeById(id), OperateType.DELETE);

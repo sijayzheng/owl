@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/file/file_storage")
+@RequestMapping("/file/file-storage")
 @RestController
 public class FileStorageController extends BaseController {
     private final FileStorageService fileStorageService;
@@ -110,15 +110,15 @@ public class FileStorageController extends BaseController {
     /**
      * 删除文件存储
      *
-     * @param id 文件存储ID
+     * @param ids 文件存储ID
      * @return 操作结果
      */
     @AccessLog(title = "文件存储", operateType = OperateType.DELETE)
     @SaCheckPermission("file:fileStorage:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除文件存储")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(fileStorageService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(fileStorageService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

@@ -10,7 +10,6 @@ import cn.sijay.owl.gen.entity.GenTable;
 import cn.sijay.owl.gen.enums.HtmlType;
 import cn.sijay.owl.gen.enums.JavaType;
 import cn.sijay.owl.gen.enums.QueryType;
-import cn.sijay.owl.gen.mapper.GenTableMapper;
 import cn.sijay.owl.gen.properties.GenProperties;
 import com.mybatisflex.core.query.QueryColumn;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -45,7 +44,6 @@ import java.util.Map;
 public class GenService {
     private final GenTableService tableService;
     private final GenColumnService columnService;
-    private final GenTableMapper genTableMapper;
     private final Configuration configuration;
     private final GenProperties genProperties;
 

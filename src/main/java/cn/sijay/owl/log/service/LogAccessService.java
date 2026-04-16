@@ -1,7 +1,6 @@
 package cn.sijay.owl.log.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.log.entity.LogAccess;
 import cn.sijay.owl.log.mapper.LogAccessMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -64,21 +63,6 @@ public class LogAccessService extends ServiceImpl<LogAccessMapper, LogAccess> im
      */
     public List<LogAccess> list(LogAccess logAccess) {
         return list(query(logAccess));
-    }
-
-    /**
-     * 删除访问日志
-     *
-     * @param id 访问日志ID
-     * @return 删除结果
-     * @throws ServiceException 当访问日志不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        LogAccess user = getById(id);
-        if (user == null) {
-            throw new ServiceException(LogAccessService.class, "主键为{}的访问日志不存在", id);
-        }
-        return removeById(id);
     }
 
 }

@@ -1,7 +1,6 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysNotice;
 import cn.sijay.owl.system.mapper.SysNoticeMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -61,21 +60,6 @@ public class SysNoticeService extends ServiceImpl<SysNoticeMapper, SysNotice> im
      */
     public List<SysNotice> list(SysNotice sysNotice) {
         return list(query(sysNotice));
-    }
-
-    /**
-     * 删除通知公告
-     *
-     * @param id 通知公告ID
-     * @return 删除结果
-     * @throws ServiceException 当通知公告不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysNotice user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysNoticeService.class, "主键为{}的通知公告不存在", id);
-        }
-        return removeById(id);
     }
 
 }

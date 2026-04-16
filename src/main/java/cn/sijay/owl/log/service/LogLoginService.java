@@ -1,7 +1,6 @@
 package cn.sijay.owl.log.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.log.entity.LogLogin;
 import cn.sijay.owl.log.mapper.LogLoginMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -49,6 +48,7 @@ public class LogLoginService extends ServiceImpl<LogLoginMapper, LogLogin> imple
     private QueryWrapper query(LogLogin logLogin) {
         QueryWrapper query = query();
         query.and(LOG_LOGIN.USER_ID.eq(logLogin.getUserId()));
+        query.and(LOG_LOGIN.LOCATION.like(logLogin.getLocation()));
         query.and(LOG_LOGIN.LOGIN_TIME.between(logLogin.getLoginTimeRange()));
         return query;
     }
@@ -61,21 +61,6 @@ public class LogLoginService extends ServiceImpl<LogLoginMapper, LogLogin> imple
      */
     public List<LogLogin> list(LogLogin logLogin) {
         return list(query(logLogin));
-    }
-
-    /**
-     * 删除登录日志
-     *
-     * @param id 登录日志ID
-     * @return 删除结果
-     * @throws ServiceException 当登录日志不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        LogLogin user = getById(id);
-        if (user == null) {
-            throw new ServiceException(LogLoginService.class, "主键为{}的登录日志不存在", id);
-        }
-        return removeById(id);
     }
 
 }

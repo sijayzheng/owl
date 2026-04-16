@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_user_mfa_recovery_codes")
+@RequestMapping("/system/sys-user-mfa-recovery-codes")
 @RestController
 public class SysUserMfaRecoveryCodesController extends BaseController {
     private final SysUserMfaRecoveryCodesService sysUserMfaRecoveryCodesService;
@@ -110,15 +110,15 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     /**
      * 删除MFA备用验证码
      *
-     * @param id MFA备用验证码ID
+     * @param ids MFA备用验证码ID
      * @return 操作结果
      */
     @AccessLog(title = "MFA备用验证码", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysUserMfaRecoveryCodes:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除MFA备用验证码")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysUserMfaRecoveryCodesService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysUserMfaRecoveryCodesService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

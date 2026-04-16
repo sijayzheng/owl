@@ -1,6 +1,5 @@
 package cn.sijay.owl.system.service;
 
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.system.entity.SysDept;
 import cn.sijay.owl.system.mapper.SysDeptMapper;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -45,7 +44,7 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
      * @param list 所有数据列表
      * @return 树形结构列表
      */
-    private List<SysDept> buildTree(List<SysDept> list) {
+    public List<SysDept> buildTree(List<SysDept> list) {
         List<SysDept> result = new ArrayList<>();
         List<Long> ids = list.stream().map(SysDept::getId).toList();
         for (SysDept item : list) {
@@ -121,21 +120,6 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
      */
     public List<SysDept> list(SysDept sysDept) {
         return list(query(sysDept));
-    }
-
-    /**
-     * 删除系统部门
-     *
-     * @param id 系统部门ID
-     * @return 删除结果
-     * @throws ServiceException 当系统部门不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysDept user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysDeptService.class, "主键为{}的系统部门不存在", id);
-        }
-        return removeById(id);
     }
 
 }

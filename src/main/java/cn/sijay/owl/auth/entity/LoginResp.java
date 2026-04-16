@@ -8,6 +8,6 @@ package cn.sijay.owl.auth.entity;
  * @since 2026-04-14
  */
 public record LoginResp(
-        String token
+    String token
 ) {
 }

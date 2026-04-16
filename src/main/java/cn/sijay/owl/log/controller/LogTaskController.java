@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/log/log_task")
+@RequestMapping("/log/log-task")
 @RestController
 public class LogTaskController extends BaseController {
     private final LogTaskService logTaskService;
@@ -110,15 +110,15 @@ public class LogTaskController extends BaseController {
     /**
      * 删除任务日志
      *
-     * @param id 任务日志ID
+     * @param ids 任务日志ID
      * @return 操作结果
      */
     @AccessLog(title = "任务日志", operateType = OperateType.DELETE)
     @SaCheckPermission("log:logTask:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除任务日志")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(logTaskService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(logTaskService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

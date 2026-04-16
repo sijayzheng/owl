@@ -1,7 +1,6 @@
 package cn.sijay.owl.file.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.file.entity.FileStorage;
 import cn.sijay.owl.file.mapper.FileStorageMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -62,21 +61,6 @@ public class FileStorageService extends ServiceImpl<FileStorageMapper, FileStora
      */
     public List<FileStorage> list(FileStorage fileStorage) {
         return list(query(fileStorage));
-    }
-
-    /**
-     * 删除文件存储
-     *
-     * @param id 文件存储ID
-     * @return 删除结果
-     * @throws ServiceException 当文件存储不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        FileStorage user = getById(id);
-        if (user == null) {
-            throw new ServiceException(FileStorageService.class, "主键为{}的文件存储不存在", id);
-        }
-        return removeById(id);
     }
 
 }

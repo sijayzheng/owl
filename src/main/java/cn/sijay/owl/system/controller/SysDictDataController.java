@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys_dict_data")
+@RequestMapping("/system/sys-dict-data")
 @RestController
 public class SysDictDataController extends BaseController {
     private final SysDictDataService sysDictDataService;
@@ -110,15 +110,15 @@ public class SysDictDataController extends BaseController {
     /**
      * 删除字典数据
      *
-     * @param id 字典数据ID
+     * @param ids 字典数据ID
      * @return 操作结果
      */
     @AccessLog(title = "字典数据", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysDictData:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除字典数据")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysDictDataService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(sysDictDataService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**
