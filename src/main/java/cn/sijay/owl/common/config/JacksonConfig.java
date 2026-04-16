@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.config;
 
-
 import cn.sijay.owl.common.utils.XssUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;

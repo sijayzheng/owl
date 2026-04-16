@@ -1,8 +1,7 @@
 package cn.sijay.owl.common.config;
 
-
 import cn.sijay.owl.auth.util.LoginHelper;
-import cn.sijay.owl.common.entity.BaseEntity;
+import cn.sijay.owl.common.base.BaseEntity;
 import com.mybatisflex.core.FlexGlobalConfig;
 import org.springframework.context.annotation.Configuration;
 

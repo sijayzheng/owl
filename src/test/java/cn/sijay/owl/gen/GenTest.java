@@ -1,6 +1,5 @@
 package cn.sijay.owl.gen;
 
-
 import cn.sijay.owl.gen.service.GenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,8 @@ public class GenTest {
     @Test
     public void importTable() {
         genService.importTable(List.of(
-                "sys_user",
-                "sys_dept"
+            "sys_user",
+            "sys_dept"
         ));
     }
 

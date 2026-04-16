@@ -1,6 +1,5 @@
 package cn.sijay.owl.gen.service;
 
-
 import cn.sijay.owl.gen.entity.GenTable;
 import cn.sijay.owl.gen.mapper.GenTableMapper;
 import com.mybatisflex.core.query.QueryWrapper;

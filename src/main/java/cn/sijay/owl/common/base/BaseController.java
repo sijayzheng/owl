@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.base;
 
-
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import com.mybatisflex.core.paginate.Page;

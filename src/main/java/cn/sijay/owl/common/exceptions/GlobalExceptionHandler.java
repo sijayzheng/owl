@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.exceptions;
 
-
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
@@ -11,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,7 +37,7 @@ public class GlobalExceptionHandler {
      * 请求方式不支持
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Result<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
+    public Result<Void> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         e.printStackTrace();
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
@@ -96,7 +94,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(IOException.class)
-    public void handleRuntimeException(IOException e, HttpServletRequest request) {
+    public void handleIOException(IOException e, HttpServletRequest request) {
         e.printStackTrace();
         String requestURI = request.getRequestURI();
         if (requestURI.contains("sse")) {
@@ -118,34 +116,12 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 系统异常
-     */
-    @ExceptionHandler(Exception.class)
-    public Result<Void> handleException(Exception e, HttpServletRequest request) {
-        e.printStackTrace();
-        String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',发生系统异常.", requestURI, e);
-        return Result.fail(e.getMessage());
-    }
-
-    /**
      * 自定义验证异常
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<Void> constraintViolationException(ConstraintViolationException e) {
         log.error(e.getMessage());
         String message = StreamUtil.join(e.getConstraintViolations(), ConstraintViolation::getMessage, ", ");
-        e.printStackTrace();
-        return Result.fail(message);
-    }
-
-    /**
-     * 自定义验证异常
-     */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error(e.getMessage());
-        String message = StreamUtil.join(e.getBindingResult().getAllErrors(), DefaultMessageSourceResolvable::getDefaultMessage, ", ");
         e.printStackTrace();
         return Result.fail(message);
     }
@@ -185,7 +161,7 @@ public class GlobalExceptionHandler {
 
     // 处理校验失败的异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result<Void> handleValidationException(MethodArgumentNotValidException e) {
+    public Result<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return Result.fail(HttpStatus.BAD_REQUEST.value(), "参数校验失败：" + Objects.requireNonNull(e.getBindingResult().getFieldError())
                                                                                     .getDefaultMessage());
     }
@@ -200,9 +176,14 @@ public class GlobalExceptionHandler {
         return Result.fail(e.getCode(), e.getMessage());
     }
 
+    /**
+     * 系统异常
+     */
     @ExceptionHandler(Exception.class)
-    public Result<Void> handleException(Exception e) {
+    public Result<Void> handleException(Exception e, HttpServletRequest request) {
         e.printStackTrace();
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',发生系统异常.", requestURI, e);
         return Result.fail(e.getMessage());
     }
 

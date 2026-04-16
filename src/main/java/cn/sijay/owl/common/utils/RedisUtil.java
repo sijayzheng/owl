@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 /**
  * RedisUtil
@@ -124,8 +125,9 @@ public class RedisUtil {
     /**
      * 删除Hash字段
      */
-    public static long hDelete(String key, String... fields) {
-        return redissonClient.getMap(key).fastRemove(fields);
+    public static long hDelete(String key, Object... fields) {
+        RMap<Object, Object> map = redissonClient.getMap(key);
+        return map.fastRemove(fields);
     }
 
     /**
@@ -291,6 +293,43 @@ public class RedisUtil {
         return redissonClient.getAtomicLong(key).addAndGet(-delta);
     }
 
+    // ==================== 消息 ====================
+
+    /**
+     * 发布通道消息
+     *
+     * @param channelKey 通道key
+     * @param msg        发送数据
+     * @param consumer   自定义处理
+     */
+    public static <T> void publish(String channelKey, T msg, Consumer<T> consumer) {
+        RTopic topic = redissonClient.getTopic(channelKey);
+        topic.publish(msg);
+        consumer.accept(msg);
+    }
+
+    /**
+     * 发布消息到指定的频道
+     *
+     * @param channelKey 通道key
+     * @param msg        发送数据
+     */
+    public static <T> void publish(String channelKey, T msg) {
+        RTopic topic = redissonClient.getTopic(channelKey);
+        topic.publish(msg);
+    }
+
+    /**
+     * 订阅通道接收消息
+     *
+     * @param channelKey 通道key
+     * @param clazz      消息类型
+     * @param consumer   自定义处理
+     */
+    public static <T> void subscribe(String channelKey, Class<T> clazz, Consumer<T> consumer) {
+        RTopic topic = redissonClient.getTopic(channelKey);
+        topic.addListener(clazz, (channel, msg) -> consumer.accept(msg));
+    }
 }
 
 

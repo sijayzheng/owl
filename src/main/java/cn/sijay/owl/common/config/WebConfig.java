@@ -5,30 +5,45 @@ import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.httpauth.basic.SaHttpBasicUtil;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import cn.sijay.owl.auth.entity.LoginUser;
+import cn.sijay.owl.auth.service.PermissionService;
+import cn.sijay.owl.auth.util.LoginHelper;
 import cn.sijay.owl.common.exceptions.BaseException;
 import cn.sijay.owl.common.exceptions.GlobalExceptionHandler;
+import cn.sijay.owl.common.exceptions.ServiceException;
+import cn.sijay.owl.common.filter.RepeatableFilter;
+import cn.sijay.owl.common.filter.XssFilter;
 import cn.sijay.owl.common.utils.ServletUtil;
+import cn.sijay.owl.common.utils.SpringUtil;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.validator.HibernateValidator;
 import org.jspecify.annotations.NonNull;
-import org.springframework.context.MessageSource;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -88,12 +103,11 @@ public class WebConfig implements WebMvcConfigurer {
                 });
     }
 
-
     /**
      * 配置校验框架 快速返回模式
      */
     @Bean
-    public Validator validator(MessageSource messageSource) {
+    public Validator validator() {
         try (LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean()) {
             // 设置使用 HibernateValidator 校验器
             factoryBean.setProviderClass(HibernateValidator.class);
@@ -116,6 +130,46 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /**
+     * 权限接口实现(使用bean注入方便用户替换)
+     */
+    @Bean
+    public StpInterface stpInterface() {
+        return new StpInterface() {
+            @Override
+            public List<String> getPermissionList(Object loginId, String loginType) {
+                LoginUser loginUser = LoginHelper.getLoginUser();
+                if (ObjectUtils.isEmpty(loginUser) || !loginUser.getId().equals(loginId)) {
+                    return new ArrayList<>(getPermissionService().getMenuPermission(Long.parseLong(loginId.toString())));
+                }
+                // SYS_USER 默认返回权限
+                return new ArrayList<>(loginUser.getMenuPermission());
+            }
+
+            @Override
+            public List<String> getRoleList(Object loginId, String loginType) {
+                LoginUser loginUser = LoginHelper.getLoginUser();
+                if (ObjectUtils.isEmpty(loginUser) || !loginUser.getId().equals(loginId)) {
+                    return new ArrayList<>(getPermissionService().getRolePermission(Long.parseLong(loginId.toString())));
+                }
+                // SYS_USER 默认返回权限
+                return new ArrayList<>(loginUser.getRolePermission());
+            }
+
+            private PermissionService getPermissionService() {
+                try {
+                    PermissionService service = SpringUtil.getBean(PermissionService.class);
+                    if (ObjectUtils.isNotEmpty(service)) {
+                        throw new ServiceException(StpInterface.class, "PermissionService 实现类不存在");
+                    }
+                    return service;
+                } catch (Exception e) {
+                    throw new ServiceException(StpInterface.class, "PermissionService 实现类不存在");
+                }
+            }
+        };
+    }
+
+    /**
      * 对 actuator 健康检查接口 做账号密码鉴权
      */
     @Bean
@@ -126,4 +180,46 @@ public class WebConfig implements WebMvcConfigurer {
             .setError(e -> SaResult.error(e.getMessage()).setCode(HttpStatus.UNAUTHORIZED.value()));
     }
 
+    @Bean
+    public FilterRegistrationBean<XssFilter> xssFilterRegistration() {
+        FilterRegistrationBean<XssFilter> registration = new FilterRegistrationBean<>();
+        registration.setDispatcherTypes(DispatcherType.REQUEST);
+        registration.setFilter(new XssFilter());
+        registration.addUrlPatterns("/*");
+        registration.setName("xssFilter");
+        registration.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE + 1);
+        return registration;
+    }
+
+    @Bean
+    public FilterRegistrationBean<RepeatableFilter> someFilterRegistration() {
+        FilterRegistrationBean<RepeatableFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new RepeatableFilter());
+        registration.addUrlPatterns("/*");
+        registration.setName("repeatableFilter");
+        registration.setOrder(FilterRegistrationBean.LOWEST_PRECEDENCE);
+        return registration;
+    }
+
+    /**
+     * 跨域配置
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        // 设置访问源地址
+        config.addAllowedOriginPattern("*");
+        // 设置访问源请求头
+        config.addAllowedHeader("*");
+        // 设置访问源请求方法
+        config.addAllowedMethod("*");
+        // 有效期 1800秒
+        config.setMaxAge(1800L);
+        // 添加映射路径，拦截一切请求
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        // 返回新的CorsFilter
+        return new CorsFilter(source);
+    }
 }

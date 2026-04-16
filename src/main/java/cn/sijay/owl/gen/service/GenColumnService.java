@@ -1,6 +1,5 @@
 package cn.sijay.owl.gen.service;
 
-
 import cn.sijay.owl.gen.entity.GenColumn;
 import cn.sijay.owl.gen.mapper.GenColumnMapper;
 import com.mybatisflex.core.service.IService;

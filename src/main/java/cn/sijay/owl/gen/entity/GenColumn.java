@@ -1,6 +1,5 @@
 package cn.sijay.owl.gen.entity;
 
-
 import cn.sijay.owl.gen.constants.GenConstants;
 import cn.sijay.owl.gen.enums.HtmlType;
 import cn.sijay.owl.gen.enums.JavaType;
@@ -139,8 +138,8 @@ public class GenColumn implements Serializable {
     @Column(comment = "排序")
     private Integer sort;
 
-    public boolean based() {
-        return GenConstants.BASE_FIELD.contains(columnName.toLowerCase());
+    public boolean based(boolean hasBase) {
+        return hasBase && GenConstants.BASE_FIELD.contains(columnName.toLowerCase());
     }
 
     public String shotComment() {

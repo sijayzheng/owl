@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import cn.sijay.owl.common.exceptions.BaseException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

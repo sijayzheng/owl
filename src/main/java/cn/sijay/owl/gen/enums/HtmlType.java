@@ -1,6 +1,5 @@
 package cn.sijay.owl.gen.enums;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

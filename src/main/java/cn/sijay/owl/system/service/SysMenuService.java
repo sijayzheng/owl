@@ -45,7 +45,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      * @param list 所有数据列表
      * @return 树形结构列表
      */
-    private List<SysMenu> buildTree(List<SysMenu> list) {
+    public List<SysMenu> buildTree(List<SysMenu> list) {
         List<SysMenu> result = new ArrayList<>();
         List<Long> ids = list.stream().map(SysMenu::getId).toList();
         for (SysMenu item : list) {

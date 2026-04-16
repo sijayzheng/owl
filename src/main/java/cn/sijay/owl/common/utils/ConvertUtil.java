@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,6 +1,6 @@
 package cn.sijay.owl.common.utils;
 
-
+import cn.sijay.owl.common.service.Ip2RegionService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import ua_parser.Client;
@@ -14,6 +14,7 @@ import ua_parser.Parser;
  */
 public class HttpUtil {
     private static final Parser UA_PARSER = new Parser();
+    static Ip2RegionService service = SpringUtil.getBean(Ip2RegionService.class);
 
     /**
      * 获取浏览器信息
@@ -50,5 +51,9 @@ public class HttpUtil {
             ip = ip.split(",")[0].trim();
         }
         return ip;
+    }
+
+    public static String getRegion(String ip) {
+        return service.getIpLocation(ip);
     }
 }

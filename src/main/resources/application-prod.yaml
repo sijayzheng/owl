@@ -1,0 +1,66 @@
+server:
+    port: 18888
+    servlet:
+        context-path: /
+
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/owl
+        username: root
+        password: root
+        hikari:
+            maximum-pool-size: 20
+            minimum-idle: 10
+            idle-timeout: 30000
+            max-lifetime: 120000
+            keepalive-time: 30000
+            connection-timeout: 30000
+            connection-test-query: SELECT 1
+            auto-commit: true
+            pool-name: HikariCP
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 20MB
+    data:
+        redis:
+            host: localhost
+            port: 6379
+            password: 123456
+            database: 2
+            timeout: 3s
+            lettuce:
+                pool:
+                    max-active: 200
+                    max-idle: 20
+                    min-idle: 5
+                    max-wait: -1ms
+                shutdown-timeout: 5s
+
+logging:
+    charset:
+        console: utf-8
+    pattern:
+        console: '%d{HH:mm:ss} [%thread] %-5level %logger%n - %msg%n'
+    level:
+        root: info
+
+decorator:
+    datasource:
+        enabled: false
+
+springdoc:
+    api-docs:
+        enabled: false
+    swagger-ui:
+        enabled: false
+
+sa-token:
+    is-read-cookie: false
+    token-style: simple-uuid
+    token-prefix: 'Bearer'
+    token-name: Authorization
+    is-concurrent: true
+    is-share: false
+    is-print: false

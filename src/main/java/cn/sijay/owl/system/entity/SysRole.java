@@ -1,15 +1,14 @@
 package cn.sijay.owl.system.entity;
 
-import cn.sijay.owl.common.entity.BaseEntity;
-import com.mybatisflex.annotation.Column;
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
-import com.mybatisflex.annotation.Table;
+import cn.sijay.owl.common.base.BaseEntity;
+import com.mybatisflex.annotation.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
+
+import java.util.List;
 
 /**
  * 系统角色实体类
@@ -87,4 +86,10 @@ public class SysRole extends BaseEntity {
     @Column(value = "deleted", comment = "删除")
     private Boolean deleted;
 
+    @RelationManyToMany(
+        joinTable = "sys_role_menu", // 中间表
+        joinSelfColumn = "role_id",
+        joinTargetColumn = "menu_id"
+    )
+    private List<SysMenu> menus;
 }

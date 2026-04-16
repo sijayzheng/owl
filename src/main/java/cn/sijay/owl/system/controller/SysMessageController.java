@@ -6,7 +6,7 @@ import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
-import cn.sijay.owl.common.utils.ExcelUtil;
+import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.entity.SysMessage;
 import cn.sijay.owl.system.service.SysMessageService;
 import io.swagger.v3.oas.annotations.Operation;

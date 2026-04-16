@@ -1,5 +1,4 @@
 package ${packageName}.${moduleName}.service;
-
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.exceptions.ServiceException;
 import ${packageName}.${moduleName}.entity.${className};
@@ -11,12 +10,10 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import static ${packageName}.${moduleName}.entity.table.${className}TableDef.${tableDef};
 
 /**
@@ -145,21 +142,6 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
      */
     public List<${className}> list(${className} ${functionName}) {
         return list(query(${functionName}));
-    }
-
-    /**
-     * 删除${classComment}
-     *
-     * @param id ${classComment}ID
-     * @return 删除结果
-     * @throws ServiceException 当${classComment}不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        ${className} user = getById(id);
-        if (user == null) {
-            throw new ServiceException(${className}Service.class, "主键为{}的${classComment}不存在", id);
-        }
-        return removeById(id);
     }
 
 }

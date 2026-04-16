@@ -1,6 +1,5 @@
 package cn.sijay.owl.log.entity;
 
-
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -54,6 +53,12 @@ public class LogLogin implements Serializable {
     @Column(value = "login_ip", comment = "登录ip地址")
     @ExcelProperty(value = "登录ip地址")
     private String loginIp;
+    /**
+     * 登录ip地址
+     */
+    @Column(value = "location", comment = "登录地址")
+    @ExcelProperty(value = "登录地址")
+    private String location;
 
     /**
      * 浏览器类型

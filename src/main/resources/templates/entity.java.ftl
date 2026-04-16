@@ -1,6 +1,6 @@
 package ${packageName}.${moduleName}.entity;
 
-<#if hasBase>import cn.sijay.owl.common.entity.BaseEntity;</#if>
+<#if hasBase>import cn.sijay.owl.common.base.BaseEntity;</#if>
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;

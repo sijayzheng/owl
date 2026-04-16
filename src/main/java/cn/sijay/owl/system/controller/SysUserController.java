@@ -1,12 +1,13 @@
 package cn.sijay.owl.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
-import cn.sijay.owl.common.utils.ExcelUtil;
+import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.entity.SysUser;
 import cn.sijay.owl.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ import java.util.List;
  * @author sijay
  * @since 2026-04-09
  */
+@SaIgnore
 @Valid
 @RequiredArgsConstructor
 @RequestMapping("/system/sys_user")
@@ -110,15 +112,15 @@ public class SysUserController extends BaseController {
     /**
      * 删除系统用户
      *
-     * @param id 系统用户ID
+     * @param ids 系统用户ID
      * @return 操作结果
      */
     @AccessLog(title = "系统用户", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysUser:delete")
-    @PostMapping("/remove/{id}")
+    @PostMapping("/remove")
     @Operation(summary = "删除系统用户")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(sysUserService.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
+        return result(sysUserService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**

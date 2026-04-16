@@ -1,10 +1,10 @@
 package cn.sijay.owl.common.utils;
 
-
 import io.swagger.v3.core.util.Constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -186,5 +186,9 @@ public class StringUtil {
                 System.out.println(curCharset + "___" + originCharset + "___" + encodeText);
             }
         }
+    }
+
+    public static boolean isHttp(String path) {
+        return StringUtils.isNotBlank(path) && new UrlValidator(new String[]{"http", "https"}).isValid(path);
     }
 }

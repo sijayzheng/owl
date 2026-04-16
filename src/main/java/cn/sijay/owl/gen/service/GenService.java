@@ -1,9 +1,9 @@
 package cn.sijay.owl.gen.service;
 
-
+import cn.sijay.owl.common.enums.NamingCase;
 import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.common.utils.FileUtil;
-import cn.sijay.owl.common.utils.StringUtil;
+import cn.sijay.owl.common.utils.NamingUtil;
 import cn.sijay.owl.gen.constants.GenConstants;
 import cn.sijay.owl.gen.entity.GenColumn;
 import cn.sijay.owl.gen.entity.GenTable;
@@ -61,20 +61,20 @@ public class GenService {
                 throw new ServiceException(GenService.class, "表{}不存在", table);
             }
             genTable.setModuleName(StringUtils.substringBefore(table, "_"));
-            genTable.setClassName(StringUtil.toUpperCamelCase(table, "_"));
+            genTable.setClassName(NamingUtil.caseConvert(table, NamingCase.UPPER_CAMEL_CASE));
             genTable.setClassComment(genTable.getTableComment().replaceAll("表$", ""));
-            genTable.setFunctionName(StringUtil.toLowerCamelCase(table, "_"));
+            genTable.setFunctionName(NamingUtil.caseConvert(table, NamingCase.LOWER_CAMEL_CASE));
             tableService.save(genTable);
             Long tableId = genTable.getId();
             QueryWrapper query = QueryWrapper.create()
                                              .select(
-                                                     "column_name",
-                                                     "ordinal_position as sort",
-                                                     "is_nullable='NO' as required",
-                                                     "column_type",
-                                                     "column_key='PRI' as primary_key",
-                                                     "extra='auto_increment' as incremental",
-                                                     "column_comment"
+                                                 "column_name",
+                                                 "ordinal_position as sort",
+                                                 "is_nullable='NO' as required",
+                                                 "column_type",
+                                                 "column_key='PRI' as primary_key",
+                                                 "extra='auto_increment' as incremental",
+                                                 "column_comment"
                                              )
                                              .from("information_schema.columns")
                                              .where("TABLE_SCHEMA=schema()")
@@ -102,7 +102,7 @@ public class GenService {
                     case "binary", "varbinary", "tinyblob", "blob", "mediumblob", "longblob" -> JavaType.BYTE_ARRAY;
                     default -> JavaType.STRING;
                 });
-                column.setJavaField(StringUtil.toLowerCamelCase(column.getColumnName(), "_"));
+                column.setJavaField(NamingUtil.caseConvert(column.getColumnName(), NamingCase.LOWER_CAMEL_CASE));
                 boolean isSelect = Strings.CS.containsAny(dataType, "enum", "set");
                 column.setQueryType(switch (column.getJavaType()) {
                     case JavaType.STRING -> isSelect ? QueryType.EQUALS : QueryType.LIKE;
@@ -171,10 +171,10 @@ public class GenService {
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
             FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName, "index.ts"), codeMap.get("api.ts"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName, "types.ts"), codeMap.get("types.ts"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName, "index.vue"), codeMap.get("index.vue"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName, "dialog.vue"), codeMap.get("dialog.vue"));
+//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + ".ts"), codeMap.get("api.ts"));
+//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + ".ts"), codeMap.get("types.ts"));
+//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "pages", moduleName, functionName + ".vue"), codeMap.get("index.vue"));
+//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "pages", moduleName, functionName + "Form.vue"), codeMap.get("dialog.vue"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException(getClass(), "渲染模板失败，表名：" + table.getTableName());
@@ -202,15 +202,15 @@ public class GenService {
         data.put("moduleName", table.getModuleName());
         data.put("className", table.getClassName());
         data.put("classComment", table.getClassComment());
-        data.put("path", StringUtil.toLowerKebabCase(table.getTableName(), "_"));
+        data.put("path", NamingUtil.caseConvert(table.getTableName(), NamingCase.KEBAB_CASE));
         data.put("tableDef", table.getTableName().toUpperCase());
         data.put("functionName", table.getFunctionName());
         data.put("author", genProperties.getAuthor());
         data.put("isTree", table.getTreeTable());
         if (table.getTreeTable()) {
-            data.put("treeKey", StringUtil.toLowerCamelCase(table.getTreeKey(), "_"));
-            data.put("treeParentKey", StringUtil.toLowerCamelCase(table.getTreeParentKey(), "_"));
-            data.put("treeLabel", StringUtil.toLowerCamelCase(table.getTreeLabel(), "_"));
+            data.put("treeKey", NamingUtil.caseConvert(table.getTreeKey(), NamingCase.LOWER_CAMEL_CASE));
+            data.put("treeParentKey", NamingUtil.caseConvert(table.getTreeParentKey(), NamingCase.LOWER_CAMEL_CASE));
+            data.put("treeLabel", NamingUtil.caseConvert(table.getTreeLabel(), NamingCase.LOWER_CAMEL_CASE));
         }
         data.put("menuId", table.getMenuId());
         data.put("columns", columns);

@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import cn.sijay.owl.common.constants.ErrorConstants;
 import cn.sijay.owl.common.exceptions.BaseException;
 import com.fasterxml.jackson.core.JsonProcessingException;

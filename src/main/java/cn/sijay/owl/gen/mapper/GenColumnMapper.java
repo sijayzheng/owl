@@ -1,6 +1,5 @@
 package cn.sijay.owl.gen.mapper;
 
-
 import cn.sijay.owl.gen.entity.GenColumn;
 import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.exceptions;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

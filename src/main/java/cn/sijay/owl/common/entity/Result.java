@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.entity;
 
-
 import com.mybatisflex.core.paginate.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.HttpStatus;
@@ -17,30 +16,14 @@ import java.util.List;
  * @since 2026-04-08
  */
 public record Result<T>(
-        /**
-         * 状态码
-         * <p>
-         * 200 表示成功，非 200 表示失败
-         */
-        int code,
-        /**
-         * 响应消息
-         * <p>
-         * 成功或失败的提示信息
-         */
-        String message,
-        /**
-         * 响应数据
-         * <p>
-         * 具体的业务数据
-         */
-        T data,
-        /**
-         * 总数
-         * <p>
-         * 用于分页场景，表示总记录数
-         */
-        long total
+    // 状态码 200 表示成功，非 200 表示失败
+    int code,
+    // 响应消息 成功或失败的提示信息
+    String message,
+    // 响应数据 具体的业务数据
+    T data,
+    // 总数 用于分页场景，表示总记录数
+    Long total
 ) {
     /**
      * 创建成功响应
@@ -51,7 +34,7 @@ public record Result<T>(
      * @return 成功响应结果
      */
     public static <T> Result<T> success() {
-        return new Result<>(HttpStatus.OK.value(), null, null, 0);
+        return new Result<>(HttpStatus.OK.value(), null, null, null);
     }
 
     /**
@@ -63,7 +46,7 @@ public record Result<T>(
      * @return 成功响应结果
      */
     public static <T> Result<T> success(T data) {
-        return new Result<>(HttpStatus.OK.value(), "", data, 0);
+        return new Result<>(HttpStatus.OK.value(), "", data, null);
     }
 
     /**
@@ -76,7 +59,7 @@ public record Result<T>(
      * @return 成功响应结果
      */
     public static <T> Result<List<T>> success(List<T> rows) {
-        return new Result<>(HttpStatus.OK.value(), null, rows, CollectionUtils.isEmpty(rows) ? rows.size() : 0);
+        return new Result<>(HttpStatus.OK.value(), null, rows, CollectionUtils.isEmpty(rows) ? rows.size() : 0L);
     }
 
     /**
@@ -103,7 +86,7 @@ public record Result<T>(
      * @return 成功响应结果
      */
     public static <T> Result<T> success(String message, T data) {
-        return new Result<>(HttpStatus.OK.value(), message, data, 0);
+        return new Result<>(HttpStatus.OK.value(), message, data, null);
     }
 
     /**
@@ -117,7 +100,7 @@ public record Result<T>(
      * @return 失败响应结果
      */
     public static <T> Result<T> fail(int code, String message) {
-        return new Result<>(code, message, null, 0);
+        return new Result<>(code, message, null, null);
     }
 
     /**
@@ -130,7 +113,7 @@ public record Result<T>(
      * @return 失败响应结果
      */
     public static <T> Result<T> fail(String message) {
-        return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), message, null, 0);
+        return new Result<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), message, null, null);
     }
 
     /**
@@ -145,6 +128,6 @@ public record Result<T>(
      * @return 响应结果
      */
     public static <T> Result<T> of(int status, String message, T body) {
-        return new Result<>(status, message, body, 0);
+        return new Result<>(status, message, body, null);
     }
 }

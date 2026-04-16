@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

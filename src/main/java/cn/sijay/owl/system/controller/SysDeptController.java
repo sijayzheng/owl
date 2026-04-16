@@ -5,7 +5,7 @@ import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
-import cn.sijay.owl.common.utils.ExcelUtil;
+import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.entity.SysDept;
 import cn.sijay.owl.system.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;

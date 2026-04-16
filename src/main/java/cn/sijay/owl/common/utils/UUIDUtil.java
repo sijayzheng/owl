@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import java.util.UUID;
 
 /**

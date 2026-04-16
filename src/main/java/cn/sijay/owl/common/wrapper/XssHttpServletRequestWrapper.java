@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.wrapper;
 
-
 import cn.sijay.owl.common.utils.XssUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;

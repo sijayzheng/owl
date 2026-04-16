@@ -1,6 +1,6 @@
 package cn.sijay.owl.file.entity;
 
-import cn.sijay.owl.common.entity.BaseEntity;
+import cn.sijay.owl.common.base.BaseEntity;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;

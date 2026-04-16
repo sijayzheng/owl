@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.annotations;
 
-
 import cn.sijay.owl.common.enums.OperateType;
 
 import java.lang.annotation.*;

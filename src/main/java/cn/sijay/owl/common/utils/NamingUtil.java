@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import cn.sijay.owl.common.enums.NamingCase;
 import com.fasterxml.jackson.databind.util.NamingStrategyImpls;
 

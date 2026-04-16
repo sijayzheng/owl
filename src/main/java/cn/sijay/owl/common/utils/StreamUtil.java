@@ -1,6 +1,5 @@
 package cn.sijay.owl.common.utils;
 
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;

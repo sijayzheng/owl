@@ -1,6 +1,5 @@
 package cn.sijay.owl.log.entity;
 
-
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;

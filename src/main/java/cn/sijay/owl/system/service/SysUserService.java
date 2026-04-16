@@ -10,6 +10,7 @@ import com.mybatisflex.core.service.IService;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,19 +66,18 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUser> implemen
         return list(query(sysUser));
     }
 
-    /**
-     * 删除系统用户
-     *
-     * @param id 系统用户ID
-     * @return 删除结果
-     * @throws ServiceException 当系统用户不存在时抛出异常
-     */
-    public boolean delete(Long id) {
-        SysUser user = getById(id);
-        if (user == null) {
-            throw new ServiceException(SysUserService.class, "主键为{}的系统用户不存在", id);
+    public SysUser getByUsername(String username) {
+        return getOne(query().where(SYS_USER.USERNAME.eq(username)));
+    }
+
+    public SysUser getWithRelations(Long id) {
+        QueryWrapper query = query();
+        query.and(SYS_USER.ID.eq(id));
+        List<SysUser> list = sysUserMapper.selectListWithRelationsByQuery(query);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new ServiceException(SysUserService.class, "未查询到id为{}的用户", id);
         }
-        return removeById(id);
+        return list.getFirst();
     }
 
 }

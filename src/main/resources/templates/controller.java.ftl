@@ -1,12 +1,11 @@
 package ${packageName}.${moduleName}.controller;
-
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
-import cn.sijay.owl.common.utils.ExcelUtil;
+import cn.sijay.owl.common.excel.ExcelUtil;
 import ${packageName}.${moduleName}.entity.${className};
 import ${packageName}.${moduleName}.service.${className}Service;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +16,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,15 +122,15 @@ public class ${className}Controller extends BaseController {
     /**
      * 删除${classComment}
      *
-     * @param id ${classComment}ID
+     * @param ids ${classComment}ID
      * @return 操作结果
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.DELETE)
     @SaCheckPermission("${moduleName}:${functionName}:delete")
     @PostMapping("/remove/{id}")
     @Operation(summary = "删除${classComment}")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(${functionName}Service.delete(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(${functionName}Service.removeByIds(ids), OperateType.DELETE);
     }
 
     /**
