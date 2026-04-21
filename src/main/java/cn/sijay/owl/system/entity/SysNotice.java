@@ -49,7 +49,7 @@ public class SysNotice extends BaseEntity {
      */
     @Column(value = "notice_content", comment = "公告内容")
     @ExcelProperty(value = "公告内容")
-    private byte[] noticeContent;
+    private String noticeContent;
 
     /**
      * 是否关闭

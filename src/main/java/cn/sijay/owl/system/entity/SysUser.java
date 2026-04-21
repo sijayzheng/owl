@@ -44,11 +44,11 @@ public class SysUser extends BaseEntity {
     private String username;
 
     /**
-     * 用户昵称
+     * 用户姓名
      */
-    @Column(value = "nickname", comment = "用户昵称")
-    @ExcelProperty(value = "用户昵称")
-    private String nickname;
+    @Column(value = "realname", comment = "用户姓名")
+    @ExcelProperty(value = "用户姓名")
+    private String realname;
 
     /**
      * 邮箱
@@ -74,8 +74,8 @@ public class SysUser extends BaseEntity {
     /**
      * 头像地址
      */
-    @Column(value = "avatar", comment = "头像地址")
-    private Long avatar;
+    @Column(value = "avatar", comment = "头像")
+    private byte[] avatar;
 
     /**
      * 密码
@@ -122,4 +122,6 @@ public class SysUser extends BaseEntity {
         joinTargetColumn = "post_id"
     )
     private List<SysPost> posts;
+
+
 }

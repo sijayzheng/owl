@@ -1,15 +1,16 @@
 package cn.sijay.owl.auth.service;
 
-import cn.sijay.owl.auth.util.LoginHelper;
+import cn.sijay.owl.common.utils.LoginHelper;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.entity.SysRole;
 import cn.sijay.owl.system.entity.SysUser;
 import cn.sijay.owl.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,15 +34,13 @@ public class PermissionService {
      * @return 角色权限信息
      */
     public Set<String> getRolePermission(Long userId) {
-        Set<String> roles = new HashSet<>();
         // 管理员拥有所有权限
         if (LoginHelper.isSuperAdmin(userId)) {
-            roles.add("root");
+            return Collections.singleton("root");
         } else {
             SysUser user = sysUserService.getWithRelations(userId);
-            roles.addAll(user.getRoles().parallelStream().map(SysRole::getRoleCode).collect(Collectors.toSet()));
+            return user.getRoles().parallelStream().map(SysRole::getRoleCode).collect(Collectors.toSet());
         }
-        return roles;
     }
 
     /**
@@ -51,15 +50,13 @@ public class PermissionService {
      * @return 菜单权限信息
      */
     public Set<String> getMenuPermission(Long userId) {
-        Set<String> perms = new HashSet<>();
         // 管理员拥有所有权限
         if (LoginHelper.isSuperAdmin(userId)) {
-            perms.add("*:*:*");
+            return Collections.singleton("*:*:*");
         } else {
             SysUser user = sysUserService.getWithRelations(userId);
-            perms.addAll(user.getRoles().parallelStream().map(SysRole::getMenus).flatMap(List::stream).map(SysMenu::getPerms).collect(Collectors.toSet()));
+            return user.getRoles().parallelStream().map(SysRole::getMenus).flatMap(List::stream).map(SysMenu::getPerms).filter(StringUtils::isNotBlank)
+                       .collect(Collectors.toSet());
         }
-        return perms;
     }
-
 }

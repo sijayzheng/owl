@@ -58,6 +58,7 @@
         <bcprov-jdk18on.version>1.84</bcprov-jdk18on.version>
         <jsoup.version>1.16.1</jsoup.version>
         <redisson.version>3.52.0</redisson.version>
+        <guava.version>33.6.0-jre</guava.version>
     </properties>
     <dependencies>
         <dependency>
@@ -229,6 +230,12 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
             <version>${redisson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>

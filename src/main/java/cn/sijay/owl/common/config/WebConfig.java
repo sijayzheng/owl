@@ -8,22 +8,18 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
-import cn.sijay.owl.auth.entity.LoginUser;
-import cn.sijay.owl.auth.service.PermissionService;
-import cn.sijay.owl.auth.util.LoginHelper;
+import cn.sijay.owl.auth.entity.UserInfo;
 import cn.sijay.owl.common.exceptions.BaseException;
 import cn.sijay.owl.common.exceptions.GlobalExceptionHandler;
-import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.common.filter.RepeatableFilter;
 import cn.sijay.owl.common.filter.XssFilter;
+import cn.sijay.owl.common.utils.LoginHelper;
 import cn.sijay.owl.common.utils.ServletUtil;
-import cn.sijay.owl.common.utils.SpringUtil;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.validator.HibernateValidator;
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -137,34 +133,14 @@ public class WebConfig implements WebMvcConfigurer {
         return new StpInterface() {
             @Override
             public List<String> getPermissionList(Object loginId, String loginType) {
-                LoginUser loginUser = LoginHelper.getLoginUser();
-                if (ObjectUtils.isEmpty(loginUser) || !loginUser.getId().equals(loginId)) {
-                    return new ArrayList<>(getPermissionService().getMenuPermission(Long.parseLong(loginId.toString())));
-                }
-                // SYS_USER 默认返回权限
-                return new ArrayList<>(loginUser.getMenuPermission());
+                UserInfo userInfo = LoginHelper.getUserInfo();
+                return new ArrayList<>(userInfo.permissions());
             }
 
             @Override
             public List<String> getRoleList(Object loginId, String loginType) {
-                LoginUser loginUser = LoginHelper.getLoginUser();
-                if (ObjectUtils.isEmpty(loginUser) || !loginUser.getId().equals(loginId)) {
-                    return new ArrayList<>(getPermissionService().getRolePermission(Long.parseLong(loginId.toString())));
-                }
-                // SYS_USER 默认返回权限
-                return new ArrayList<>(loginUser.getRolePermission());
-            }
-
-            private PermissionService getPermissionService() {
-                try {
-                    PermissionService service = SpringUtil.getBean(PermissionService.class);
-                    if (ObjectUtils.isNotEmpty(service)) {
-                        throw new ServiceException(StpInterface.class, "PermissionService 实现类不存在");
-                    }
-                    return service;
-                } catch (Exception e) {
-                    throw new ServiceException(StpInterface.class, "PermissionService 实现类不存在");
-                }
+                UserInfo userInfo = LoginHelper.getUserInfo();
+                return new ArrayList<>(userInfo.roles());
             }
         };
     }

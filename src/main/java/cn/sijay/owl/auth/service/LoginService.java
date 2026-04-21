@@ -3,12 +3,13 @@ package cn.sijay.owl.auth.service;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.sijay.owl.auth.entity.LoginReq;
 import cn.sijay.owl.auth.entity.LoginResp;
-import cn.sijay.owl.auth.entity.LoginUser;
-import cn.sijay.owl.auth.util.LoginHelper;
+import cn.sijay.owl.auth.entity.UserInfo;
+import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.exceptions.AuthException;
 import cn.sijay.owl.common.utils.*;
 import cn.sijay.owl.log.entity.LogLogin;
 import cn.sijay.owl.system.entity.SysUser;
+import cn.sijay.owl.system.service.SysDeptService;
 import cn.sijay.owl.system.service.SysUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -29,6 +30,8 @@ import java.time.LocalDateTime;
 @Service
 public class LoginService {
     private final SysUserService sysUserService;
+    private final SysDeptService sysDeptService;
+    private final PermissionService permissionService;
 
     public LoginResp login(@Valid LoginReq loginReq) {
         String username = loginReq.username();
@@ -42,35 +45,34 @@ public class LoginService {
         boolean check = PasswordUtil.check(loginReq.password(), user.getPassword());
         int maxRetryCount = 5;
         long lockTime = 10;
-        String key = "INCORRECT_PASSWORD" + username;
+        String key = RedisPrefix.INCORRECT_PASSWORD_KEY + username;
         Integer errorNumber = RedisUtil.get(key);
-
         // 锁定时间内登录 则踢出
+        Long userId = user.getId();
         if (!check) {
             // 错误次数递增
             errorNumber++;
             RedisUtil.set(key, errorNumber);
             // 达到规定错误次数 则锁定登录
             if (errorNumber >= maxRetryCount) {
-                recordLoginInfo(user.getId(), username, false, "密码输入错误" + maxRetryCount + "次，帐户锁定" + lockTime + "分钟");
+                recordLoginInfo(userId, username, false, "密码输入错误" + maxRetryCount + "次，帐户锁定" + lockTime + "分钟");
                 throw new AuthException("密码输入错误" + maxRetryCount + "次，帐户锁定" + lockTime + "分钟");
             } else {
                 // 未达到规定错误次数
-                recordLoginInfo(user.getId(), username, false, "密码输入错误" + errorNumber + "次");
+                recordLoginInfo(userId, username, false, "密码输入错误" + errorNumber + "次");
                 throw new AuthException("密码输入错误" + errorNumber + "次");
             }
         }
-
         // 登录成功 清空错误次数
         RedisUtil.delete(key);
-
-        // 此处可根据登录用户的数据不同 自行创建 loginUser
-        LoginUser loginUser = new LoginUser();
-        loginUser.setId(user.getId());
-        loginUser.setDeptId(user.getDeptId());
-        loginUser.setUsername(user.getUsername());
-        LoginHelper.login(loginUser);
-        recordLoginInfo(user.getId(), username, true, "登录成功");
+        UserInfo userInfo = new UserInfo(
+            userId,
+            user,
+            permissionService.getMenuPermission(userId),
+            permissionService.getRolePermission(userId)
+        );
+        LoginHelper.login(userInfo);
+        recordLoginInfo(userId, username, true, "登录成功");
         return new LoginResp(StpUtil.getTokenValue());
     }
 

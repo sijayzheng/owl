@@ -122,4 +122,11 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
         return list(query(sysDept));
     }
 
+    public String getDeptNameById(Long deptId) {
+        QueryWrapper wrapper = query()
+            .select(SYS_DEPT.DEPT_NAME)
+            .from(SYS_DEPT)
+            .where(SYS_DEPT.ID.eq(deptId));
+        return Objects.requireNonNull(getOne(wrapper)).getDeptName();
+    }
 }

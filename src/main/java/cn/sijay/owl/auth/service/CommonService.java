@@ -1,11 +1,10 @@
 package cn.sijay.owl.auth.service;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.sijay.owl.auth.entity.Meta;
 import cn.sijay.owl.auth.entity.Route;
 import cn.sijay.owl.auth.entity.UserInfo;
-import cn.sijay.owl.auth.util.LoginHelper;
 import cn.sijay.owl.common.enums.MenuType;
+import cn.sijay.owl.common.utils.LoginHelper;
 import cn.sijay.owl.common.utils.StringUtil;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.entity.SysRole;
@@ -52,12 +51,7 @@ public class CommonService {
     }
 
     public UserInfo getUserInfo() {
-        UserInfo userInfo = new UserInfo();
-        long id = StpUtil.getLoginIdAsLong();
-        userInfo.setUser(sysUserService.getById(id));
-        userInfo.setRoles(new String[]{"root"});
-        userInfo.setPermissions(new String[]{"*:*:*"});
-        return userInfo;
+        return LoginHelper.getUserInfo();
     }
 
     private List<Route> buildMenus(List<SysMenu> menus) {

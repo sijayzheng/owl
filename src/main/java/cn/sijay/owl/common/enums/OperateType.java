@@ -25,7 +25,7 @@ public enum OperateType {
     FORCE("强退"),
     LOGIN("登录"),
     LOGOUT("登出"),
-    GEN_CODE("代码生成"),
+    GEN("生成"),
     CLEAN("数据清空"),
     ;
     private final String description;

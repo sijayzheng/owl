@@ -51,7 +51,7 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUser> implemen
         QueryWrapper query = query();
         query.and(SYS_USER.DEPT_ID.eq(sysUser.getDeptId()));
         query.and(SYS_USER.USERNAME.like(sysUser.getUsername()));
-        query.and(SYS_USER.NICKNAME.like(sysUser.getNickname()));
+        query.and(SYS_USER.REALNAME.like(sysUser.getRealname()));
         query.and(SYS_USER.ENABLED.eq(sysUser.getEnabled()));
         return query;
     }

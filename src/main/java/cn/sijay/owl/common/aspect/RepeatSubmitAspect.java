@@ -2,6 +2,7 @@ package cn.sijay.owl.common.aspect;
 
 import cn.dev33.satoken.SaManager;
 import cn.sijay.owl.common.annotations.RepeatSubmit;
+import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.exceptions.BaseException;
 import cn.sijay.owl.common.utils.JsonUtil;
@@ -56,7 +57,7 @@ public class RepeatSubmitAspect {
 
         submitKey = SmUtil.sm3Hash(submitKey + ":" + nowParams);
         // 唯一标识（指定key + url + 消息头）
-        String cacheRepeatKey = "REPEAT_SUBMIT_KEY" + url + submitKey;
+        String cacheRepeatKey = RedisPrefix.REPEAT_SUBMIT_KEY + url + submitKey;
         RedisUtil.set(cacheRepeatKey, "", interval);
         KEY_CACHE.set(cacheRepeatKey);
     }

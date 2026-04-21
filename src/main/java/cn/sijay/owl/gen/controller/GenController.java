@@ -65,8 +65,8 @@ public class GenController extends BaseController {
     @SaCheckPermission("gen:gen:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除代码生成表")
-    public Result<Boolean> remove(@PathVariable Long id) {
-        return result(tableService.removeById(id), OperateType.DELETE);
+    public Result<Boolean> remove(List<Long> ids) {
+        return result(tableService.removeByIds(ids), OperateType.DELETE);
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.QUERY)
@@ -86,12 +86,12 @@ public class GenController extends BaseController {
         return success(OperateType.IMPORT);
     }
 
-    @AccessLog(title = "代码生成", operateType = OperateType.GEN_CODE)
+    @AccessLog(title = "代码生成", operateType = OperateType.GEN)
     @SaCheckPermission("gen:gen:genCode")
     @PostMapping("/generate/{id}")
     @Operation(summary = "生成代码")
     public Result<Boolean> generateCode(@PathVariable Long id) {
         genService.generateCode(id);
-        return success(OperateType.GEN_CODE);
+        return success(OperateType.GEN);
     }
 }

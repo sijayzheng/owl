@@ -1,7 +1,8 @@
 package cn.sijay.owl.auth.entity;
 
 import cn.sijay.owl.system.entity.SysUser;
-import lombok.Data;
+
+import java.util.Set;
 
 /**
  * UserInfo
@@ -9,10 +10,11 @@ import lombok.Data;
  * @author sijay
  * @since 2026-04-14
  */
-@Data
-public class UserInfo {
-    private SysUser user;
-    private String[] permissions;
-    private String[] roles;
-}
+public record UserInfo(
+    Long userId,
+    SysUser user,
+    Set<String> permissions,
+    Set<String> roles
+) {
 
+}

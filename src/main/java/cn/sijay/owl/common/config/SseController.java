@@ -2,10 +2,10 @@ package cn.sijay.owl.common.config;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.sijay.owl.auth.util.LoginHelper;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.entity.SseMessage;
 import cn.sijay.owl.common.handler.SseHandler;
+import cn.sijay.owl.common.utils.LoginHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.http.MediaType;
