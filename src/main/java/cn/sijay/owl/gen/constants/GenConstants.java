@@ -16,12 +16,9 @@ public interface GenConstants {
         "controller.java",
         "entity.java",
         "mapper.java",
-//                "req.java",
-//                "resp.java",
         "service.java",
-//                "api.ts",
-//                "types.ts",
-//                "dialog.vue",
+        "api.ts",
+        "types.ts",
         "sql"
     );
 }

@@ -22,6 +22,7 @@ export interface ${className}Query {
   ${column.javaField}?: ${column.javaType.tsType}
     </#if>
 </#list>
+}
 
 export interface ${className}Form {
 <#list columns?filter(item -> item.editable) as column>
@@ -29,5 +30,3 @@ export interface ${className}Form {
   ${column.javaField}?: ${column.javaType.tsType}
 </#list>
 }
-
-

@@ -2,6 +2,13 @@ import {createAlova} from 'alova'
 import VueHook from 'alova/vue'
 import adapterFetch from 'alova/fetch'
 import {ElMessage} from 'element-plus'
+import {createClientTokenAuthentication} from 'alova/client'
+
+const {onAuthRequired} = createClientTokenAuthentication({
+  assignToken: method => {
+    method.config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
+  }
+})
 
 const alovaInstance = createAlova({
   baseURL: '/api',
@@ -9,6 +16,7 @@ const alovaInstance = createAlova({
   statesHook: VueHook,
   requestAdapter: adapterFetch(),
   cacheFor: null,
+  beforeRequest: onAuthRequired(),
   responded: {
     onSuccess: async (response, method) => {
       if (response.status >= 400) {

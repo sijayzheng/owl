@@ -1,4 +1,4 @@
-export const GenApi = {
+export const genApi = {
   /**
    * 查询代码生成表列表
    */

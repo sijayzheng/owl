@@ -11,8 +11,6 @@ import {defineConfig} from 'vite'
 import compression from 'vite-plugin-compression'
 import progress from 'vite-plugin-progress'
 import {fileURLToPath} from 'node:url'
-import {VueRouterAutoImports} from 'vue-router/unplugin'
-import VueRouter from 'vue-router/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -22,12 +20,11 @@ export default defineConfig({
     },
   },
   plugins: [
-    VueRouter(),
     vue(),
     vueJsx(),
     UnoCSS(),
     AutoImport({
-      imports: ['vue', VueRouterAutoImports, 'pinia', '@vueuse/core'],
+      imports: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
       resolvers: [
         ElementPlusResolver(),
         IconsResolver({prefix: 'Icon'}),
@@ -37,7 +34,8 @@ export default defineConfig({
         'src/api/**',
         'src/utils/**',
         'src/composables/**',
-        'src/stores/**',
+        'src/hooks/**',
+        'src/store/**',
         {
           glob: 'src/types/**',
           types: true
@@ -69,6 +67,17 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    port: 9527,
+    cors: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9528',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
+  },
   build: {
     chunkSizeWarningLimit: 1000,
     modulePreload: false,
@@ -82,6 +91,10 @@ export default defineConfig({
       '@vueuse/core',
       'element-plus',
       '@element-plus/icons-vue',
+      'alova',
+      'alova/fetch',
+      'alova/vue',
+      'element-plus/es/components/message/style/index',
       'echarts',
       'vxe-table',
       'dayjs',
@@ -104,7 +117,11 @@ export default defineConfig({
       'element-plus/es/components/menu/style/index',
       'element-plus/es/components/scrollbar/style/index',
       'element-plus/es/components/sub-menu/style/index',
-      'element-plus/es/components/tag/style/index'
+      'element-plus/es/components/tag/style/index',
+      'element-plus/es/components/button/style/index',
+      'element-plus/es/components/form-item/style/index',
+      'element-plus/es/components/form/style/index',
+      'element-plus/es/components/input/style/index',
     ],
   },
 })

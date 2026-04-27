@@ -6,11 +6,33 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const AuthApi: typeof import('./src/api/auth/index').AuthApi
   const EffectScope: typeof import('vue').EffectScope
+  const FileOssStorageApi: typeof import('./src/api/file/fileOssStorage').FileOssStorageApi
+  const FileStorageApi: typeof import('./src/api/file/fileStorage').FileStorageApi
   const GenApi: typeof import('./src/api/gen/genApi').GenApi
+  const LogAccessApi: typeof import('./src/api/log/logAccess').LogAccessApi
+  const LogLoginApi: typeof import('./src/api/log/logLogin').LogLoginApi
+  const LogTaskApi: typeof import('./src/api/log/logTask').LogTaskApi
+  const SysConfigApi: typeof import('./src/api/system/sysConfig').SysConfigApi
+  const SysDeptApi: typeof import('./src/api/system/sysDept').SysDeptApi
+  const SysDictDataApi: typeof import('./src/api/system/sysDictData').SysDictDataApi
+  const SysDictTypeApi: typeof import('./src/api/system/sysDictType').SysDictTypeApi
+  const SysMenuApi: typeof import('./src/api/system/sysMenu').SysMenuApi
+  const SysMessageApi: typeof import('./src/api/system/sysMessage').SysMessageApi
+  const SysNoticeApi: typeof import('./src/api/system/sysNotice').SysNoticeApi
+  const SysPostApi: typeof import('./src/api/system/sysPost').SysPostApi
+  const SysRoleApi: typeof import('./src/api/system/sysRole').SysRoleApi
+  const SysTaskApi: typeof import('./src/api/system/sysTask').SysTaskApi
+  const SysUserApi: typeof import('./src/api/system/sysUser').SysUserApi
+  const SysUserMfaRecoveryCodesApi: typeof import('./src/api/system/sysUserMfaRecoveryCodes').SysUserMfaRecoveryCodesApi
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
+  const authApi: typeof import('./src/api/auth/authApi').authApi
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
+  const calculateBestTextColor: typeof import('./src/utils/color').calculateBestTextColor
+  const colorIsDark: typeof import('./src/utils/color').colorIsDark
+  const commonApi: typeof import('./src/api/auth/commonApi').commonApi
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
   const computedEager: typeof import('@vueuse/core').computedEager
@@ -19,6 +41,7 @@ declare global {
   const controlledComputed: typeof import('@vueuse/core').controlledComputed
   const controlledRef: typeof import('@vueuse/core').controlledRef
   const createApp: typeof import('vue').createApp
+  const createCustomNameComponent: typeof import('./src/store/permissionStore').createCustomNameComponent
   const createEventHook: typeof import('@vueuse/core').createEventHook
   const createGlobalState: typeof import('@vueuse/core').createGlobalState
   const createInjectionState: typeof import('@vueuse/core').createInjectionState
@@ -30,6 +53,7 @@ declare global {
   const createTemplatePromise: typeof import('@vueuse/core').createTemplatePromise
   const createUnrefFn: typeof import('@vueuse/core').createUnrefFn
   const customRef: typeof import('vue').customRef
+  const darken: typeof import('./src/utils/color').darken
   const debouncedRef: typeof import('@vueuse/core').debouncedRef
   const debouncedWatch: typeof import('@vueuse/core').debouncedWatch
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
@@ -39,21 +63,35 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const extendRef: typeof import('@vueuse/core').extendRef
+  const filterDynamicRoutes: typeof import('./src/store/permissionStore').filterDynamicRoutes
+  const findIndex: typeof import('./src/utils/index').findIndex
+  const firstUpperCase: typeof import('./src/utils/index').firstUpperCase
+  const formatTime: typeof import('./src/utils/index').formatTime
+  const genApi: typeof import('./src/api/gen/genApi').genApi
   const getActivePinia: typeof import('pinia').getActivePinia
+  const getCssVar: typeof import('./src/utils/index').getCssVar
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
+  const getToken: typeof import('./src/utils/auth').getToken
   const h: typeof import('vue').h
+  const hexToRGB: typeof import('./src/utils/color').hexToRGB
+  const humpToDash: typeof import('./src/utils/index').humpToDash
+  const humpToUnderline: typeof import('./src/utils/index').humpToUnderline
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
   const inject: typeof import('vue').inject
   const injectLocal: typeof import('@vueuse/core').injectLocal
   const isDark: typeof import('./src/composables/dark').isDark
   const isDefined: typeof import('@vueuse/core').isDefined
+  const isHexColor: typeof import('./src/utils/color').isHexColor
+  const isHttp: typeof import('./src/utils/index').isHttp
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
   const isReadonly: typeof import('vue').isReadonly
   const isRef: typeof import('vue').isRef
   const isShallow: typeof import('vue').isShallow
+  const lighten: typeof import('./src/utils/color').lighten
+  const loadView: typeof import('./src/store/permissionStore').loadView
   const makeDestructurable: typeof import('@vueuse/core').makeDestructurable
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
@@ -61,7 +99,9 @@ declare global {
   const mapStores: typeof import('pinia').mapStores
   const mapWritableState: typeof import('pinia').mapWritableState
   const markRaw: typeof import('vue').markRaw
+  const mix: typeof import('./src/utils/color').mix
   const nextTick: typeof import('vue').nextTick
+  const objToFormData: typeof import('./src/utils/index').objToFormData
   const onActivated: typeof import('vue').onActivated
   const onBeforeMount: typeof import('vue').onBeforeMount
   const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
@@ -100,21 +140,27 @@ declare global {
   const refManualReset: typeof import('@vueuse/core').refManualReset
   const refThrottled: typeof import('@vueuse/core').refThrottled
   const refWithControl: typeof import('@vueuse/core').refWithControl
+  const removeToken: typeof import('./src/utils/auth').removeToken
   const request: typeof import('./src/utils/request').default
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
+  const rgbToHex: typeof import('./src/utils/color').rgbToHex
   const scssD: typeof import('./src/types/scss.d').default
   const setActivePinia: typeof import('pinia').setActivePinia
+  const setCssVar: typeof import('./src/utils/index').setCssVar
   const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
+  const setToken: typeof import('./src/utils/auth').setToken
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
   const storeToRefs: typeof import('pinia').storeToRefs
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
+  const sysUserApi: typeof import('./src/api/system/sysUserApi').sysUserApi
   const templateRef: typeof import('@vueuse/core').templateRef
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
+  const toAnyString: typeof import('./src/utils/index').toAnyString
   const toRaw: typeof import('vue').toRaw
   const toReactive: typeof import('@vueuse/core').toReactive
   const toRef: typeof import('vue').toRef
@@ -122,16 +168,19 @@ declare global {
   const toValue: typeof import('vue').toValue
   const toggleDark: typeof import('./src/composables/dark').toggleDark
   const triggerRef: typeof import('vue').triggerRef
+  const trim: typeof import('./src/utils/index').trim
   const tryOnBeforeMount: typeof import('@vueuse/core').tryOnBeforeMount
   const tryOnBeforeUnmount: typeof import('@vueuse/core').tryOnBeforeUnmount
   const tryOnMounted: typeof import('@vueuse/core').tryOnMounted
   const tryOnScopeDispose: typeof import('@vueuse/core').tryOnScopeDispose
   const tryOnUnmounted: typeof import('@vueuse/core').tryOnUnmounted
+  const underlineToHump: typeof import('./src/utils/index').underlineToHump
   const unref: typeof import('vue').unref
   const unrefElement: typeof import('@vueuse/core').unrefElement
   const until: typeof import('@vueuse/core').until
   const useActiveElement: typeof import('@vueuse/core').useActiveElement
   const useAnimate: typeof import('@vueuse/core').useAnimate
+  const useAppStore: typeof import('./src/store/appStore').useAppStore
   const useArrayDifference: typeof import('@vueuse/core').useArrayDifference
   const useArrayEvery: typeof import('@vueuse/core').useArrayEvery
   const useArrayFilter: typeof import('@vueuse/core').useArrayFilter
@@ -161,6 +210,7 @@ declare global {
   const useConfirmDialog: typeof import('@vueuse/core').useConfirmDialog
   const useCountdown: typeof import('@vueuse/core').useCountdown
   const useCounter: typeof import('@vueuse/core').useCounter
+  const useCounterStore: typeof import('./src/store/counterStore').useCounterStore
   const useCssModule: typeof import('vue').useCssModule
   const useCssSupports: typeof import('@vueuse/core').useCssSupports
   const useCssVar: typeof import('@vueuse/core').useCssVar
@@ -208,7 +258,8 @@ declare global {
   const useIntervalFn: typeof import('@vueuse/core').useIntervalFn
   const useKeyModifier: typeof import('@vueuse/core').useKeyModifier
   const useLastChanged: typeof import('@vueuse/core').useLastChanged
-  const useLayoutStore: typeof import('./src/stores/layout').useLayoutStore
+  const useLayoutStore: typeof import('./src/store/layoutStore').useLayoutStore
+  const useLink: typeof import('vue-router').useLink
   const useLocalStorage: typeof import('@vueuse/core').useLocalStorage
   const useMagicKeys: typeof import('@vueuse/core').useMagicKeys
   const useManualRefHistory: typeof import('@vueuse/core').useManualRefHistory
@@ -222,6 +273,7 @@ declare global {
   const useMouseInElement: typeof import('@vueuse/core').useMouseInElement
   const useMousePressed: typeof import('@vueuse/core').useMousePressed
   const useMutationObserver: typeof import('@vueuse/core').useMutationObserver
+  const useNProgress: typeof import('./src/hooks/useNProgress').useNProgress
   const useNavigatorLanguage: typeof import('@vueuse/core').useNavigatorLanguage
   const useNetwork: typeof import('@vueuse/core').useNetwork
   const useNow: typeof import('@vueuse/core').useNow
@@ -229,10 +281,13 @@ declare global {
   const useOffsetPagination: typeof import('@vueuse/core').useOffsetPagination
   const useOnline: typeof import('@vueuse/core').useOnline
   const usePageLeave: typeof import('@vueuse/core').usePageLeave
+  const usePageLoading: typeof import('./src/hooks/usePageLoading').usePageLoading
   const useParallax: typeof import('@vueuse/core').useParallax
   const useParentElement: typeof import('@vueuse/core').useParentElement
   const usePerformanceObserver: typeof import('@vueuse/core').usePerformanceObserver
   const usePermission: typeof import('@vueuse/core').usePermission
+  const usePermissionStore: typeof import('./src/store/permissionStore').usePermissionStore
+  const usePermissionStoreHook: typeof import('./src/store/permissionStore').usePermissionStoreHook
   const usePointer: typeof import('@vueuse/core').usePointer
   const usePointerLock: typeof import('@vueuse/core').usePointerLock
   const usePointerSwipe: typeof import('@vueuse/core').usePointerSwipe
@@ -266,7 +321,7 @@ declare global {
   const useStyleTag: typeof import('@vueuse/core').useStyleTag
   const useSupported: typeof import('@vueuse/core').useSupported
   const useSwipe: typeof import('@vueuse/core').useSwipe
-  const useTagViewStore: typeof import('./src/stores/tagView').useTagViewStore
+  const useTagViewStore: typeof import('./src/store/tagViewStore').useTagViewStore
   const useTemplateRef: typeof import('vue').useTemplateRef
   const useTemplateRefsList: typeof import('@vueuse/core').useTemplateRefsList
   const useTextDirection: typeof import('@vueuse/core').useTextDirection
@@ -288,6 +343,7 @@ declare global {
   const useTransition: typeof import('@vueuse/core').useTransition
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
   const useUserMedia: typeof import('@vueuse/core').useUserMedia
+  const useUserStore: typeof import('./src/store/userStore').useUserStore
   const useVModel: typeof import('@vueuse/core').useVModel
   const useVModels: typeof import('@vueuse/core').useVModels
   const useVibrate: typeof import('@vueuse/core').useVibrate
@@ -320,15 +376,69 @@ declare global {
 // for type re-export
 declare global {
   // @ts-ignore
-  export type {Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef} from 'vue'
+  export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
-  export type {GenColumn} from './src/types/gen/genColumn'
+  export type { LoginReq, LoginResp, PasswordChangeForm, UserInfo, Meta, Route, Captcha } from './src/types/auth'
+  import('./src/types/auth')
+  // @ts-ignore
+  export type { FileOssStorage, FileOssStorageQuery, FileOssStorageForm } from './src/types/file/fileOssStorage'
+  import('./src/types/file/fileOssStorage')
+  // @ts-ignore
+  export type { FileStorage, FileStorageQuery, FileStorageForm } from './src/types/file/fileStorage'
+  import('./src/types/file/fileStorage')
+  // @ts-ignore
+  export type { GenColumn } from './src/types/gen/genColumn'
   import('./src/types/gen/genColumn')
   // @ts-ignore
-  export type {GenTable, GenTableQuery} from './src/types/gen/genTable'
+  export type { GenTable, GenTableQuery } from './src/types/gen/genTable'
   import('./src/types/gen/genTable')
   // @ts-ignore
-  export type {TagView} from './src/types/layout'
+  export type { TagView } from './src/types/layout'
   import('./src/types/layout')
+  // @ts-ignore
+  export type { LogAccess, LogAccessQuery, LogAccessForm } from './src/types/log/logAccess'
+  import('./src/types/log/logAccess')
+  // @ts-ignore
+  export type { LogLogin, LogLoginQuery, LogLoginForm } from './src/types/log/logLogin'
+  import('./src/types/log/logLogin')
+  // @ts-ignore
+  export type { LogTask, LogTaskQuery, LogTaskForm } from './src/types/log/logTask'
+  import('./src/types/log/logTask')
+  // @ts-ignore
+  export type { SysConfig, SysConfigQuery, SysConfigForm } from './src/types/system/sysConfig'
+  import('./src/types/system/sysConfig')
+  // @ts-ignore
+  export type { SysDept, SysDeptQuery, SysDeptForm } from './src/types/system/sysDept'
+  import('./src/types/system/sysDept')
+  // @ts-ignore
+  export type { SysDictData, SysDictDataQuery, SysDictDataForm } from './src/types/system/sysDictData'
+  import('./src/types/system/sysDictData')
+  // @ts-ignore
+  export type { SysDictType, SysDictTypeQuery, SysDictTypeForm } from './src/types/system/sysDictType'
+  import('./src/types/system/sysDictType')
+  // @ts-ignore
+  export type { SysMenu, SysMenuQuery, SysMenuForm } from './src/types/system/sysMenu'
+  import('./src/types/system/sysMenu')
+  // @ts-ignore
+  export type { SysMessage, SysMessageQuery, SysMessageForm } from './src/types/system/sysMessage'
+  import('./src/types/system/sysMessage')
+  // @ts-ignore
+  export type { SysNotice, SysNoticeQuery, SysNoticeForm } from './src/types/system/sysNotice'
+  import('./src/types/system/sysNotice')
+  // @ts-ignore
+  export type { SysPost, SysPostQuery, SysPostForm } from './src/types/system/sysPost'
+  import('./src/types/system/sysPost')
+  // @ts-ignore
+  export type { SysRole, SysRoleQuery, SysRoleForm } from './src/types/system/sysRole'
+  import('./src/types/system/sysRole')
+  // @ts-ignore
+  export type { SysTask, SysTaskQuery, SysTaskForm } from './src/types/system/sysTask'
+  import('./src/types/system/sysTask')
+  // @ts-ignore
+  export type { SysUser, SysUserQuery, SysUserForm } from './src/types/system/sysUser'
+  import('./src/types/system/sysUser')
+  // @ts-ignore
+  export type { SysUserMfaRecoveryCodes, SysUserMfaRecoveryCodesQuery, SysUserMfaRecoveryCodesForm } from './src/types/system/sysUserMfaRecoveryCodes'
+  import('./src/types/system/sysUserMfaRecoveryCodes')
 }

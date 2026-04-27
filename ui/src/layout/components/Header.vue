@@ -69,7 +69,6 @@
   </div>
 </template>
 <script setup lang="ts">
-
 import {ArrowDown, Bell, Expand, Fold, Moon, Sunny, SwitchButton, User} from '@element-plus/icons-vue'
 
 const route = useRoute()
@@ -104,7 +103,7 @@ const handleCommand = (command: string) => {
 }
 
 const handleLogout = () => {
-  console.log('logout')
+  useUserStore().logout()
 }
 </script>
 <style scoped lang="scss">

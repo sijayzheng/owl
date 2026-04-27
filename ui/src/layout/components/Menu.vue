@@ -8,7 +8,6 @@
   </el-menu>
 </template>
 <script setup lang="ts">
-import {type RouteRecordRaw, useRoute, useRouter} from 'vue-router'
 import MenuSubMenu from './MenuSubMenu.vue'
 
 const route = useRoute()
@@ -16,28 +15,7 @@ const router = useRouter()
 const layoutStore = useLayoutStore()
 
 const isCollapse = computed(() => layoutStore.isCollapse)
-const menuRoutes = ref<RouteRecordRaw[]>([])
-
-const getMenuRoutes = (routes: RouteRecordRaw[]) => {
-  return routes
-    .filter(route => route.path && !route.path.startsWith('http'))
-    .map(route => {
-      if (route.path === '') {
-        return route.children || []
-      }
-      return [route]
-    })
-    .flat()
-    .filter(route => !route.meta?.hidden)
-}
-
-watch(
-  () => router.options.routes,
-  (routes) => {
-    menuRoutes.value = getMenuRoutes(routes)
-  },
-  {immediate: true}
-)
+const menuRoutes = computed(() => usePermissionStore().getSideBarRoutes())
 
 const handleSelect = (index: string) => {
   router.push(index)

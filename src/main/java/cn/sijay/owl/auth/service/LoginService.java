@@ -77,11 +77,15 @@ public class LoginService {
     }
 
     public void logout() {
-        SysUser user = sysUserService.getById(StpUtil.getLoginIdAsLong());
-        if (user == null) {
-            throw new AuthException("用户不存在");
+        try {
+            SysUser user = sysUserService.getById(StpUtil.getLoginIdAsLong());
+            if (user == null) {
+                throw new AuthException("用户不存在");
+            }
+            recordLoginInfo(user.getId(), user.getUsername(), true, "退出成功");
+        } catch (Exception ignore) {
+
         }
-        recordLoginInfo(user.getId(), user.getUsername(), true, "退出成功");
         StpUtil.logout();
     }
 

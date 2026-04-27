@@ -15,6 +15,7 @@ import cn.sijay.owl.common.utils.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @author sijay
  * @since 2026-04-14
  */
+@Slf4j
 @SaIgnore
 @Valid
 @RequiredArgsConstructor
@@ -59,6 +61,7 @@ public class AuthController extends BaseController {
     @GetMapping("/captcha")
     public Result<Captcha> captcha() {
         Captcha captcha = CaptchaUtil.generateCaptcha();
+        log.info("{},验证码: {}", captcha.uuid(), captcha.code());
         RedisUtil.set(RedisPrefix.CAPTCHA_KEY + captcha.uuid(), captcha.code(), 60);
         return success(captcha);
     }

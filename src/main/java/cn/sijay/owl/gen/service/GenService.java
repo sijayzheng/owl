@@ -162,17 +162,16 @@ public class GenService {
 
         String rootPath = System.getProperty("user.dir");
         String javaPath = FileUtil.joinPath(rootPath, "src", "main", "java", genProperties.getPackageName().replace('.', File.separatorChar), moduleName);
-        String vuePath = FileUtil.joinPath(rootPath, "vue", "src");
+        String vuePath = FileUtil.joinPath(rootPath, "ui", "src");
         try {
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
             FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + ".ts"), codeMap.get("api.ts"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + ".ts"), codeMap.get("types.ts"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "pages", moduleName, functionName + ".vue"), codeMap.get("index.vue"));
-//            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "pages", moduleName, functionName + "Form.vue"), codeMap.get("dialog.vue"));
+            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + ".ts"), codeMap.get("api.ts"));
+            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + ".ts"), codeMap.get("types.ts"));
+            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, className + ".vue"), codeMap.get("index.vue"));
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException(getClass(), "渲染模板失败，表名：" + table.getTableName());
@@ -188,7 +187,7 @@ public class GenService {
         for (String template : GenConstants.TEMPLATES) {
             codes.put(template, processTemplate(template + ".ftl", data));
         }
-//        codes.put("index.vue", processTemplate("index" + (isTree ? "-tree" : "") + ".ftl", data));
+        codes.put("index.vue", processTemplate("index" + (isTree ? "-tree" : "") + ".vue.ftl", data));
         return codes;
     }
 
