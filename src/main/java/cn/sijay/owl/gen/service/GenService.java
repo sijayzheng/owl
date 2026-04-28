@@ -169,8 +169,8 @@ public class GenService {
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
             FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + ".ts"), codeMap.get("api.ts"));
-            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + ".ts"), codeMap.get("types.ts"));
+            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
+            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + "Types.ts"), codeMap.get("types.ts"));
             FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, className + ".vue"), codeMap.get("index.vue"));
         } catch (Exception e) {
             e.printStackTrace();

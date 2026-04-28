@@ -40,7 +40,7 @@ public class AuthController extends BaseController {
         String captchaKey = RedisPrefix.CAPTCHA_KEY + loginReq.uuid();
         String storedCaptcha = RedisUtil.get(captchaKey);
         if (storedCaptcha == null) {
-            return fail("验证码已过期或不存在");
+            return fail("验证码已过期");
         }
         if (!storedCaptcha.equalsIgnoreCase(loginReq.captcha())) {
             return fail("验证码输入错误");

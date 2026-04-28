@@ -4,7 +4,7 @@
       <template #header>
         <div class="logo-section">
           <div class="logo-icon">
-            <img src="@/assets/logo.png" alt="logo">
+            <img style="width: 64px" src="@/assets/logo.png" alt="logo">
           </div>
           <div class="logo-text">OWL</div>
         </div>
@@ -31,6 +31,7 @@
 
   </div>
 </template>
+
 <script setup lang="ts">
 const userStore = useUserStore()
 const loginFormData = ref<LoginReq>({
@@ -72,16 +73,6 @@ onMounted(() => {
 
     .logo-section {
       text-align: center;
-      margin-bottom: 28px;
-
-      .logo-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 52px;
-        height: 52px;
-        margin-bottom: 12px;
-      }
 
       .logo-text {
         font-size: 22px;
