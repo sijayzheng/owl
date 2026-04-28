@@ -18,7 +18,8 @@ import java.util.Random;
 public class CaptchaUtil {
     private static final int WIDTH = 120;
     private static final int HEIGHT = 40;
-    private static final String CHAR_SET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    //    private static final String CHAR_SET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    private static final String CHAR_SET = "0123456789";
 
     /**
      * 生成验证码对象，包含图片 Base64 和明文文本

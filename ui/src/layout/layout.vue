@@ -60,8 +60,8 @@ $transition-duration: 0.3s;
       overflow: hidden;
 
       .logo {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         flex-shrink: 0;
       }
 

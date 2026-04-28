@@ -100,7 +100,7 @@
 import {Moon, Sunny} from '@element-plus/icons-vue'
 import {isDark} from '@/composables/dark'
 import {ref} from 'vue'
-import LogoImg from '@/assets/logo.svg'
+import LogoImg from '@/assets/logo.png'
 
 const count = ref(0)
 </script>
