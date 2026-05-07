@@ -72,7 +72,7 @@ public class SysUser extends BaseEntity {
     private String gender;
 
     /**
-     * 头像地址
+     * 头像
      */
     @Column(value = "avatar", comment = "头像")
     private byte[] avatar;
