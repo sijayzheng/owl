@@ -9,7 +9,7 @@ export interface ${className} <#if hasBase>extends BaseEntity</#if> {
 </#list>
 }
 
-export interface ${className}Query {
+export interface ${className}Query extends PageQuery{
 <#list columns?filter(item -> item.queryable) as column>
     <#if column.queryType=='BETWEEN'>
   // ${column.columnComment}

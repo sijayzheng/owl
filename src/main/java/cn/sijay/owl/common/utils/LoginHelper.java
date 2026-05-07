@@ -21,7 +21,9 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginHelper {
 
-    public static final String USER_INFO = "userInfo";
+    static final String USER_INFO = "userInfo";
+    static final String USERNAME = "username";
+    static final String DEPT_ID = "deptId";
 
     /**
      * @param userInfo 登录用户信息
@@ -29,6 +31,8 @@ public class LoginHelper {
     public static void login(UserInfo userInfo) {
         StpUtil.login(userInfo.userId());
         StpUtil.getTokenSession().set(USER_INFO, userInfo);
+        StpUtil.getTokenSession().set(USERNAME, userInfo.user().getUsername());
+        StpUtil.getTokenSession().set(DEPT_ID, userInfo.user().getDeptId());
     }
 
     /**
@@ -78,9 +82,24 @@ public class LoginHelper {
     }
 
     /**
-     * 获取部门ID
+     * 获取用户名
      */
     public static String getUsername() {
-        return getUserInfo().user().getUsername();
+        SaSession session = StpUtil.getTokenSession();
+        if (ObjectUtils.isEmpty(session)) {
+            throw new AuthException("用户登录已过期");
+        }
+        return session.getModel(USERNAME, String.class);
+    }
+
+    /**
+     * 获取部门ID
+     */
+    public static String getDeptId() {
+        SaSession session = StpUtil.getTokenSession();
+        if (ObjectUtils.isEmpty(session)) {
+            throw new AuthException("用户登录已过期");
+        }
+        return session.getModel(DEPT_ID, String.class);
     }
 }

@@ -9,7 +9,7 @@ export interface SysConfig extends BaseEntity {
   configValue: string
 }
 
-export interface SysConfigQuery {
+export interface SysConfigQuery extends PageQuery {
   // 参数名称
   configName?: string
   // 参数键名

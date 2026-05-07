@@ -39,7 +39,7 @@ export interface SysTask extends BaseEntity {
   remark: string
 }
 
-export interface SysTaskQuery {
+export interface SysTaskQuery extends PageQuery {
   // 任务名称
   taskName?: string
 }

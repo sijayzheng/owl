@@ -27,7 +27,7 @@ export interface SysUser extends BaseEntity {
   deleted: boolean
 }
 
-export interface SysUserQuery {
+export interface SysUserQuery extends PageQuery {
   // 部门id
   deptId?: number
   // 用户账号

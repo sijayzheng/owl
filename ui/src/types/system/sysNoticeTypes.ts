@@ -13,7 +13,7 @@ export interface SysNotice extends BaseEntity {
   deleted: boolean
 }
 
-export interface SysNoticeQuery {
+export interface SysNoticeQuery extends PageQuery {
   // 公告标题
   noticeTitle?: string
   // 公告类型

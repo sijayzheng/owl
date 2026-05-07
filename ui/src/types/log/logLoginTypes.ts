@@ -1,4 +1,4 @@
-export interface LogLogin  {
+export interface LogLogin {
   // 主键
   id: number
   // 用户id
@@ -21,7 +21,7 @@ export interface LogLogin  {
   loginTime: string
 }
 
-export interface LogLoginQuery {
+export interface LogLoginQuery extends PageQuery {
   // 用户id
   userId?: number
   // 登录地址

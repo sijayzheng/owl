@@ -17,7 +17,7 @@ export interface FileStorage extends BaseEntity {
   deleted: boolean
 }
 
-export interface FileStorageQuery {
+export interface FileStorageQuery extends PageQuery {
   // 文件名
   fileName?: string
   // 原名

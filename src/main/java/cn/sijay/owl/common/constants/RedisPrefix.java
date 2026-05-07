@@ -12,4 +12,5 @@ public interface RedisPrefix {
     String INCORRECT_PASSWORD_KEY = "INCORRECT_PASSWORD:";
     String CAPTCHA_KEY = "CAPTCHA:";
     String USER_LOGIN_KEY = "USER_LOGIN_KEY:";
+    String ONLINE_TOKEN_KEY = "ONLINE_TOKEN_KEY:";
 }

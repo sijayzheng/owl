@@ -1,4 +1,4 @@
-export interface LogTask  {
+export interface LogTask {
   // 主键
   id: number
   // 关联的任务id
@@ -23,7 +23,7 @@ export interface LogTask  {
   createTime: string
 }
 
-export interface LogTaskQuery {
+export interface LogTaskQuery extends PageQuery {
   // 关联的任务id
   taskId?: number
   // 任务开始执行时间

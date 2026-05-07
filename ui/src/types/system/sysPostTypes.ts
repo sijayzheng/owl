@@ -17,7 +17,7 @@ export interface SysPost extends BaseEntity {
   deleted: boolean
 }
 
-export interface SysPostQuery {
+export interface SysPostQuery extends PageQuery {
   // 部门id
   deptId?: number
   // 岗位名称

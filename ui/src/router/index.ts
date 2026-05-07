@@ -1,8 +1,8 @@
-import type {RouteRecordRaw} from 'vue-router'
-import {createRouter, createWebHistory} from 'vue-router'
-import {ElMessage} from 'element-plus'
-import Layout from "@/layout/layout.vue";
-import {usePermissionStore} from "@/store/permissionStore";
+import type { RouteRecordRaw } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { createRouter, createWebHistory } from 'vue-router'
+import Layout from '@/layout/layout.vue'
+import { usePermissionStore } from '@/store/permissionStore'
 
 /**
  * 不重定向白名单
@@ -19,33 +19,33 @@ export const staticRouters: RouteRecordRaw[] = [
     children: [{
       path: 'index',
       name: 'Index',
-      component: () => import('@/views/Index.vue'),
-      meta: {title: '首页', icon: 'HomeFilled'}
-    }]
+      component: async () => import('@/views/Index.vue'),
+      meta: { title: '首页', icon: 'HomeFilled' },
+    }],
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/Login.vue'),
-    meta: {title: '登录', hidden: true}
+    component: async () => import('@/views/Login.vue'),
+    meta: { title: '登录', hidden: true },
   },
   {
     path: '/401',
     name: '401',
-    component: () => import('@/views/error/401.vue'),
-    meta: {title: '401', hidden: true}
+    component: async () => import('@/views/error/401.vue'),
+    meta: { title: '401', hidden: true },
   },
   {
     path: '/404',
     name: '404',
-    component: () => import('@/views/error/404.vue'),
-    meta: {title: '404', hidden: true}
+    component: async () => import('@/views/error/404.vue'),
+    meta: { title: '404', hidden: true },
   },
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
-    meta: {title: '404', hidden: true}
-  }
+    meta: { title: '404', hidden: true },
+  },
 ]
 
 const router = createRouter({
@@ -53,15 +53,14 @@ const router = createRouter({
   routes: [...staticRouters],
 })
 
-
 const {
   start,
-  done
+  done,
 } = useNProgress()
 
 const {
   loadStart,
-  loadDone
+  loadDone,
 } = usePageLoading()
 
 router.beforeEach(async (to, from) => {
@@ -69,7 +68,7 @@ router.beforeEach(async (to, from) => {
   loadStart()
   if (getToken()) {
     if (to.path === '/login') {
-      return {path: '/'}
+      return { path: '/' }
     } else if (NO_REDIRECT_WHITE_LIST.includes(to.path)) {
       return true
     } else {
@@ -78,13 +77,13 @@ router.beforeEach(async (to, from) => {
           await useUserStore().getUserInfo()
           const finalRoutes: RouteRecordRaw[] = await usePermissionStore().generateRoutes()
           finalRoutes.forEach((route) => {
-            router.addRoute(route);
-          });
+            router.addRoute(route)
+          })
           return to
         } catch (err) {
           await useUserStore().logout()
           ElMessage.error('用户信息获取失败')
-          return {path: '/'}
+          return { path: '/' }
         }
       } else {
         return true
@@ -103,7 +102,7 @@ router.beforeEach(async (to, from) => {
 })
 
 router.afterEach((to) => {
-  const title = import.meta.env.VITE_APP_TITLE
+  const title = import.meta.env.VITE_APP_TITLE as string
   const newTitle = to?.meta?.title as string
   useTitle(newTitle ? `${title} - ${newTitle}` : title, {
     restoreOnUnmount: false,

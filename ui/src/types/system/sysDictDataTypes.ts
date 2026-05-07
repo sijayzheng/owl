@@ -21,7 +21,7 @@ export interface SysDictData extends BaseEntity {
   enabled: boolean
 }
 
-export interface SysDictDataQuery {
+export interface SysDictDataQuery extends PageQuery {
   // 字典编码
   dictCode?: string
   // 字典标签

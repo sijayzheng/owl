@@ -37,10 +37,6 @@
         "removeComments": true,
         // 移除 ts注释
         "experimentalDecorators": true,
-        // 启用实验性的装饰器支持
-        "strictFunctionTypes": false,
-        // 禁用严格函数类型检查
-        "strictNullChecks": false,
         // 禁用严格的空值检查
         "allowSyntheticDefaultImports": true,
         // 允许默认导入

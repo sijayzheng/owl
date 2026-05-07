@@ -44,15 +44,15 @@ declare global {
   }
 
   interface BaseEntity {
-    //创建部门
+    // 创建部门
     createDept: number
-    //创建人
+    // 创建人
     createBy: number
-    //创建时间
+    // 创建时间
     createTime: string
-    //更新人
+    // 更新人
     updateBy: number
-    //更新时间
+    // 更新时间
     updateTime: string
   }
 }

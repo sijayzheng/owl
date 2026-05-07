@@ -57,7 +57,7 @@ export interface SysMenu extends BaseEntity {
   children: Array<SysMenu>
 }
 
-export interface SysMenuQuery {
+export interface SysMenuQuery extends PageQuery {
   // 菜单名称
   menuName?: string
   // 路由地址

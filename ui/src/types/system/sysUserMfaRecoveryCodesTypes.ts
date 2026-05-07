@@ -1,4 +1,4 @@
-export interface SysUserMfaRecoveryCodes  {
+export interface SysUserMfaRecoveryCodes {
   // 主键
   id: number
   // 用户id
@@ -13,7 +13,7 @@ export interface SysUserMfaRecoveryCodes  {
   createTime: string
 }
 
-export interface SysUserMfaRecoveryCodesQuery {
+export interface SysUserMfaRecoveryCodesQuery extends PageQuery {
 }
 
 export interface SysUserMfaRecoveryCodesForm {

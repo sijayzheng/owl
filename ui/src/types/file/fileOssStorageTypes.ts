@@ -19,7 +19,7 @@ export interface FileOssStorage extends BaseEntity {
   deleted: boolean
 }
 
-export interface FileOssStorageQuery {
+export interface FileOssStorageQuery extends PageQuery {
   // 文件名
   fileName?: string
   // 原名

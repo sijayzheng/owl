@@ -7,7 +7,7 @@ export interface SysDictType extends BaseEntity {
   typeCode: string
 }
 
-export interface SysDictTypeQuery {
+export interface SysDictTypeQuery extends PageQuery {
   // 字典名称
   typeName?: string
   // 字典编码

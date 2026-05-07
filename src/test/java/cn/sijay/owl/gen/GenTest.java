@@ -1,10 +1,12 @@
 package cn.sijay.owl.gen;
 
 import cn.sijay.owl.gen.service.GenService;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,10 +23,13 @@ public class GenTest {
 
     @Test
     public void importTable() {
-        genService.importTable(List.of(
-            "sys_user",
-            "sys_dept"
-        ));
+        List<String> list = Arrays.stream("""
+                                      """.split("\n"))
+                                  .map(StringUtils::trim)
+                                  .filter(StringUtils::isNotBlank)
+                                  .toList();
+
+        genService.importTable(list);
     }
 
     @Test

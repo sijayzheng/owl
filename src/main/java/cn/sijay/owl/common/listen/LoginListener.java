@@ -4,13 +4,19 @@ import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import cn.sijay.owl.auth.service.LoginService;
+import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.utils.LoginHelper;
 import cn.sijay.owl.common.utils.RedisUtil;
 import cn.sijay.owl.common.utils.SpringUtil;
 import cn.sijay.owl.log.entity.LogLogin;
+import cn.sijay.owl.system.entity.OnlineUser;
+import cn.sijay.owl.system.entity.SysDept;
+import cn.sijay.owl.system.service.SysDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
  * LoginListener
@@ -24,23 +30,26 @@ import org.springframework.stereotype.Component;
 public abstract class LoginListener implements SaTokenListener {
     private final SaTokenConfig tokenConfig;
     private final LoginService loginService;
+    private final SysDeptService deptService;
 
     /**
      * 每次登录时触发
      */
     @Override
     public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginParameter loginModel) {
-//        OnlineUser dto = new OnlineUser();
-//        dto.setLoginTime(System.currentTimeMillis());
-//        dto.setTokenId(tokenValue);
         String username = LoginHelper.getUsername();
-//        dto.setUserName(username);
-//        dto.setDeptName(LoginHelper.getDeptName());
-//        if (tokenConfig.getTimeout() == -1) {
-//            RedisUtil.set("ONLINE_TOKEN_KEY:" + tokenValue, dto);
-//        } else {
-//            RedisUtil.set("ONLINE_TOKEN_KEY:" + tokenValue, dto, tokenConfig.getTimeout());
-//        }
+        String deptName = deptService.getByIdOpt(LoginHelper.getDeptId()).orElse(new SysDept()).getDeptName();
+        OnlineUser dto = new OnlineUser(
+            username,
+            deptName,
+            tokenValue,
+            LocalDateTime.now()
+        );
+        if (tokenConfig.getTimeout() == -1) {
+            RedisUtil.set(RedisPrefix.ONLINE_TOKEN_KEY + tokenValue, dto);
+        } else {
+            RedisUtil.set(RedisPrefix.ONLINE_TOKEN_KEY + tokenValue, dto, tokenConfig.getTimeout());
+        }
         // 记录登录日志
         LogLogin logLogin = new LogLogin();
         logLogin.setUsername(username);
@@ -57,7 +66,7 @@ public abstract class LoginListener implements SaTokenListener {
      */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-        RedisUtil.delete("ONLINE_TOKEN_KEY:" + tokenValue);
+        RedisUtil.delete(RedisPrefix.ONLINE_TOKEN_KEY + tokenValue);
         log.info("用户退出, userId:{}, token:{}", loginId, tokenValue);
     }
 
@@ -66,7 +75,7 @@ public abstract class LoginListener implements SaTokenListener {
      */
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
-        RedisUtil.delete("ONLINE_TOKEN_KEY:" + tokenValue);
+        RedisUtil.delete(RedisPrefix.ONLINE_TOKEN_KEY + tokenValue);
         log.info("用户被踢下线, userId:{}, token:{}", loginId, tokenValue);
     }
 
@@ -75,7 +84,7 @@ public abstract class LoginListener implements SaTokenListener {
      */
     @Override
     public void doReplaced(String loginType, Object loginId, String tokenValue) {
-        RedisUtil.delete("ONLINE_TOKEN_KEY:" + tokenValue);
+        RedisUtil.delete(RedisPrefix.ONLINE_TOKEN_KEY + tokenValue);
         log.info("用户被顶下线, userId:{}, token:{}", loginId, tokenValue);
     }
 }

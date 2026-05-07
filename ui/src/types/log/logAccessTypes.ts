@@ -1,4 +1,4 @@
-export interface LogAccess  {
+export interface LogAccess {
   // 主键
   id: number
   // 用户id
@@ -33,7 +33,7 @@ export interface LogAccess  {
   costTime: number
 }
 
-export interface LogAccessQuery {
+export interface LogAccessQuery extends PageQuery {
   // 用户id
   userId?: number
   // 模块标题

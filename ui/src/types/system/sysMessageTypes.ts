@@ -17,7 +17,7 @@ export interface SysMessage extends BaseEntity {
   deleted: boolean
 }
 
-export interface SysMessageQuery {
+export interface SysMessageQuery extends PageQuery {
   // 消息标题
   messageTitle?: string
   // 已读

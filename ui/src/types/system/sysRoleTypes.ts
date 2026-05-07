@@ -19,7 +19,7 @@ export interface SysRole extends BaseEntity {
   deleted: boolean
 }
 
-export interface SysRoleQuery {
+export interface SysRoleQuery extends PageQuery {
   // 角色名称
   roleName?: string
 }

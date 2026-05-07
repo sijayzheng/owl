@@ -2,21 +2,21 @@ export const ${functionName}Api = {
 <#if isTree>
   // 查询${classComment}树形结构数据
   getTree() {
-    return request.get<Array<${className}>>('/${moduleName}/${path}/tree')
+    return request.get<${className}[]>('/${moduleName}/${path}/tree')
   },
 <#else>
   // 分页查询${classComment}列表
   page(data: ${className}Query) {
-    return request.page<Result<Array<${className}>>>('/${moduleName}/${path}/page', data)
+    return request.page<Result<${className}[]>>('/${moduleName}/${path}/page', data)
   },
 </#if>
   // 查询${classComment}列表
   list(data: ${className}Query) {
-    return request.get<Array<${className}>>('/${moduleName}/${path}/list', data)
+    return request.get<${className}[]>('/${moduleName}/${path}/list', data)
   },
   // 根据ID查询${classComment}详情
   getById(id: number) {
-    return request.get<${className}>('/${moduleName}/${path}/{id}')
+    return request.get<${className}>(`/${moduleName}/${path}/${r'$'}{id}`)
   },
   // 新增${classComment}
   add(data: ${className}Form) {

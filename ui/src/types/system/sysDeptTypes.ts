@@ -45,7 +45,7 @@ export interface SysDept extends BaseEntity {
   children: Array<SysDept>
 }
 
-export interface SysDeptQuery {
+export interface SysDeptQuery extends PageQuery {
   // 部门名称
   deptName?: string
   // 启用
