@@ -117,7 +117,7 @@ public class SysPostController extends BaseController {
     @SaCheckPermission("system:sysPost:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统岗位")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysPostService.removeByIds(ids), OperateType.DELETE);
     }
 

@@ -113,7 +113,7 @@ public class SysMenuController extends BaseController {
     @SaCheckPermission("system:sysMenu:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统菜单")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysMenuService.removeByIds(ids), OperateType.DELETE);
     }
 

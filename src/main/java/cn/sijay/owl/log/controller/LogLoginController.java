@@ -117,7 +117,7 @@ public class LogLoginController extends BaseController {
     @SaCheckPermission("log:logLogin:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除登录日志")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(logLoginService.removeByIds(ids), OperateType.DELETE);
     }
 

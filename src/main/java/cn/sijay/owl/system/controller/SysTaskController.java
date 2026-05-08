@@ -117,7 +117,7 @@ public class SysTaskController extends BaseController {
     @SaCheckPermission("system:sysTask:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除任务配置")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysTaskService.removeByIds(ids), OperateType.DELETE);
     }
 

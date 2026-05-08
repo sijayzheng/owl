@@ -117,7 +117,7 @@ public class SysDictDataController extends BaseController {
     @SaCheckPermission("system:sysDictData:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除字典数据")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysDictDataService.removeByIds(ids), OperateType.DELETE);
     }
 

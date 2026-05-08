@@ -117,7 +117,7 @@ public class SysNoticeController extends BaseController {
     @SaCheckPermission("system:sysNotice:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除通知公告")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysNoticeService.removeByIds(ids), OperateType.DELETE);
     }
 

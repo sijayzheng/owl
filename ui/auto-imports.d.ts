@@ -63,6 +63,8 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const extendRef: typeof import('@vueuse/core').extendRef
+  const fileOssStorageApi: typeof import('./src/api/file/fileOssStorageApi').fileOssStorageApi
+  const fileStorageApi: typeof import('./src/api/file/fileStorageApi').fileStorageApi
   const filterDynamicRoutes: typeof import('./src/store/permissionStore').filterDynamicRoutes
   const findIndex: typeof import('./src/utils/index').findIndex
   const firstUpperCase: typeof import('./src/utils/index').firstUpperCase
@@ -92,6 +94,9 @@ declare global {
   const isShallow: typeof import('vue').isShallow
   const lighten: typeof import('./src/utils/color').lighten
   const loadView: typeof import('./src/store/permissionStore').loadView
+  const logAccessApi: typeof import('./src/api/log/logAccessApi').logAccessApi
+  const logLoginApi: typeof import('./src/api/log/logLoginApi').logLoginApi
+  const logTaskApi: typeof import('./src/api/log/logTaskApi').logTaskApi
   const makeDestructurable: typeof import('@vueuse/core').makeDestructurable
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
@@ -156,7 +161,18 @@ declare global {
   const storeToRefs: typeof import('pinia').storeToRefs
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
+  const sysConfigApi: typeof import('./src/api/system/sysConfigApi').sysConfigApi
+  const sysDeptApi: typeof import('./src/api/system/sysDeptApi').sysDeptApi
+  const sysDictDataApi: typeof import('./src/api/system/sysDictDataApi').sysDictDataApi
+  const sysDictTypeApi: typeof import('./src/api/system/sysDictTypeApi').sysDictTypeApi
+  const sysMenuApi: typeof import('./src/api/system/sysMenuApi').sysMenuApi
+  const sysMessageApi: typeof import('./src/api/system/sysMessageApi').sysMessageApi
+  const sysNoticeApi: typeof import('./src/api/system/sysNoticeApi').sysNoticeApi
+  const sysPostApi: typeof import('./src/api/system/sysPostApi').sysPostApi
+  const sysRoleApi: typeof import('./src/api/system/sysRoleApi').sysRoleApi
+  const sysTaskApi: typeof import('./src/api/system/sysTaskApi').sysTaskApi
   const sysUserApi: typeof import('./src/api/system/sysUserApi').sysUserApi
+  const sysUserMfaRecoveryCodesApi: typeof import('./src/api/system/sysUserMfaRecoveryCodesApi').sysUserMfaRecoveryCodesApi
   const templateRef: typeof import('@vueuse/core').templateRef
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
@@ -382,11 +398,11 @@ declare global {
   export type { LoginReq, LoginResp, PasswordChangeForm, UserInfo, Meta, Route, Captcha } from './src/types/auth'
   import('./src/types/auth')
   // @ts-ignore
-  export type { FileOssStorage, FileOssStorageQuery, FileOssStorageForm } from './src/types/file/fileOssStorageType'
-  import('./src/types/file/fileOssStorageType')
+  export type { FileOssStorage, FileOssStorageQuery, FileOssStorageForm } from './src/types/file/fileOssStorageTypes'
+  import('./src/types/file/fileOssStorageTypes')
   // @ts-ignore
-  export type { FileStorage, FileStorageQuery, FileStorageForm } from './src/types/file/fileStorageType'
-  import('./src/types/file/fileStorageType')
+  export type { FileStorage, FileStorageQuery, FileStorageForm } from './src/types/file/fileStorageTypes'
+  import('./src/types/file/fileStorageTypes')
   // @ts-ignore
   export type { GenColumn } from './src/types/gen/genColumn'
   import('./src/types/gen/genColumn')
@@ -397,48 +413,48 @@ declare global {
   export type { TagView } from './src/types/layout'
   import('./src/types/layout')
   // @ts-ignore
-  export type { LogAccess, LogAccessQuery, LogAccessForm } from './src/types/log/logAccessType'
-  import('./src/types/log/logAccessType')
+  export type { LogAccess, LogAccessQuery, LogAccessForm } from './src/types/log/logAccessTypes'
+  import('./src/types/log/logAccessTypes')
   // @ts-ignore
-  export type { LogLogin, LogLoginQuery, LogLoginForm } from './src/types/log/logLoginType'
-  import('./src/types/log/logLoginType')
+  export type { LogLogin, LogLoginQuery, LogLoginForm } from './src/types/log/logLoginTypes'
+  import('./src/types/log/logLoginTypes')
   // @ts-ignore
-  export type { LogTask, LogTaskQuery, LogTaskForm } from './src/types/log/logTaskType'
-  import('./src/types/log/logTaskType')
+  export type { LogTask, LogTaskQuery, LogTaskForm } from './src/types/log/logTaskTypes'
+  import('./src/types/log/logTaskTypes')
   // @ts-ignore
-  export type { SysConfig, SysConfigQuery, SysConfigForm } from './src/types/system/sysConfigType'
-  import('./src/types/system/sysConfigType')
+  export type { SysConfig, SysConfigQuery, SysConfigForm } from './src/types/system/sysConfigTypes'
+  import('./src/types/system/sysConfigTypes')
   // @ts-ignore
-  export type { SysDept, SysDeptQuery, SysDeptForm } from './src/types/system/sysDeptType'
-  import('./src/types/system/sysDeptType')
+  export type { SysDept, SysDeptQuery, SysDeptForm } from './src/types/system/sysDeptTypes'
+  import('./src/types/system/sysDeptTypes')
   // @ts-ignore
-  export type { SysDictData, SysDictDataQuery, SysDictDataForm } from './src/types/system/sysDictDataType'
-  import('./src/types/system/sysDictDataType')
+  export type { SysDictData, SysDictDataQuery, SysDictDataForm } from './src/types/system/sysDictDataTypes'
+  import('./src/types/system/sysDictDataTypes')
   // @ts-ignore
-  export type { SysDictType, SysDictTypeQuery, SysDictTypeForm } from './src/types/system/sysDictTypeType'
-  import('./src/types/system/sysDictTypeType')
+  export type { SysDictType, SysDictTypeQuery, SysDictTypeForm } from './src/types/system/sysDictTypeTypes'
+  import('./src/types/system/sysDictTypeTypes')
   // @ts-ignore
-  export type { SysMenu, SysMenuQuery, SysMenuForm } from './src/types/system/sysMenuType'
-  import('./src/types/system/sysMenuType')
+  export type { SysMenu, SysMenuQuery, SysMenuForm } from './src/types/system/sysMenuTypes'
+  import('./src/types/system/sysMenuTypes')
   // @ts-ignore
-  export type { SysMessage, SysMessageQuery, SysMessageForm } from './src/types/system/sysMessageType'
-  import('./src/types/system/sysMessageType')
+  export type { SysMessage, SysMessageQuery, SysMessageForm } from './src/types/system/sysMessageTypes'
+  import('./src/types/system/sysMessageTypes')
   // @ts-ignore
-  export type { SysNotice, SysNoticeQuery, SysNoticeForm } from './src/types/system/sysNoticeType'
-  import('./src/types/system/sysNoticeType')
+  export type { SysNotice, SysNoticeQuery, SysNoticeForm } from './src/types/system/sysNoticeTypes'
+  import('./src/types/system/sysNoticeTypes')
   // @ts-ignore
-  export type { SysPost, SysPostQuery, SysPostForm } from './src/types/system/sysPostType'
-  import('./src/types/system/sysPostType')
+  export type { SysPost, SysPostQuery, SysPostForm } from './src/types/system/sysPostTypes'
+  import('./src/types/system/sysPostTypes')
   // @ts-ignore
-  export type { SysRole, SysRoleQuery, SysRoleForm } from './src/types/system/sysRoleType'
-  import('./src/types/system/sysRoleType')
+  export type { SysRole, SysRoleQuery, SysRoleForm } from './src/types/system/sysRoleTypes'
+  import('./src/types/system/sysRoleTypes')
   // @ts-ignore
-  export type { SysTask, SysTaskQuery, SysTaskForm } from './src/types/system/sysTaskType'
-  import('./src/types/system/sysTaskType')
+  export type { SysTask, SysTaskQuery, SysTaskForm } from './src/types/system/sysTaskTypes'
+  import('./src/types/system/sysTaskTypes')
   // @ts-ignore
-  export type { SysUserMfaRecoveryCodes, SysUserMfaRecoveryCodesQuery, SysUserMfaRecoveryCodesForm } from './src/types/system/sysUserMfaRecoveryCodesType'
-  import('./src/types/system/sysUserMfaRecoveryCodesType')
+  export type { SysUserMfaRecoveryCodes, SysUserMfaRecoveryCodesQuery, SysUserMfaRecoveryCodesForm } from './src/types/system/sysUserMfaRecoveryCodesTypes'
+  import('./src/types/system/sysUserMfaRecoveryCodesTypes')
   // @ts-ignore
-  export type { SysUser, SysUserQuery, SysUserForm } from './src/types/system/sysUserType'
-  import('./src/types/system/sysUserType')
+  export type { SysUser, SysUserQuery, SysUserForm } from './src/types/system/sysUserTypes'
+  import('./src/types/system/sysUserTypes')
 }

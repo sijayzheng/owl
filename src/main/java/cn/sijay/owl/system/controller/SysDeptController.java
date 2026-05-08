@@ -113,7 +113,7 @@ public class SysDeptController extends BaseController {
     @SaCheckPermission("system:sysDept:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统部门")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysDeptService.removeByIds(ids), OperateType.DELETE);
     }
 

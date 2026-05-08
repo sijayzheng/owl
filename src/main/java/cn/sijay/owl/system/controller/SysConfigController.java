@@ -117,7 +117,7 @@ public class SysConfigController extends BaseController {
     @SaCheckPermission("system:sysConfig:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除参数配置")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysConfigService.removeByIds(ids), OperateType.DELETE);
     }
 

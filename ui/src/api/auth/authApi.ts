@@ -1,5 +1,3 @@
-import type {Captcha} from '@/types/auth.ts'
-
 export const authApi = {
   login(data: LoginReq) {
     return request.post<LoginResp>('/auth/login', data)

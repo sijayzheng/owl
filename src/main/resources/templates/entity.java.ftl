@@ -66,9 +66,17 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
 </#list>
 <#list columns?filter(item -> item.queryable) as column>
     <#if column.queryType=='BETWEEN'>
+    /**
+     * ${column.columnComment}范围
+     */
+    @Column(ignore = true)
     private ${column.javaType.code}[] ${column.javaField}Range;
 
     <#elseif column.queryType=='IN'>
+    /**
+     * ${column.columnComment}列表
+     */
+    @Column(ignore = true)
     private List<${column.javaType.code}> ${column.javaField}s;
 
     </#if>

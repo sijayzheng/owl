@@ -65,7 +65,7 @@ public class GenController extends BaseController {
     @SaCheckPermission("gen:gen:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除代码生成表")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(tableService.removeByIds(ids), OperateType.DELETE);
     }
 

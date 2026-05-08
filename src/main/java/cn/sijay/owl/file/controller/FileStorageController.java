@@ -117,7 +117,7 @@ public class FileStorageController extends BaseController {
     @SaCheckPermission("file:fileStorage:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除文件存储")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(fileStorageService.removeByIds(ids), OperateType.DELETE);
     }
 

@@ -117,7 +117,7 @@ public class SysRoleController extends BaseController {
     @SaCheckPermission("system:sysRole:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统角色")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysRoleService.removeByIds(ids), OperateType.DELETE);
     }
 

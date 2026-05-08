@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import UnoCSS from 'unocss/vite'
@@ -5,18 +6,18 @@ import AutoImport from 'unplugin-auto-import/vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
-import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import compression from 'vite-plugin-compression'
 import progress from 'vite-plugin-progress'
-import {fileURLToPath} from 'node:url'
 
 // https://vite.dev/config/
+const apiPrefix = /^\/api/
 export default defineConfig({
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   plugins: [
@@ -27,7 +28,7 @@ export default defineConfig({
       imports: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
       resolvers: [
         ElementPlusResolver(),
-        IconsResolver({prefix: 'Icon'}),
+        IconsResolver({ prefix: 'Icon' }),
       ],
       dts: true,
       dirs: [
@@ -38,23 +39,23 @@ export default defineConfig({
         'src/store/**',
         {
           glob: 'src/types/**',
-          types: true
+          types: true,
         },
       ],
     }),
     Components({
       resolvers: [
-        ElementPlusResolver({importStyle: 'sass'}),
-        IconsResolver({enabledCollections: ['ep']}),
+        ElementPlusResolver({ importStyle: 'sass' }),
+        IconsResolver({ enabledCollections: ['ep'] }),
       ],
       dts: true,
       dirs: [
         'src/components',
       ],
     }),
-    ElementPlus({useSource: true}),
-    Icons({autoInstall: true}),
-    compression({algorithm: 'gzip'}),
+    ElementPlus({ useSource: true }),
+    Icons({ autoInstall: true }),
+    compression({ algorithm: 'gzip' }),
     progress({
       format: '🚀 构建中 [:bar] :percent | 耗时: :elapsed s | 剩余: :etas s',
       width: 50,
@@ -74,7 +75,7 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:9528',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(apiPrefix, ''),
       },
     },
   },

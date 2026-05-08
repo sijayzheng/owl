@@ -130,7 +130,7 @@ public class ${className}Controller extends BaseController {
     @SaCheckPermission("${moduleName}:${functionName}:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除${classComment}")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(${functionName}Service.removeByIds(ids), OperateType.DELETE);
     }
 

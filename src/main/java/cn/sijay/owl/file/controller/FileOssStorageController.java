@@ -117,7 +117,7 @@ public class FileOssStorageController extends BaseController {
     @SaCheckPermission("file:fileOssStorage:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除OSS")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(fileOssStorageService.removeByIds(ids), OperateType.DELETE);
     }
 

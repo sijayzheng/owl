@@ -117,7 +117,7 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
     @SaCheckPermission("system:sysUserMfaRecoveryCodes:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除MFA备用验证码")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysUserMfaRecoveryCodesService.removeByIds(ids), OperateType.DELETE);
     }
 

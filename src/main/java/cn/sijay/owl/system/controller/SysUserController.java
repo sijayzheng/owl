@@ -117,7 +117,7 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("system:sysUser:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统用户")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysUserService.removeByIds(ids), OperateType.DELETE);
     }
 

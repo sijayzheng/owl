@@ -117,7 +117,7 @@ public class SysMessageController extends BaseController {
     @SaCheckPermission("system:sysMessage:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除系统消息")
-    public Result<Boolean> remove(List<Long> ids) {
+    public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysMessageService.removeByIds(ids), OperateType.DELETE);
     }
 
