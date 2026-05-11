@@ -6,32 +6,15 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const AuthApi: typeof import('./src/api/auth/index').AuthApi
   const EffectScope: typeof import('vue').EffectScope
-  const FileOssStorageApi: typeof import('./src/api/file/fileOssStorageApi').FileOssStorageApi
-  const FileStorageApi: typeof import('./src/api/file/fileStorageApi').FileStorageApi
-  const GenApi: typeof import('./src/api/gen/genApi').GenApi
-  const LogAccessApi: typeof import('./src/api/log/logAccessApi').LogAccessApi
-  const LogLoginApi: typeof import('./src/api/log/logLoginApi').LogLoginApi
-  const LogTaskApi: typeof import('./src/api/log/logTaskApi').LogTaskApi
-  const SysConfigApi: typeof import('./src/api/system/sysConfigApi').SysConfigApi
-  const SysDeptApi: typeof import('./src/api/system/sysDeptApi').SysDeptApi
-  const SysDictDataApi: typeof import('./src/api/system/sysDictDataApi').SysDictDataApi
-  const SysDictTypeApi: typeof import('./src/api/system/sysDictTypeApi').SysDictTypeApi
-  const SysMenuApi: typeof import('./src/api/system/sysMenuApi').SysMenuApi
-  const SysMessageApi: typeof import('./src/api/system/sysMessageApi').SysMessageApi
-  const SysNoticeApi: typeof import('./src/api/system/sysNoticeApi').SysNoticeApi
-  const SysPostApi: typeof import('./src/api/system/sysPostApi').SysPostApi
-  const SysRoleApi: typeof import('./src/api/system/sysRoleApi').SysRoleApi
-  const SysTaskApi: typeof import('./src/api/system/sysTaskApi').SysTaskApi
-  const SysUserApi: typeof import('./src/api/system/sysUserApi').SysUserApi
-  const SysUserMfaRecoveryCodesApi: typeof import('./src/api/system/sysUserMfaRecoveryCodesApi').SysUserMfaRecoveryCodesApi
+  const ElLoading: typeof import('element-plus').ElLoading
+  const ElMessage: typeof import('element-plus').ElMessage
+  const ElMessageBox: typeof import('element-plus').ElMessageBox
+  const ElNotification: typeof import('element-plus').ElNotification
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const authApi: typeof import('./src/api/auth/authApi').authApi
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
-  const calculateBestTextColor: typeof import('./src/utils/color').calculateBestTextColor
-  const colorIsDark: typeof import('./src/utils/color').colorIsDark
   const commonApi: typeof import('./src/api/auth/commonApi').commonApi
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
@@ -53,22 +36,17 @@ declare global {
   const createTemplatePromise: typeof import('@vueuse/core').createTemplatePromise
   const createUnrefFn: typeof import('@vueuse/core').createUnrefFn
   const customRef: typeof import('vue').customRef
-  const darken: typeof import('./src/utils/color').darken
   const debouncedRef: typeof import('@vueuse/core').debouncedRef
   const debouncedWatch: typeof import('@vueuse/core').debouncedWatch
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
-  const definePage: typeof import('vue-router/experimental').definePage
   const defineStore: typeof import('pinia').defineStore
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const extendRef: typeof import('@vueuse/core').extendRef
   const fileOssStorageApi: typeof import('./src/api/file/fileOssStorageApi').fileOssStorageApi
   const fileStorageApi: typeof import('./src/api/file/fileStorageApi').fileStorageApi
-  const filterDynamicRoutes: typeof import('./src/store/permissionStore').filterDynamicRoutes
-  const findIndex: typeof import('./src/utils/index').findIndex
   const firstUpperCase: typeof import('./src/utils/index').firstUpperCase
-  const formatTime: typeof import('./src/utils/index').formatTime
   const genApi: typeof import('./src/api/gen/genApi').genApi
   const getActivePinia: typeof import('pinia').getActivePinia
   const getCssVar: typeof import('./src/utils/index').getCssVar
@@ -77,7 +55,6 @@ declare global {
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
   const getToken: typeof import('./src/utils/auth').getToken
   const h: typeof import('vue').h
-  const hexToRGB: typeof import('./src/utils/color').hexToRGB
   const humpToDash: typeof import('./src/utils/index').humpToDash
   const humpToUnderline: typeof import('./src/utils/index').humpToUnderline
   const ignorableWatch: typeof import('@vueuse/core').ignorableWatch
@@ -85,15 +62,12 @@ declare global {
   const injectLocal: typeof import('@vueuse/core').injectLocal
   const isDark: typeof import('./src/composables/dark').isDark
   const isDefined: typeof import('@vueuse/core').isDefined
-  const isHexColor: typeof import('./src/utils/color').isHexColor
   const isHttp: typeof import('./src/utils/index').isHttp
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
   const isReadonly: typeof import('vue').isReadonly
   const isRef: typeof import('vue').isRef
   const isShallow: typeof import('vue').isShallow
-  const lighten: typeof import('./src/utils/color').lighten
-  const loadView: typeof import('./src/store/permissionStore').loadView
   const logAccessApi: typeof import('./src/api/log/logAccessApi').logAccessApi
   const logLoginApi: typeof import('./src/api/log/logLoginApi').logLoginApi
   const logTaskApi: typeof import('./src/api/log/logTaskApi').logTaskApi
@@ -104,9 +78,7 @@ declare global {
   const mapStores: typeof import('pinia').mapStores
   const mapWritableState: typeof import('pinia').mapWritableState
   const markRaw: typeof import('vue').markRaw
-  const mix: typeof import('./src/utils/color').mix
   const nextTick: typeof import('vue').nextTick
-  const objToFormData: typeof import('./src/utils/index').objToFormData
   const onActivated: typeof import('vue').onActivated
   const onBeforeMount: typeof import('vue').onBeforeMount
   const onBeforeRouteLeave: typeof import('vue-router').onBeforeRouteLeave
@@ -149,7 +121,6 @@ declare global {
   const request: typeof import('./src/utils/request').default
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
-  const rgbToHex: typeof import('./src/utils/color').rgbToHex
   const scssD: typeof import('./src/types/scss.d').default
   const setActivePinia: typeof import('pinia').setActivePinia
   const setCssVar: typeof import('./src/utils/index').setCssVar
@@ -257,10 +228,12 @@ declare global {
   const useEyeDropper: typeof import('@vueuse/core').useEyeDropper
   const useFavicon: typeof import('@vueuse/core').useFavicon
   const useFetch: typeof import('@vueuse/core').useFetch
+  const useFetcher: typeof import('alova/client').useFetcher
   const useFileDialog: typeof import('@vueuse/core').useFileDialog
   const useFileSystemAccess: typeof import('@vueuse/core').useFileSystemAccess
   const useFocus: typeof import('@vueuse/core').useFocus
   const useFocusWithin: typeof import('@vueuse/core').useFocusWithin
+  const useForm: typeof import('alova/client').useForm
   const useFps: typeof import('@vueuse/core').useFps
   const useFullscreen: typeof import('@vueuse/core').useFullscreen
   const useGamepad: typeof import('@vueuse/core').useGamepad
@@ -298,12 +271,12 @@ declare global {
   const useOnline: typeof import('@vueuse/core').useOnline
   const usePageLeave: typeof import('@vueuse/core').usePageLeave
   const usePageLoading: typeof import('./src/hooks/usePageLoading').usePageLoading
+  const usePagination: typeof import('alova/client').usePagination
   const useParallax: typeof import('@vueuse/core').useParallax
   const useParentElement: typeof import('@vueuse/core').useParentElement
   const usePerformanceObserver: typeof import('@vueuse/core').usePerformanceObserver
   const usePermission: typeof import('@vueuse/core').usePermission
   const usePermissionStore: typeof import('./src/store/permissionStore').usePermissionStore
-  const usePermissionStoreHook: typeof import('./src/store/permissionStore').usePermissionStoreHook
   const usePointer: typeof import('@vueuse/core').usePointer
   const usePointerLock: typeof import('@vueuse/core').usePointerLock
   const usePointerSwipe: typeof import('@vueuse/core').usePointerSwipe
@@ -316,6 +289,7 @@ declare global {
   const usePrevious: typeof import('@vueuse/core').usePrevious
   const useRafFn: typeof import('@vueuse/core').useRafFn
   const useRefHistory: typeof import('@vueuse/core').useRefHistory
+  const useRequest: typeof import('alova/client').useRequest
   const useResizeObserver: typeof import('@vueuse/core').useResizeObserver
   const useRoute: typeof import('vue-router').useRoute
   const useRouter: typeof import('vue-router').useRouter
@@ -357,6 +331,7 @@ declare global {
   const useToString: typeof import('@vueuse/core').useToString
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
+  const useUploader: typeof import('alova/client').useUploader
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
   const useUserMedia: typeof import('@vueuse/core').useUserMedia
   const useUserStore: typeof import('./src/store/userStore').useUserStore

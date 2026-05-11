@@ -73,8 +73,8 @@ project-root/
 - **构建：** `mvn clean package -DskipTests`
 - **运行测试：** `mvn test`
 - **启动开发服务：** `mvn spring-boot:run`
-    - 默认端口：`9528`
-    - API 基础路径：`http://localhost:9528/api`
+    - 默认端口：`9527`
+    - API 基础路径：`http://localhost:9527/api`
 
 ## 前端
 
@@ -86,7 +86,7 @@ project-root/
 
 ## 前后端联调代理
 
-Vite 开发服务器通过 `vite.config.ts` 将 `/api` 请求代理到 `http://localhost:9528`。
+Vite 开发服务器通过 `vite.config.ts` 将 `/api` 请求代理到 `http://localhost:9527`。
 
 # 编码约定
 
@@ -113,8 +113,8 @@ Vite 开发服务器通过 `vite.config.ts` 将 `/api` 请求代理到 `http://l
 // 使用查询包装器（推荐）
 List<User> users = userMapper.selectListByQuery(
         QueryWrapper.create()
-            .where(USER.NAME.like("John"))
-            .orderBy(USER.ID.asc())
+                    .where(USER.NAME.like("John"))
+                    .orderBy(USER.ID.asc())
     );
 
 // 实体定义

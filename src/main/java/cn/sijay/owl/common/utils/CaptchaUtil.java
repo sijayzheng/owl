@@ -25,7 +25,8 @@ public class CaptchaUtil {
      * 生成验证码对象，包含图片 Base64 和明文文本
      */
     public static Captcha generateCaptcha() {
-        String code = generateRandomCode();
+        //todo 开发临时设为固定值
+        String code = "9527";//generateRandomCode();
         BufferedImage image = createImage(code);
         String base64 = encodeToBase64(image);
         return new Captcha(UUIDUtil.simpleUuid(), code, base64);

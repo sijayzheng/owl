@@ -1,6 +1,7 @@
 package cn.sijay.owl.system.entity;
 
 import cn.sijay.owl.common.base.BaseEntity;
+import cn.sijay.owl.common.enums.MenuType;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -92,7 +93,7 @@ public class SysMenu extends BaseEntity {
      */
     @Column(value = "menu_type", comment = "菜单类型")
     @ExcelProperty(value = "菜单类型")
-    private String menuType;
+    private MenuType menuType;
 
     /**
      * 显示
@@ -127,5 +128,5 @@ public class SysMenu extends BaseEntity {
      */
     @Column(ignore = true)
     private List<SysMenu> children;
-
+    
 }

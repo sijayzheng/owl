@@ -1,13 +1,13 @@
-import {createAlova} from 'alova'
-import VueHook from 'alova/vue'
+import { createAlova } from 'alova'
+import { createClientTokenAuthentication } from 'alova/client'
 import adapterFetch from 'alova/fetch'
-import {ElMessage} from 'element-plus'
-import {createClientTokenAuthentication} from 'alova/client'
+import VueHook from 'alova/vue'
+import { ElMessage } from 'element-plus'
 
-const {onAuthRequired} = createClientTokenAuthentication({
-  assignToken: method => {
-    method.config.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
-  }
+const { onAuthRequired } = createClientTokenAuthentication({
+  assignToken: (method) => {
+    method.config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+  },
 })
 
 const alovaInstance = createAlova({
@@ -44,22 +44,22 @@ const alovaInstance = createAlova({
       console.error(err.message)
       throw err
     },
-  }
+  },
 })
 
 export default {
   page<T = any>(url: string, params?: any) {
     return alovaInstance.Get<T>(url, {
-      params: params,
+      params,
       meta: {
-        full: true
-      }
+        full: true,
+      },
     })
   },
   get<T = any>(url: string, params?: any) {
-    return alovaInstance.Get<T>(url, {params})
+    return alovaInstance.Get<T>(url, { params })
   },
   post<T = any>(url: string, data?: any) {
     return alovaInstance.Post<T>(url, data)
-  }
+  },
 }

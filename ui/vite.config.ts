@@ -25,7 +25,11 @@ export default defineConfig({
     vueJsx(),
     UnoCSS(),
     AutoImport({
-      imports: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
+      imports: ['vue', 'vue-router', '@vueuse/core', 'pinia', {
+        'element-plus': ['ElMessage', 'ElMessageBox', 'ElNotification', 'ElLoading'],
+      }, {
+        'alova/client': ['useFetcher', 'useForm', 'usePagination', 'useRequest', 'useUploader'],
+      }],
       resolvers: [
         ElementPlusResolver(),
         IconsResolver({ prefix: 'Icon' }),
@@ -49,9 +53,7 @@ export default defineConfig({
         IconsResolver({ enabledCollections: ['ep'] }),
       ],
       dts: true,
-      dirs: [
-        'src/components',
-      ],
+      dirs: ['src/components/**'],
     }),
     ElementPlus({ useSource: true }),
     Icons({ autoInstall: true }),
@@ -69,11 +71,11 @@ export default defineConfig({
     },
   },
   server: {
-    port: 9527,
+    port: 9528,
     cors: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:9528',
+        target: 'http://localhost:9527',
         changeOrigin: true,
         rewrite: path => path.replace(apiPrefix, ''),
       },

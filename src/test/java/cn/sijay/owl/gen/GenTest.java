@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * GenTest
@@ -23,19 +22,16 @@ public class GenTest {
 
     @Test
     public void importTable() {
-        List<String> list = Arrays.stream("""
-                                      """.split("\n"))
-                                  .map(StringUtils::trim)
-                                  .filter(StringUtils::isNotBlank)
-                                  .toList();
-
-        genService.importTable(list);
+        genService.importTable(Arrays.stream("""
+                                         user
+                                         """.split("\n"))
+                                     .map(StringUtils::trim)
+                                     .filter(StringUtils::isNotBlank)
+                                     .toList());
     }
 
     @Test
     public void genCode() {
-        for (long i = 1; i < 18; i++) {
-            genService.generateCode(i);
-        }
+        genService.generateCode(29L);
     }
 }

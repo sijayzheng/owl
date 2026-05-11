@@ -105,7 +105,6 @@ public class GenService {
                 column.setQueryType(switch (column.getJavaType()) {
                     case JavaType.STRING -> isSelect ? QueryType.EQUALS : QueryType.LIKE;
                     case JavaType.LOCAL_DATE, JavaType.LOCAL_TIME, JavaType.LOCAL_DATE_TIME -> QueryType.BETWEEN;
-                    case JavaType.LONG -> columnName.contains("id") ? QueryType.IN : QueryType.EQUALS;
                     default -> QueryType.EQUALS;
                 });
                 column.setHtmlType(switch (column.getJavaType()) {

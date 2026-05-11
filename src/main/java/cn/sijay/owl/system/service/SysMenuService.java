@@ -46,9 +46,8 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      */
     public List<SysMenu> buildTree(List<SysMenu> list) {
         List<SysMenu> result = new ArrayList<>();
-        List<Long> ids = list.stream().map(SysMenu::getId).toList();
         for (SysMenu item : list) {
-            if (item.getParentId() == null || Objects.equals(0L, item.getParentId()) || !ids.contains(item.getParentId())) {
+            if (Objects.equals(0L, item.getParentId())) {
                 recursionFn(list, item);
                 result.add(item);
             }
@@ -84,7 +83,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      */
     private List<SysMenu> getChildList(List<SysMenu> list, SysMenu parent) {
         return list.stream()
-                   .filter(item -> item.getParentId() != null && item.getParentId().equals(parent.getId()))
+                   .filter(item -> item.getParentId().equals(parent.getId()))
                    .collect(Collectors.toList());
     }
 
@@ -96,7 +95,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      * @return 是否有子节点
      */
     private boolean hasChild(List<SysMenu> list, SysMenu node) {
-        return list.stream().anyMatch(item -> item.getParentId() != null && item.getParentId().equals(node.getId()));
+        return list.stream().anyMatch(item -> item.getParentId().equals(node.getId()));
     }
 
     /**

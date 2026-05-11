@@ -4,9 +4,9 @@ import io.swagger.v3.core.util.Constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.validator.routines.UrlValidator;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -188,7 +188,15 @@ public class StringUtil {
         }
     }
 
-    public static boolean isHttp(String path) {
-        return StringUtils.isNotBlank(path) && new UrlValidator(new String[]{"http", "https"}).isValid(path);
+    public static boolean isUrl(String path) {
+        if (StringUtils.isBlank(path)) {
+            return false;
+        }
+        try {
+            URI.create(path).toURL();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

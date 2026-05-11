@@ -17,6 +17,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +46,7 @@ public class CommonService {
         }
         menus = menus.parallelStream()
                      .filter(SysMenu::getEnabled)
-                     .filter(sysMenu -> !MenuType.BUTTON.name().equals(sysMenu.getMenuType()))
+                     .filter(sysMenu -> !MenuType.BUTTON.equals(sysMenu.getMenuType()))
                      .toList();
         return buildMenus(sysMenuService.buildTree(menus));
     }
@@ -54,17 +55,24 @@ public class CommonService {
         return LoginHelper.getUserInfo();
     }
 
-    private List<Route> buildMenus(List<SysMenu> menus) {
+    /**
+     * 构建前端路由所需要的菜单
+     * 路由name命名规则 path首字母转大写 + id
+     *
+     * @param menus 菜单列表
+     * @return 路由列表
+     */
+    public List<Route> buildMenus(List<SysMenu> menus) {
         List<Route> routers = new LinkedList<>();
         for (SysMenu menu : menus) {
             String name = getRouteName(menu) + menu.getId();
+
             List<SysMenu> cMenus = menu.getChildren();
-            if (CollectionUtils.isNotEmpty(cMenus) && MenuType.DIRECTORY.name().equals(menu.getMenuType())) {
+            if (CollectionUtils.isNotEmpty(cMenus) && MenuType.DIRECTORY.equals(menu.getMenuType())) {
                 routers.add(new Route(
                     name,
                     getRouterPath(menu),
                     !menu.getVisible(),
-                    "noRedirect",
                     getComponentInfo(menu),
                     menu.getQueryParam(),
                     new Meta(menu.getMenuName(), menu.getIcon(), !menu.getCached(), menu.getPath()),
@@ -75,52 +83,43 @@ public class CommonService {
                     name,
                     getRouterPath(menu),
                     !menu.getVisible(),
-                    "",
                     getComponentInfo(menu),
                     menu.getQueryParam(),
                     null,
-                    List.of(new Route(
-                            StringUtils.capitalize(menu.getPath()) + menu.getId(),
-                            menu.getPath(),
-                            false,
-                            null,
-                            menu.getComponent(),
-                            menu.getQueryParam(),
-                            new Meta(menu.getMenuName(), menu.getIcon(), !menu.getCached(), menu.getPath()),
-                            null
-                        )
-                    )
+                    Collections.singletonList(new Route(
+                        StringUtils.capitalize(menu.getPath()) + menu.getId(),
+                        menu.getPath(),
+                        false,
+                        menu.getComponent(),
+                        menu.getQueryParam(),
+                        new Meta(menu.getMenuName(), menu.getIcon(), !menu.getCached(), menu.getPath()),
+                        null
+                    ))
                 ));
             } else if (menu.getParentId().equals(0L) && isInnerLink(menu)) {
                 String routerPath = innerLinkReplaceEach(menu.getPath());
-                String innerLinkName = StringUtils.capitalize(routerPath) + menu.getId();
                 routers.add(new Route(
                     name,
                     "/",
                     !menu.getVisible(),
-                    "",
                     getComponentInfo(menu),
                     menu.getQueryParam(),
-                    new Meta(menu.getMenuName(), menu.getIcon(), true, null),
-                    List.of(
-                        new Route(
-                            innerLinkName,
-                            routerPath,
-                            false,
-                            "",
-                            "InnerLink",
-                            "",
-                            new Meta(menu.getMenuName(), menu.getIcon(), false, menu.getPath()),
-                            null
-                        )
-                    )
+                    new Meta(menu.getMenuName(), menu.getIcon(), false, null),
+                    Collections.singletonList(new Route(
+                        StringUtils.capitalize(routerPath) + menu.getId(),
+                        routerPath,
+                        false,
+                        "InnerLink",
+                        null,
+                        new Meta(menu.getMenuName(), menu.getIcon(), false, menu.getPath()),
+                        null
+                    ))
                 ));
             } else {
                 routers.add(new Route(
-                    getRouteName(menu) + menu.getId(),
+                    name,
                     getRouterPath(menu),
                     !menu.getVisible(),
-                    "",
                     getComponentInfo(menu),
                     menu.getQueryParam(),
                     new Meta(menu.getMenuName(), menu.getIcon(), !menu.getCached(), menu.getPath()),
@@ -134,7 +133,7 @@ public class CommonService {
     /**
      * 获取路由名称
      */
-    private String getRouteName(SysMenu menu) {
+    public String getRouteName(SysMenu menu) {
         String routerName = StringUtils.capitalize(menu.getPath());
         // 非外链并且是一级目录（类型为目录）
         if (isMenuFrame(menu)) {
@@ -146,35 +145,32 @@ public class CommonService {
     /**
      * 获取路由地址
      */
-    private String getRouterPath(SysMenu menu) {
+    public String getRouterPath(SysMenu menu) {
         String routerPath = menu.getPath();
-        // 内链打开外网方式
         if (!Objects.equals(0L, menu.getParentId()) && isInnerLink(menu)) {
+            // 内链打开外网方式
             routerPath = innerLinkReplaceEach(routerPath);
         }
-        // 非外链并且是一级目录（类型为目录）
-        if (Objects.equals(0L, menu.getParentId()) && MenuType.DIRECTORY.name().equals(menu.getMenuType())
-            && menu.getForeignLink()) {
+        if (Objects.equals(0L, menu.getParentId()) && MenuType.DIRECTORY.equals(menu.getMenuType()) && !menu.getForeignLink()) {
+            // 非外链并且是一级目录（类型为目录）
             routerPath = "/" + menu.getPath();
-        }
-        // 非外链并且是一级目录（类型为菜单）
-        else if (isMenuFrame(menu)) {
+        } else if (isMenuFrame(menu)) {
+            // 非外链并且是一级目录（类型为菜单）
             routerPath = "/";
         }
+        log.info("routerPath: {}", routerPath);
         return routerPath;
     }
 
     /**
      * 获取组件信息
      */
-    private String getComponentInfo(SysMenu menu) {
+    public String getComponentInfo(SysMenu menu) {
         String component = "Layout";
         if (StringUtils.isNotEmpty(menu.getComponent()) && !isMenuFrame(menu)) {
             component = menu.getComponent();
         } else if (StringUtils.isEmpty(menu.getComponent()) && !Objects.equals(0L, menu.getParentId()) && isInnerLink(menu)) {
             component = "InnerLink";
-        } else if (StringUtils.isEmpty(menu.getComponent()) && isParentView(menu)) {
-            component = "ParentView";
         }
         return component;
     }
@@ -182,30 +178,23 @@ public class CommonService {
     /**
      * 是否为菜单内部跳转
      */
-    private boolean isMenuFrame(SysMenu menu) {
-        return Objects.equals(0L, menu.getParentId()) && MenuType.MENU.name().equals(menu.getMenuType()) && !menu.getForeignLink();
+    public boolean isMenuFrame(SysMenu menu) {
+        return Objects.equals(0L, menu.getParentId()) && MenuType.MENU.equals(menu.getMenuType()) && !menu.getForeignLink();
     }
 
     /**
      * 是否为内链组件
      */
-    private boolean isInnerLink(SysMenu menu) {
-        return !menu.getForeignLink() && StringUtil.isHttp(menu.getPath());
-    }
-
-    /**
-     * 是否为parent_view组件
-     */
-    private boolean isParentView(SysMenu menu) {
-        return !Objects.equals(0L, menu.getParentId()) && MenuType.DIRECTORY.name().equals(menu.getMenuType());
+    public boolean isInnerLink(SysMenu menu) {
+        return !menu.getForeignLink() && StringUtil.isUrl(menu.getPath());
     }
 
     /**
      * 内链域名特殊字符替换
      */
-    private static String innerLinkReplaceEach(String path) {
-        return StringUtils.replaceEach(path, new String[]{"www.", "http://", "https://", ".", ":"},
-            new String[]{"", "", "", "/", "/"});
+    public static String innerLinkReplaceEach(String path) {
+        return StringUtils.replaceEach(path, new String[]{"http://", "https://", "www.", ".", ":"}, new String[]{"", "", "", "/", "/"});
     }
+
 }
 

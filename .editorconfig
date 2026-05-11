@@ -13,3 +13,6 @@ insert_final_newline = true
 [*.md]
 insert_final_newline = false
 trim_trailing_whitespace = false
+
+[*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,vue,css,scss,sass,less,style}]
+indent_size = 2

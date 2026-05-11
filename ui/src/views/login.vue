@@ -6,29 +6,32 @@
           <div class="logo-icon">
             <img style="width: 64px" src="@/assets/logo.png" alt="logo">
           </div>
-          <div class="logo-text">OWL</div>
+          <div class="logo-text">
+            OWL
+          </div>
         </div>
       </template>
       <el-form label-position="top" size="large">
-        <el-form-item label="用户名" v-model="loginFormData" prop="username">
-          <el-input clearable v-model="loginFormData.username"/>
+        <el-form-item v-model="loginFormData" label="用户名" prop="username">
+          <el-input v-model="loginFormData.username" clearable />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input clearable show-password type="password" v-model="loginFormData.password"/>
+          <el-input v-model="loginFormData.password" clearable show-password type="password" />
         </el-form-item>
         <el-form-item label="验证码" prop="captcha">
-          <el-input clearable v-model="loginFormData.captcha" @keyup.enter="login()">
+          <el-input v-model="loginFormData.captcha" clearable @keyup.enter="login()">
             <template #prefix>
-              <el-image :src="captchaImg" @click="getCaptcha()" style="cursor: pointer"/>
+              <el-image :src="captchaImg" style="cursor: pointer" @click="getCaptcha()" />
             </template>
           </el-input>
         </el-form-item>
         <el-form-item>
-          <el-button size="large" type="primary" class="login-btn" @click="login">登录</el-button>
+          <el-button size="large" type="primary" class="login-btn" @click="login">
+            登录
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
-
   </div>
 </template>
 
@@ -38,7 +41,7 @@ const loginFormData = ref<LoginReq>({
   username: 'admin',
   password: '123456',
   uuid: '',
-  captcha: ''
+  captcha: '9527',
 })
 
 const captchaImg = ref('')
@@ -49,7 +52,7 @@ function login() {
 
 function getCaptcha() {
   loginFormData.value.captcha = ''
-  authApi.captcha().then(res => {
+  authApi.captcha().then((res) => {
     loginFormData.value.uuid = res.uuid
     captchaImg.value = res.img
   })
@@ -59,6 +62,7 @@ onMounted(() => {
   getCaptcha()
 })
 </script>
+
 <style scoped>
 .login-page {
   width: 100vw;
@@ -84,12 +88,10 @@ onMounted(() => {
   }
 }
 
-
 .login-btn {
   width: 100%;
   font-size: 16px;
   font-weight: 600;
   margin-top: 16px;
 }
-
 </style>

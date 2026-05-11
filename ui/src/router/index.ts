@@ -7,7 +7,7 @@ import { usePermissionStore } from '@/store/permissionStore'
 /**
  * 不重定向白名单
  */
-const NO_REDIRECT_WHITE_LIST = ['/login']
+const NO_REDIRECT_WHITE_LIST = ['/login', '/demo']
 
 export const staticRouters: RouteRecordRaw[] = [
   {
