@@ -26,3 +26,10 @@ export interface SysConfigForm {
   // 参数键值
   configValue?: string
 }
+
+export const sysConfigFormInitData: SysConfigForm = {
+  id: undefined,
+  configName: '',
+  configKey: '',
+  configValue: '',
+}

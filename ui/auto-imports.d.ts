@@ -133,6 +133,7 @@ declare global {
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
   const sysConfigApi: typeof import('./src/api/system/sysConfigApi').sysConfigApi
+  const sysConfigFormInitData: typeof import('./src/types/system/sysConfigTypes').sysConfigFormInitData
   const sysDeptApi: typeof import('./src/api/system/sysDeptApi').sysDeptApi
   const sysDictDataApi: typeof import('./src/api/system/sysDictDataApi').sysDictDataApi
   const sysDictTypeApi: typeof import('./src/api/system/sysDictTypeApi').sysDictTypeApi

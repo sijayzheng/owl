@@ -79,12 +79,6 @@
 </template>
 
 <script lang="ts" setup>
-const initFormData: SysConfigForm = {
-  id: undefined,
-  configName: '',
-  configKey: '',
-  configValue: '',
-}
 const queryParams = ref<SysConfigQuery>({
   page: 1,
   size: 10,
@@ -106,8 +100,7 @@ const { data, loading, send: getList, total } = usePagination(() => sysConfigApi
 const { loading: submitting, form, send: submit, reset, updateForm } = useForm(
   formData => formData.id ? sysConfigApi.update(form.value) : sysConfigApi.add(form.value),
   {
-    // 初始化表单数据
-    initialForm: { ...initFormData },
+    initialForm: sysConfigFormInitData,
     resetAfterSubmiting: true,
   },
 ).onComplete(() => {
