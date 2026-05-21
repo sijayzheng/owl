@@ -18,7 +18,7 @@ const router = useRouter()
 const layoutStore = useLayoutStore()
 
 const isCollapse = computed(() => layoutStore.isCollapse)
-const menuRoutes = computed(() => usePermissionStore().getSideBarRoutes())
+const menuRoutes = computed(() => usePermissionStore().getRoutes())
 
 function handleSelect(index: string) {
   router.push(index)
