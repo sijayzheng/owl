@@ -19,7 +19,7 @@ import java.util.List;
  */
 @ExcelIgnoreUnannotated
 @Data
-@Table(value = "sys_dept", comment = "部门表")
+@Table(value = "sys_dept", comment = "系统部门表")
 public class SysDept extends BaseEntity {
 
     /**

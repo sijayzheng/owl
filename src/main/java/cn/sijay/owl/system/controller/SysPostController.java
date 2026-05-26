@@ -85,12 +85,12 @@ public class SysPostController extends BaseController {
      * @param sysPost 系统岗位信息
      * @return 操作结果
      */
-    @AccessLog(title = "系统岗位", operateType = OperateType.ADD)
+    @AccessLog(title = "系统岗位", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysPost:add")
     @PostMapping("/add")
     @Operation(summary = "修改系统岗位")
     public Result<Boolean> add(@Valid @RequestBody SysPost sysPost) {
-        return result(sysPostService.save(sysPost), OperateType.ADD);
+        return result(sysPostService.save(sysPost), OperateType.SAVE);
     }
 
     /**

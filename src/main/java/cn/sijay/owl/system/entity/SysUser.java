@@ -18,7 +18,7 @@ import java.util.List;
  */
 @ExcelIgnoreUnannotated
 @Data
-@Table(value = "sys_user", comment = "用户表")
+@Table(value = "sys_user", comment = "系统用户表")
 public class SysUser extends BaseEntity {
 
     /**

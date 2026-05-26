@@ -12,7 +12,7 @@ import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
 
 /**
- * 任务配置实体类
+ * 定时任务配置实体类
  *
  * @author sijay
  * @since 2026-04-09

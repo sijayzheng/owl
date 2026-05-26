@@ -85,12 +85,12 @@ public class SysDictTypeController extends BaseController {
      * @param sysDictType 字典类型信息
      * @return 操作结果
      */
-    @AccessLog(title = "字典类型", operateType = OperateType.ADD)
+    @AccessLog(title = "字典类型", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysDictType:add")
     @PostMapping("/add")
     @Operation(summary = "修改字典类型")
     public Result<Boolean> add(@Valid @RequestBody SysDictType sysDictType) {
-        return result(sysDictTypeService.save(sysDictType), OperateType.ADD);
+        return result(sysDictTypeService.save(sysDictType), OperateType.SAVE);
     }
 
     /**

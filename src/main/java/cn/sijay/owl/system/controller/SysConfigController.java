@@ -85,12 +85,12 @@ public class SysConfigController extends BaseController {
      * @param sysConfig 参数配置信息
      * @return 操作结果
      */
-    @AccessLog(title = "参数配置", operateType = OperateType.ADD)
+    @AccessLog(title = "参数配置", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysConfig:add")
     @PostMapping("/add")
     @Operation(summary = "修改参数配置")
     public Result<Boolean> add(@Valid @RequestBody SysConfig sysConfig) {
-        return result(sysConfigService.save(sysConfig), OperateType.ADD);
+        return result(sysConfigService.save(sysConfig), OperateType.SAVE);
     }
 
     /**

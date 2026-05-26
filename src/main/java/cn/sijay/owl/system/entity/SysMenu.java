@@ -21,7 +21,7 @@ import java.util.List;
  */
 @ExcelIgnoreUnannotated
 @Data
-@Table(value = "sys_menu", comment = "菜单表")
+@Table(value = "sys_menu", comment = "系统菜单表")
 public class SysMenu extends BaseEntity {
 
     /**
@@ -124,9 +124,16 @@ public class SysMenu extends BaseEntity {
     private String icon;
 
     /**
+     * 高亮菜单
+     */
+    @Column(value = "active_menu", comment = "高亮菜单")
+    @ExcelProperty(value = "高亮菜单")
+    private String activeMenu;
+
+    /**
      * 子列表
      */
     @Column(ignore = true)
     private List<SysMenu> children;
-    
+
 }

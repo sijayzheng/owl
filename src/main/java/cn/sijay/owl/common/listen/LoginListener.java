@@ -7,8 +7,6 @@ import cn.sijay.owl.auth.service.LoginService;
 import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.utils.LoginHelper;
 import cn.sijay.owl.common.utils.RedisUtil;
-import cn.sijay.owl.common.utils.SpringUtil;
-import cn.sijay.owl.log.entity.LogLogin;
 import cn.sijay.owl.system.entity.OnlineUser;
 import cn.sijay.owl.system.entity.SysDept;
 import cn.sijay.owl.system.service.SysDeptService;
@@ -51,11 +49,11 @@ public abstract class LoginListener implements SaTokenListener {
             RedisUtil.set(RedisPrefix.ONLINE_TOKEN_KEY + tokenValue, dto, tokenConfig.getTimeout());
         }
         // 记录登录日志
-        LogLogin logLogin = new LogLogin();
-        logLogin.setUsername(username);
-        logLogin.setSucceeded(true);
-        logLogin.setMessage("登录成功");
-        SpringUtil.context().publishEvent(logLogin);
+//        LogLogin logLogin = new LogLogin();
+//        logLogin.setUsername(username);
+//        logLogin.setSucceeded(true);
+//        logLogin.setMessage("登录成功");
+//        SpringUtil.context().publishEvent(logLogin);
         // 更新登录信息
         loginService.recordLoginInfo(LoginHelper.getUserId(), username, true, "登录成功");
         log.info("用户登录, userId:{}, token:{}", loginId, tokenValue);

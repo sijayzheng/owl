@@ -14,9 +14,7 @@ import lombok.Getter;
 public enum OperateType {
     OTHER("其它"),
     QUERY("查询"),
-    ADD("新增"),
-    INSERT("新增"),
-    EDIT("修改"),
+    SAVE("保存"),
     UPDATE("修改"),
     DELETE("删除"),
     GRANT("授权"),

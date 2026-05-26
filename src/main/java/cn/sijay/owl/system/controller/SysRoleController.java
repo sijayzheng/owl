@@ -85,12 +85,12 @@ public class SysRoleController extends BaseController {
      * @param sysRole 系统角色信息
      * @return 操作结果
      */
-    @AccessLog(title = "系统角色", operateType = OperateType.ADD)
+    @AccessLog(title = "系统角色", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysRole:add")
     @PostMapping("/add")
     @Operation(summary = "修改系统角色")
     public Result<Boolean> add(@Valid @RequestBody SysRole sysRole) {
-        return result(sysRoleService.save(sysRole), OperateType.ADD);
+        return result(sysRoleService.save(sysRole), OperateType.SAVE);
     }
 
     /**

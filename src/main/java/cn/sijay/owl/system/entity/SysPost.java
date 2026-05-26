@@ -19,7 +19,7 @@ import org.apache.fesod.sheet.annotation.ExcelProperty;
  */
 @ExcelIgnoreUnannotated
 @Data
-@Table(value = "sys_post", comment = "岗位表")
+@Table(value = "sys_post", comment = "系统岗位表")
 public class SysPost extends BaseEntity {
 
     /**

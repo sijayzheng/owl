@@ -85,12 +85,12 @@ public class SysUserController extends BaseController {
      * @param sysUser 系统用户信息
      * @return 操作结果
      */
-    @AccessLog(title = "系统用户", operateType = OperateType.ADD)
+    @AccessLog(title = "系统用户", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysUser:add")
     @PostMapping("/add")
     @Operation(summary = "修改系统用户")
     public Result<Boolean> add(@Valid @RequestBody SysUser sysUser) {
-        return result(sysUserService.save(sysUser), OperateType.ADD);
+        return result(sysUserService.save(sysUser), OperateType.SAVE);
     }
 
     /**

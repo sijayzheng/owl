@@ -85,12 +85,12 @@ public class SysUserMfaRecoveryCodesController extends BaseController {
      * @param sysUserMfaRecoveryCodes MFA备用验证码信息
      * @return 操作结果
      */
-    @AccessLog(title = "MFA备用验证码", operateType = OperateType.ADD)
+    @AccessLog(title = "MFA备用验证码", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysUserMfaRecoveryCodes:add")
     @PostMapping("/add")
     @Operation(summary = "修改MFA备用验证码")
     public Result<Boolean> add(@Valid @RequestBody SysUserMfaRecoveryCodes sysUserMfaRecoveryCodes) {
-        return result(sysUserMfaRecoveryCodesService.save(sysUserMfaRecoveryCodes), OperateType.ADD);
+        return result(sysUserMfaRecoveryCodesService.save(sysUserMfaRecoveryCodes), OperateType.SAVE);
     }
 
     /**

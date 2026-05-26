@@ -85,12 +85,12 @@ public class SysMessageController extends BaseController {
      * @param sysMessage 系统消息信息
      * @return 操作结果
      */
-    @AccessLog(title = "系统消息", operateType = OperateType.ADD)
+    @AccessLog(title = "系统消息", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysMessage:add")
     @PostMapping("/add")
     @Operation(summary = "修改系统消息")
     public Result<Boolean> add(@Valid @RequestBody SysMessage sysMessage) {
-        return result(sysMessageService.save(sysMessage), OperateType.ADD);
+        return result(sysMessageService.save(sysMessage), OperateType.SAVE);
     }
 
     /**

@@ -85,12 +85,12 @@ public class SysNoticeController extends BaseController {
      * @param sysNotice 通知公告信息
      * @return 操作结果
      */
-    @AccessLog(title = "通知公告", operateType = OperateType.ADD)
+    @AccessLog(title = "通知公告", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysNotice:add")
     @PostMapping("/add")
     @Operation(summary = "修改通知公告")
     public Result<Boolean> add(@Valid @RequestBody SysNotice sysNotice) {
-        return result(sysNoticeService.save(sysNotice), OperateType.ADD);
+        return result(sysNoticeService.save(sysNotice), OperateType.SAVE);
     }
 
     /**

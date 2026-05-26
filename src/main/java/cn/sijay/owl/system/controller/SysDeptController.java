@@ -81,12 +81,12 @@ public class SysDeptController extends BaseController {
      * @param sysDept 系统部门信息
      * @return 操作结果
      */
-    @AccessLog(title = "系统部门", operateType = OperateType.ADD)
+    @AccessLog(title = "系统部门", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysDept:add")
     @PostMapping("/add")
     @Operation(summary = "修改系统部门")
     public Result<Boolean> add(@Valid @RequestBody SysDept sysDept) {
-        return result(sysDeptService.save(sysDept), OperateType.ADD);
+        return result(sysDeptService.save(sysDept), OperateType.SAVE);
     }
 
     /**

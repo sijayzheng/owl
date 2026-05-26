@@ -85,12 +85,12 @@ public class SysDictDataController extends BaseController {
      * @param sysDictData 字典数据信息
      * @return 操作结果
      */
-    @AccessLog(title = "字典数据", operateType = OperateType.ADD)
+    @AccessLog(title = "字典数据", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysDictData:add")
     @PostMapping("/add")
     @Operation(summary = "修改字典数据")
     public Result<Boolean> add(@Valid @RequestBody SysDictData sysDictData) {
-        return result(sysDictDataService.save(sysDictData), OperateType.ADD);
+        return result(sysDictDataService.save(sysDictData), OperateType.SAVE);
     }
 
     /**

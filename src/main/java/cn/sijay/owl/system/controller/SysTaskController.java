@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 任务配置控制器
- * 提供任务配置的增删改查、导入导出等功能
+ * 定时任务配置控制器
+ * 提供定时任务配置的增删改查、导入导出等功能
  *
  * @author sijay
  * @since 2026-04-09
@@ -37,115 +37,115 @@ public class SysTaskController extends BaseController {
     private final SysTaskService sysTaskService;
 
     /**
-     * 分页查询任务配置列表
+     * 分页查询定时任务配置列表
      *
      * @param pageQuery 分页参数
      * @param sysTask   查询条件
-     * @return 任务配置分页列表
+     * @return 定时任务配置分页列表
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.QUERY)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysTask:query")
     @GetMapping("/page")
-    @Operation(summary = "查询任务配置列表")
+    @Operation(summary = "查询定时任务配置列表")
     public Result<List<SysTask>> page(PageQuery pageQuery, SysTask sysTask) {
         return success(sysTaskService.page(pageQuery, sysTask));
     }
 
     /**
-     * 查询任务配置列表
+     * 查询定时任务配置列表
      *
      * @param sysTask 查询条件
-     * @return 任务配置列表
+     * @return 定时任务配置列表
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.QUERY)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysTask:query")
     @GetMapping("/list")
-    @Operation(summary = "查询任务配置列表")
+    @Operation(summary = "查询定时任务配置列表")
     public Result<List<SysTask>> list(SysTask sysTask) {
         return success(sysTaskService.list(sysTask));
     }
 
     /**
-     * 根据ID查询任务配置详情
+     * 根据ID查询定时任务配置详情
      *
-     * @param id 任务配置ID
-     * @return 任务配置详情
+     * @param id 定时任务配置ID
+     * @return 定时任务配置详情
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.QUERY)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysTask:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询任务配置列表")
+    @Operation(summary = "查询定时任务配置列表")
     public Result<SysTask> getById(@PathVariable Long id) {
         return success(sysTaskService.getById(id));
     }
 
     /**
-     * 新增任务配置
+     * 新增定时任务配置
      *
-     * @param sysTask 任务配置信息
+     * @param sysTask 定时任务配置信息
      * @return 操作结果
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.ADD)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysTask:add")
     @PostMapping("/add")
-    @Operation(summary = "修改任务配置")
+    @Operation(summary = "修改定时任务配置")
     public Result<Boolean> add(@Valid @RequestBody SysTask sysTask) {
-        return result(sysTaskService.save(sysTask), OperateType.ADD);
+        return result(sysTaskService.save(sysTask), OperateType.SAVE);
     }
 
     /**
-     * 修改任务配置
+     * 修改定时任务配置
      *
-     * @param sysTask 任务配置信息
+     * @param sysTask 定时任务配置信息
      * @return 操作结果
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.UPDATE)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.UPDATE)
     @SaCheckPermission("system:sysTask:update")
     @PostMapping("/update")
-    @Operation(summary = "修改任务配置")
+    @Operation(summary = "修改定时任务配置")
     public Result<Boolean> update(@Valid @RequestBody SysTask sysTask) {
         return result(sysTaskService.updateById(sysTask), OperateType.UPDATE);
     }
 
     /**
-     * 删除任务配置
+     * 删除定时任务配置
      *
-     * @param ids 任务配置ID
+     * @param ids 定时任务配置ID
      * @return 操作结果
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.DELETE)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysTask:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除任务配置")
+    @Operation(summary = "删除定时任务配置")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysTaskService.removeByIds(ids), OperateType.DELETE);
     }
 
     /**
-     * 下载任务配置导入模板
+     * 下载定时任务配置导入模板
      *
      * @return Excel模板文件
      * @throws IOException IO异常
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.IMPORT)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysTask:import")
     @GetMapping("/template")
-    @Operation(summary = "下载任务配置模板")
+    @Operation(summary = "下载定时任务配置模板")
     public ResponseEntity<Resource> template() throws IOException {
-        return ExcelUtil.exportExcel(new ArrayList<>(), "任务配置模板", SysTask.class);
+        return ExcelUtil.exportExcel(new ArrayList<>(), "定时任务配置模板", SysTask.class);
     }
 
     /**
-     * 导入任务配置数据
+     * 导入定时任务配置数据
      *
      * @param file Excel文件
      * @return 操作结果
      * @throws IOException IO异常
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.IMPORT)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysTask:import")
     @PostMapping("/import")
-    @Operation(summary = "导入任务配置")
+    @Operation(summary = "导入定时任务配置")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysTask> result = ExcelUtil.importExcel(file.getInputStream(), SysTask.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -155,18 +155,18 @@ public class SysTaskController extends BaseController {
     }
 
     /**
-     * 导出任务配置数据
+     * 导出定时任务配置数据
      *
      * @param sysTask 查询条件
      * @return Excel文件
      */
-    @AccessLog(title = "任务配置", operateType = OperateType.EXPORT)
+    @AccessLog(title = "定时任务配置", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysTask:export")
     @GetMapping("/export")
-    @Operation(summary = "导出任务配置")
+    @Operation(summary = "导出定时任务配置")
     public ResponseEntity<Resource> exportData(SysTask sysTask) {
         List<SysTask> list = sysTaskService.list(sysTask);
-        return ExcelUtil.exportExcel(list, "任务配置", SysTask.class);
+        return ExcelUtil.exportExcel(list, "定时任务配置", SysTask.class);
     }
 
 }

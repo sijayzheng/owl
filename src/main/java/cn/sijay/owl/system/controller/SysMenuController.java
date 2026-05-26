@@ -81,12 +81,12 @@ public class SysMenuController extends BaseController {
      * @param sysMenu 系统菜单信息
      * @return 操作结果
      */
-    @AccessLog(title = "系统菜单", operateType = OperateType.ADD)
+    @AccessLog(title = "系统菜单", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysMenu:add")
     @PostMapping("/add")
     @Operation(summary = "修改系统菜单")
     public Result<Boolean> add(@Valid @RequestBody SysMenu sysMenu) {
-        return result(sysMenuService.save(sysMenu), OperateType.ADD);
+        return result(sysMenuService.save(sysMenu), OperateType.SAVE);
     }
 
     /**
