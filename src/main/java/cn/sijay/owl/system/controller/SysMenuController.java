@@ -6,6 +6,7 @@ import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
+import cn.sijay.owl.system.dto.SysMenuQuery;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.service.SysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,15 +51,15 @@ public class SysMenuController extends BaseController {
     /**
      * 查询系统菜单列表
      *
-     * @param sysMenu 查询条件
+     * @param sysMenuQuery 查询条件
      * @return 系统菜单列表
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
     @GetMapping("/list")
     @Operation(summary = "查询系统菜单列表")
-    public Result<List<SysMenu>> list(SysMenu sysMenu) {
-        return success(sysMenuService.list(sysMenu));
+    public Result<List<SysMenu>> list(SysMenuQuery sysMenuQuery) {
+        return success(sysMenuService.list(sysMenuQuery));
     }
 
     /**
@@ -76,31 +77,17 @@ public class SysMenuController extends BaseController {
     }
 
     /**
-     * 新增系统菜单
+     * 保存系统菜单
      *
      * @param sysMenu 系统菜单信息
      * @return 操作结果
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.SAVE)
-    @SaCheckPermission("system:sysMenu:add")
-    @PostMapping("/add")
-    @Operation(summary = "修改系统菜单")
-    public Result<Boolean> add(@Valid @RequestBody SysMenu sysMenu) {
-        return result(sysMenuService.save(sysMenu), OperateType.SAVE);
-    }
-
-    /**
-     * 修改系统菜单
-     *
-     * @param sysMenu 系统菜单信息
-     * @return 操作结果
-     */
-    @AccessLog(title = "系统菜单", operateType = OperateType.UPDATE)
-    @SaCheckPermission("system:sysMenu:update")
-    @PostMapping("/update")
-    @Operation(summary = "修改系统菜单")
-    public Result<Boolean> update(@Valid @RequestBody SysMenu sysMenu) {
-        return result(sysMenuService.updateById(sysMenu), OperateType.UPDATE);
+    @SaCheckPermission("system:sysMenu:save")
+    @PostMapping("/save")
+    @Operation(summary = "保存系统菜单")
+    public Result<Boolean> save(@Valid @RequestBody SysMenu sysMenu) {
+        return result(sysMenuService.validSave(sysMenu), OperateType.SAVE);
     }
 
     /**
@@ -153,15 +140,15 @@ public class SysMenuController extends BaseController {
     /**
      * 导出系统菜单数据
      *
-     * @param sysMenu 查询条件
+     * @param sysMenuQuery 查询条件
      * @return Excel文件
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysMenu:export")
     @GetMapping("/export")
     @Operation(summary = "导出系统菜单")
-    public ResponseEntity<Resource> exportData(SysMenu sysMenu) {
-        List<SysMenu> list = sysMenuService.list(sysMenu);
+    public ResponseEntity<Resource> exportData(SysMenuQuery sysMenuQuery) {
+        List<SysMenu> list = sysMenuService.list(sysMenuQuery);
         return ExcelUtil.exportExcel(list, "系统菜单", SysMenu.class);
     }
 

@@ -1,5 +1,6 @@
 drop table if exists gen_table;
-create table gen_table (
+create table gen_table
+(
     id              bigint       not null auto_increment primary key comment '主键',
     table_name      varchar(100) not null unique comment '物理表名',
     table_comment   varchar(500) not null comment '表注释',
@@ -12,10 +13,12 @@ create table gen_table (
     tree_parent_key varchar(50) default '' comment '树父编码字段',
     tree_label      varchar(50) default '' comment '树名称字段',
     menu_id         bigint      default 1 comment '所属菜单',
+    entity_only     boolean     default false comment '仅生成实体类',
     index idx_table_name (table_name)
 ) comment '代码生成表信息';
 drop table if exists gen_column;
-create table gen_column (
+create table gen_column
+(
     id             bigint       not null auto_increment primary key comment '主键',
     table_id       bigint       not null comment '表id',
     column_name    varchar(128) not null comment '列名',
@@ -26,7 +29,6 @@ create table gen_column (
     primary_key    boolean      default false comment '是否主键',
     incremental    boolean      default false comment '是否自增',
     required       boolean      default false comment '是否必填',
-    insertable     boolean      default true comment '是否插入',
     editable       boolean      default true comment '是否编辑',
     listable       boolean      default true comment '是否列表',
     queryable      boolean      default false comment '是否查询',
@@ -38,7 +40,8 @@ create table gen_column (
 ) comment '代码生成列信息';
 
 drop table if exists sys_dept;
-create table sys_dept (
+create table sys_dept
+(
     id            bigint not null auto_increment primary key comment '主键',
     parent_id     bigint        default 0 comment '父部门id',
     ancestors     varchar(1000) default '' comment '祖级列表',
@@ -57,9 +60,10 @@ create table sys_dept (
     update_time   datetime      default current_timestamp comment '更新时间',
     index idx_parent_id (parent_id),
     index idx_deleted (deleted)
-) comment '部门表';
+) comment '系统部门表';
 drop table if exists sys_post;
-create table sys_post (
+create table sys_post
+(
     id            bigint      not null auto_increment primary key comment '主键',
     dept_id       bigint      not null comment '部门id',
     post_code     varchar(64) not null unique comment '岗位编码',
@@ -75,9 +79,10 @@ create table sys_post (
     update_time   datetime     default current_timestamp comment '更新时间',
     index idx_dept_id (dept_id),
     index idx_deleted (deleted)
-) comment '岗位表';
+) comment '系统岗位表';
 drop table if exists sys_role;
-create table sys_role (
+create table sys_role
+(
     id                  bigint       not null auto_increment primary key comment '主键',
     role_name           varchar(30)  not null comment '角色名称',
     role_code           varchar(100) not null unique comment '角色权限字符串',
@@ -93,11 +98,12 @@ create table sys_role (
     update_by           bigint                                                        default 1 comment '更新者',
     update_time         datetime                                                      default current_timestamp comment '更新时间',
     index idx_deleted (deleted)
-) comment '角色表';
+) comment '系统角色表';
 drop table if exists sys_menu;
-create table sys_menu (
-    id           bigint      not null auto_increment primary key comment '主键',
-    menu_name    varchar(50) not null comment '菜单名称',
+create table sys_menu
+(
+    id           bigint       not null auto_increment primary key comment '主键',
+    menu_name    varchar(50)  not null comment '菜单名称',
     parent_id    bigint       default 0 comment '父菜单id',
     sort         int          default 0 comment '显示顺序',
     path         varchar(200) default '' comment '路由地址',
@@ -110,15 +116,17 @@ create table sys_menu (
     enabled      boolean      default true comment '启用',
     perms        varchar(100) default '' comment '权限标识',
     icon         varchar(100) default '#' comment '菜单图标',
+    active_menu  varchar(100) null comment '高亮菜单',
     create_dept  bigint       default 1 comment '创建部门',
     create_by    bigint       default 1 comment '创建者',
     create_time  datetime     default current_timestamp comment '创建时间',
     update_by    bigint       default 1 comment '更新者',
     update_time  datetime     default current_timestamp comment '更新时间',
     index idx_parent_id (parent_id)
-) comment '菜单表';
+) comment '系统菜单表';
 drop table if exists sys_user;
-create table sys_user (
+create table sys_user
+(
     id          bigint       not null auto_increment primary key comment '主键',
     dept_id     bigint                default 0 comment '部门id',
     username    varchar(20)  not null unique comment '用户账号',
@@ -139,54 +147,31 @@ create table sys_user (
     update_time datetime              default current_timestamp comment '更新时间',
     index idx_dept_id (dept_id),
     index idx_deleted (deleted)
-) comment '用户表';
-drop table if exists sys_user_online;
-create table sys_user_online (
-    id               bigint auto_increment primary key comment '主键',
-    user_id          bigint   not null comment '用户id',
-    username         varchar(50)  default '' comment '用户账号',
-    dept_name        varchar(50)  default '' comment '部门名称',
-    login_ip         varchar(128) default '' comment '登录ip',
-    login_location   varchar(255) default '' comment '登录地点',
-    browser          varchar(50)  default '' comment '浏览器',
-    os               varchar(50)  default '' comment '操作系统',
-    login_time       datetime not null comment '登录时间',
-    last_access_time datetime not null comment '最后访问时间',
-    expire_time      datetime not null comment '过期时间',
-    index idx_user_id (user_id),
-    index idx_last_access_time (last_access_time)
-) comment '在线用户表';
-drop table if exists sys_user_mfa_recovery_codes;
-create table sys_user_mfa_recovery_codes (
-    id          bigint auto_increment primary key comment '主键',
-    user_id     bigint      not null comment '用户id',
-    code        varchar(10) not null comment '备用验证码',
-    used        boolean  default false comment '已用',
-    used_time   datetime default null comment '使用时间',
-    create_time datetime default current_timestamp comment '创建时间',
-    index idx_user_id (user_id),
-    index idx_code (code)
-) comment 'MFA备用验证码表';
+) comment '系统用户表';
 drop table if exists sys_user_role;
-create table sys_user_role (
+create table sys_user_role
+(
     user_id bigint not null comment '用户id',
     role_id bigint not null comment '角色id',
     primary key (user_id, role_id)
 ) comment '用户角色关联表';
 drop table if exists sys_role_menu;
-create table sys_role_menu (
+create table sys_role_menu
+(
     role_id bigint not null comment '角色id',
     menu_id bigint not null comment '菜单id',
     primary key (role_id, menu_id)
 ) comment '角色菜单关联表';
 drop table if exists sys_user_post;
-create table sys_user_post (
+create table sys_user_post
+(
     user_id bigint not null comment '用户id',
     post_id bigint not null comment '岗位id',
     primary key (user_id, post_id)
 ) comment '用户岗位关联表';
 drop table if exists sys_dict_type;
-create table sys_dict_type (
+create table sys_dict_type
+(
     id          bigint not null auto_increment primary key comment '主键',
     type_name   varchar(100) default '' comment '字典名称',
     type_code   varchar(100) default '' unique comment '字典编码',
@@ -197,7 +182,8 @@ create table sys_dict_type (
     update_time datetime     default current_timestamp comment '更新时间'
 ) comment '字典类型表';
 drop table if exists sys_dict_data;
-create table sys_dict_data (
+create table sys_dict_data
+(
     id           bigint       not null auto_increment primary key comment '主键',
     dict_type_id bigint       not null comment '字典类型id',
     dict_code    varchar(100) not null default '' comment '字典编码',
@@ -217,7 +203,8 @@ create table sys_dict_data (
     index idx_dict_code (dict_code)
 ) comment '字典数据表';
 drop table if exists sys_config;
-create table sys_config (
+create table sys_config
+(
     id           bigint not null auto_increment primary key comment '主键',
     config_name  varchar(100) default '' comment '参数名称',
     config_key   varchar(100) default '' unique comment '参数键名',
@@ -228,8 +215,39 @@ create table sys_config (
     update_by    bigint       default 1 comment '更新者',
     update_time  datetime     default current_timestamp comment '更新时间'
 ) comment '参数配置表';
+
+drop table if exists sys_user_online;
+create table sys_user_online
+(
+    id               bigint auto_increment primary key comment '主键',
+    user_id          bigint   not null comment '用户id',
+    username         varchar(50)  default '' comment '用户账号',
+    dept_name        varchar(50)  default '' comment '部门名称',
+    login_ip         varchar(128) default '' comment '登录ip',
+    login_location   varchar(255) default '' comment '登录地点',
+    browser          varchar(50)  default '' comment '浏览器',
+    os               varchar(50)  default '' comment '操作系统',
+    login_time       datetime not null comment '登录时间',
+    last_access_time datetime not null comment '最后访问时间',
+    expire_time      datetime not null comment '过期时间',
+    index idx_user_id (user_id),
+    index idx_last_access_time (last_access_time)
+) comment '在线用户表';
+drop table if exists sys_user_mfa_recovery_codes;
+create table sys_user_mfa_recovery_codes
+(
+    id          bigint auto_increment primary key comment '主键',
+    user_id     bigint      not null comment '用户id',
+    code        varchar(10) not null comment '备用验证码',
+    used        boolean  default false comment '已用',
+    used_time   datetime default null comment '使用时间',
+    create_time datetime default current_timestamp comment '创建时间',
+    index idx_user_id (user_id),
+    index idx_code (code)
+) comment 'MFA备用验证码表';
 drop table if exists sys_notice;
-create table sys_notice (
+create table sys_notice
+(
     id             bigint       not null auto_increment primary key comment '主键',
     notice_title   varchar(100) not null comment '公告标题',
     notice_type    varchar(32)  not null comment '公告类型',
@@ -244,7 +262,8 @@ create table sys_notice (
     index idx_deleted (deleted)
 ) comment '通知公告表';
 drop table if exists sys_message;
-create table sys_message (
+create table sys_message
+(
     id              bigint      not null auto_increment primary key comment '主键',
     message_title   varchar(50) not null comment '消息标题',
     message_content text comment '消息内容',
@@ -262,10 +281,12 @@ create table sys_message (
     index idx_recipient (recipient),
     index idx_has_read (has_read),
     index idx_create_time (create_time)
-) comment '消息表';
+) comment '系统消息表';
+
 
 drop table if exists log_access;
-create table log_access (
+create table log_access
+(
     id              bigint not null auto_increment primary key comment '主键',
     user_id         bigint       default 0 comment '用户id',
     title           varchar(50)  default '' comment '模块标题',
@@ -289,7 +310,8 @@ create table log_access (
     index idx_log_access_access_time (access_time)
 ) comment '访问日志表';
 drop table if exists log_login;
-create table log_login (
+create table log_login
+(
     id         bigint not null auto_increment primary key comment '主键',
     user_id    bigint       default 0 comment '用户id',
     username   varchar(50)  default '' comment '用户账号',
@@ -305,7 +327,8 @@ create table log_login (
 ) comment '登录日志表';
 
 drop table if exists file_storage;
-create table file_storage (
+create table file_storage
+(
     id            bigint       not null auto_increment primary key comment '主键',
     file_name     varchar(255) not null default '' comment '文件名',
     original_name varchar(255) not null default '' comment '原名',
@@ -324,7 +347,8 @@ create table file_storage (
     index idx_deleted (deleted)
 ) comment '文件存储表';
 drop table if exists file_oss_storage;
-create table file_oss_storage (
+create table file_oss_storage
+(
     id            bigint       not null auto_increment primary key comment '主键',
     file_name     varchar(255) not null default '' comment '文件名',
     original_name varchar(255) not null default '' comment '原名',
@@ -345,7 +369,8 @@ create table file_oss_storage (
 ) comment 'OSS对象存储表';
 
 drop table if exists sys_task;
-create table sys_task (
+create table sys_task
+(
     id                bigint auto_increment primary key comment '主键',
     task_key          varchar(255)                               not null unique comment '任务唯一标识符',
     task_name         varchar(255)                               not null comment '任务名称',
@@ -375,7 +400,8 @@ create table sys_task (
     index idx_enabled (enabled)
 ) comment '定时任务配置表';
 drop table if exists log_task;
-create table log_task (
+create table log_task
+(
     id                bigint auto_increment primary key comment '主键',
     task_id           bigint                                not null comment '关联的任务id',
     execution_id      varchar(255)                          not null comment '本次执行的唯一ID',
@@ -392,3 +418,4 @@ create table log_task (
     index idx_start_time (start_time),
     index idx_status (status)
 ) comment '定时任务执行日志表';
+

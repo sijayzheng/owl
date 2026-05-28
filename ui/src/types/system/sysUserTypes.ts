@@ -6,7 +6,7 @@ export interface SysUser extends BaseEntity {
   // 用户账号
   username: string
   // 用户姓名
-  realname: string
+  realName: string
   // 邮箱
   email: string
   // 手机号
@@ -15,27 +15,28 @@ export interface SysUser extends BaseEntity {
   gender: string
   // 头像
   avatar: string
-  // 密码
-  password: string
   // 是否启用MFA
   mfaEnabled: boolean
-  // totp密钥
-  totpSecret: string
   // 启用
   enabled: boolean
-  // 删除
-  deleted: boolean
 }
 
-export interface SysUserQuery extends PageQuery {
+export interface SysUserQuery {
   // 部门id
   deptId?: number
   // 用户账号
   username?: string
   // 用户姓名
-  realname?: string
+  realName?: string
+  // 邮箱
+  email?: string
+  // 手机号
+  phone?: string
   // 启用
   enabled?: boolean
+}
+
+export interface SysUserPageQuery extends SysUserQuery, PageQuery {
 }
 
 export interface SysUserForm {
@@ -46,7 +47,7 @@ export interface SysUserForm {
   // 用户账号
   username?: string
   // 用户姓名
-  realname?: string
+  realName?: string
   // 邮箱
   email?: string
   // 手机号
@@ -55,12 +56,31 @@ export interface SysUserForm {
   gender?: string
   // 头像
   avatar?: string
-  // 密码
-  password?: string
   // 是否启用MFA
   mfaEnabled?: boolean
-  // totp密钥
-  totpSecret?: string
   // 启用
   enabled?: boolean
+}
+
+export const sysUserInitData: SysUserForm = {
+  // 主键
+  id: undefined,
+  // 部门id
+  deptId: undefined,
+  // 用户账号
+  username: undefined,
+  // 用户姓名
+  realName: undefined,
+  // 邮箱
+  email: undefined,
+  // 手机号
+  phone: undefined,
+  // 性别
+  gender: undefined,
+  // 头像
+  avatar: undefined,
+  // 是否启用MFA
+  mfaEnabled: undefined,
+  // 启用
+  enabled: undefined,
 }

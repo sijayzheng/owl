@@ -5,12 +5,12 @@ import cn.sijay.owl.auth.entity.Captcha;
 import cn.sijay.owl.auth.entity.LoginReq;
 import cn.sijay.owl.auth.entity.LoginResp;
 import cn.sijay.owl.auth.service.LoginService;
+import cn.sijay.owl.auth.utils.CaptchaUtil;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
-import cn.sijay.owl.common.utils.CaptchaUtil;
 import cn.sijay.owl.common.utils.RedisUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -39,12 +39,12 @@ public class AuthController extends BaseController {
     public Result<LoginResp> login(@Valid @RequestBody LoginReq loginReq) {
         String captchaKey = RedisPrefix.CAPTCHA_KEY + loginReq.uuid();
         String storedCaptcha = RedisUtil.get(captchaKey);
-        if (storedCaptcha == null) {
-            return fail("验证码已过期");
-        }
-        if (!storedCaptcha.equalsIgnoreCase(loginReq.captcha())) {
-            return fail("验证码输入错误");
-        }
+//        if (storedCaptcha == null) {
+//            return fail("验证码已过期");
+//        }
+//        if (!storedCaptcha.equalsIgnoreCase(loginReq.captcha())) {
+//            return fail("验证码输入错误");
+//        }
         RedisUtil.delete(captchaKey);
         return success(loginService.login(loginReq));
     }

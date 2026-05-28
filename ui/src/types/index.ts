@@ -55,5 +55,17 @@ declare global {
     // 更新时间
     updateTime: string
   }
+
+  interface TagView {
+    fullPath: string
+    path: string
+    title: string
+    name?: string
+    icon?: string
+    affix?: boolean
+    query?: Record<string, string>
+    params?: Record<string, string>
+  }
+
 }
 export {}

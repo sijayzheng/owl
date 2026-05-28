@@ -1,6 +1,6 @@
 export const sysConfigApi = {
   // 分页查询参数配置列表
-  page(data: SysConfigQuery) {
+  page(data: SysConfigPageQuery) {
     return request.page<Result<SysConfig[]>>('/system/sys-config/page', data)
   },
   // 查询参数配置列表
@@ -11,28 +11,24 @@ export const sysConfigApi = {
   getById(id: number) {
     return request.get<SysConfig>(`/system/sys-config/${id}`)
   },
-  // 新增参数配置
-  add(data: SysConfigForm) {
-    return request.post<boolean>('/system/sys-config/add', data)
-  },
-  // 修改参数配置
-  update(data: SysConfigForm) {
-    return request.post<boolean>('/system/sys-config/update', data)
+  // 保存参数配置
+  save(data: SysConfigForm) {
+    return request.post<boolean>('/system/sys-config/save', data)
   },
   // 删除参数配置
   remove(ids: number[]) {
     return request.post<boolean>('/system/sys-config/remove', ids)
   },
   // 下载参数配置导入模板
-  //template() {
-  //  return request.get<>('/system/sys-config/template')
-  //},
+  template() {
+    return request.get('/system/sys-config/template')
+  },
   // 导入参数配置数据
-  //importData() {
-  //  return request.post<>('/system/sys-config/import')
-  //},
+  importData() {
+    return request.post('/system/sys-config/import')
+  },
   // 导出参数配置数据
-  //exportData(data: SysConfigQuery) {
-  //  return request.get<>('/system/sys-config/export', data)
-  //},
+  exportData(data: SysConfigQuery) {
+    return request.get('/system/sys-config/export', data)
+  },
 }

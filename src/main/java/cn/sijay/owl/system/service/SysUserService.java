@@ -2,6 +2,7 @@ package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.exceptions.ServiceException;
+import cn.sijay.owl.system.dto.SysUserQuery;
 import cn.sijay.owl.system.entity.SysUser;
 import cn.sijay.owl.system.mapper.SysUserMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -33,37 +34,49 @@ public class SysUserService extends ServiceImpl<SysUserMapper, SysUser> implemen
     /**
      * 分页查询系统用户
      *
-     * @param pageQuery 分页参数
-     * @param sysUser   查询条件
+     * @param pageQuery    分页参数
+     * @param sysUserQuery 查询条件
      * @return 系统用户分页数据
      */
-    public Page<SysUser> page(PageQuery pageQuery, SysUser sysUser) {
-        return page(pageQuery.build(), pageQuery.setOrder(query(sysUser)));
+    public Page<SysUser> page(PageQuery pageQuery, SysUserQuery sysUserQuery) {
+        return page(pageQuery.build(), pageQuery.setOrder(query(sysUserQuery)));
     }
 
     /**
      * 构建查询条件
      *
-     * @param sysUser 查询条件对象
+     * @param sysUserQuery 查询条件对象
      * @return 查询包装器
      */
-    private QueryWrapper query(SysUser sysUser) {
+    private QueryWrapper query(SysUserQuery sysUserQuery) {
         QueryWrapper query = query();
-        query.and(SYS_USER.DEPT_ID.eq(sysUser.getDeptId()));
-        query.and(SYS_USER.USERNAME.like(sysUser.getUsername()));
-        query.and(SYS_USER.REALNAME.like(sysUser.getRealname()));
-        query.and(SYS_USER.ENABLED.eq(sysUser.getEnabled()));
+        query.and(SYS_USER.DEPT_ID.eq(sysUserQuery.deptId()));
+        query.and(SYS_USER.USERNAME.like(sysUserQuery.username()));
+        query.and(SYS_USER.REAL_NAME.like(sysUserQuery.realName()));
+        query.and(SYS_USER.EMAIL.like(sysUserQuery.email()));
+        query.and(SYS_USER.PHONE.like(sysUserQuery.phone()));
+        query.and(SYS_USER.ENABLED.eq(sysUserQuery.enabled()));
         return query;
     }
 
     /**
      * 查询系统用户列表
      *
-     * @param sysUser 查询条件
+     * @param sysUserQuery 查询条件
      * @return 系统用户列表
      */
-    public List<SysUser> list(SysUser sysUser) {
-        return list(query(sysUser));
+    public List<SysUser> list(SysUserQuery sysUserQuery) {
+        return list(query(sysUserQuery));
+    }
+
+    /**
+     * 校验并保存系统用户
+     *
+     * @param sysUser 系统用户实体
+     * @return 保存结果
+     */
+    public boolean validSave(SysUser sysUser) {
+        return saveOrUpdate(sysUser);
     }
 
     public SysUser getByUsername(String username) {

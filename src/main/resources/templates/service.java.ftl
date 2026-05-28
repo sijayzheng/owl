@@ -2,6 +2,7 @@ package ${packageName}.${moduleName}.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.exceptions.ServiceException;
+import ${packageName}.${moduleName}.dto.${className}Query;
 import ${packageName}.${moduleName}.entity.${className};
 import ${packageName}.${moduleName}.mapper.${className}Mapper;
 import com.mybatisflex.core.paginate.Page;
@@ -104,32 +105,32 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
     /**
      * 分页查询${classComment}
      *
-     * @param pageQuery       分页参数
-     * @param ${functionName} 查询条件
+     * @param pageQuery            分页参数
+     * @param ${functionName}Query 查询条件
      * @return ${classComment}分页数据
      */
-    public Page<${className}> page(PageQuery pageQuery, ${className} ${functionName}) {
-        return page(pageQuery.build(), pageQuery.setOrder(query(${functionName})));
+    public Page<${className}> page(PageQuery pageQuery, ${className}Query ${functionName}Query) {
+        return page(pageQuery.build(), pageQuery.setOrder(query(${functionName}Query)));
     }
 </#if>
 
     /**
      * 构建查询条件
      *
-     * @param ${functionName} 查询条件对象
+     * @param ${functionName}Query 查询条件对象
      * @return 查询包装器
      */
-    private QueryWrapper query(${className} ${functionName}) {
+    private QueryWrapper query(${className}Query ${functionName}Query) {
         QueryWrapper query = query();
 <#list columns?filter(item -> item.queryable) as column>
     <#if column.queryType=="EQUALS">
-        query.and(${tableDef}.${column.columnName?upper_case}.eq(${functionName}.get${column.javaField?cap_first}()));
+        query.and(${tableDef}.${column.columnName?upper_case}.eq(${functionName}Query.${column.javaField}()));
     <#elseif column.queryType=="LIKE">
-        query.and(${tableDef}.${column.columnName?upper_case}.like(${functionName}.get${column.javaField?cap_first}()));
+        query.and(${tableDef}.${column.columnName?upper_case}.like(${functionName}Query.${column.javaField}()));
     <#elseif column.queryType=="BETWEEN">
-        query.and(${tableDef}.${column.columnName?upper_case}.between(${functionName}.get${column.javaField?cap_first}Range()));
+        query.and(${tableDef}.${column.columnName?upper_case}.between(${functionName}Query.${column.javaField}Range()));
     <#elseif column.queryType=="IN">
-        query.and(${tableDef}.${column.columnName?upper_case}.in(${functionName}.get${column.javaField?cap_first}s()));
+        query.and(${tableDef}.${column.columnName?upper_case}.in(${functionName}Query.${column.javaField}s()));
     </#if>
 </#list>
         return query;
@@ -138,11 +139,20 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
     /**
      * 查询${classComment}列表
      *
-     * @param ${functionName} 查询条件
+     * @param ${functionName}Query 查询条件
      * @return ${classComment}列表
      */
-    public List<${className}> list(${className} ${functionName}) {
-        return list(query(${functionName}));
+    public List<${className}> list(${className}Query ${functionName}Query) {
+        return list(query(${functionName}Query));
     }
 
+    /**
+     * 校验并保存${classComment}
+     *
+     * @param ${functionName} ${classComment}实体
+     * @return 保存结果
+     */
+    public boolean validSave(${className} ${functionName}) {
+        return saveOrUpdate(${functionName});
+    }
 }

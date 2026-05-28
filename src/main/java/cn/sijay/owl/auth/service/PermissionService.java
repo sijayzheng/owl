@@ -1,6 +1,6 @@
 package cn.sijay.owl.auth.service;
 
-import cn.sijay.owl.common.utils.LoginHelper;
+import cn.sijay.owl.auth.utils.LoginHelper;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.entity.SysRole;
 import cn.sijay.owl.system.entity.SysUser;

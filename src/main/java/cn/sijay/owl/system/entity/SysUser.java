@@ -46,9 +46,9 @@ public class SysUser extends BaseEntity {
     /**
      * 用户姓名
      */
-    @Column(value = "realname", comment = "用户姓名")
+    @Column(value = "real_name", comment = "用户姓名")
     @ExcelProperty(value = "用户姓名")
-    private String realname;
+    private String realName;
 
     /**
      * 邮箱
@@ -91,10 +91,10 @@ public class SysUser extends BaseEntity {
     private Boolean mfaEnabled;
 
     /**
-     * totp密钥
+     * TOTP密钥
      */
     @JsonIgnore
-    @Column(value = "totp_secret", comment = "totp密钥")
+    @Column(value = "totp_secret", comment = "TOTP密钥")
     private String totpSecret;
 
     /**
@@ -115,13 +115,5 @@ public class SysUser extends BaseEntity {
         joinTargetColumn = "role_id"
     )
     private List<SysRole> roles;
-
-    @RelationManyToMany(
-        joinTable = "sys_user_post", // 中间表
-        joinSelfColumn = "user_id",
-        joinTargetColumn = "post_id"
-    )
-    private List<SysPost> posts;
-
 
 }

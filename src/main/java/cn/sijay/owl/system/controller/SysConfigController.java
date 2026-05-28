@@ -7,6 +7,7 @@ import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
+import cn.sijay.owl.system.dto.SysConfigQuery;
 import cn.sijay.owl.system.entity.SysConfig;
 import cn.sijay.owl.system.service.SysConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,30 +40,30 @@ public class SysConfigController extends BaseController {
     /**
      * 分页查询参数配置列表
      *
-     * @param pageQuery 分页参数
-     * @param sysConfig 查询条件
+     * @param pageQuery      分页参数
+     * @param sysConfigQuery 查询条件
      * @return 参数配置分页列表
      */
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
     @GetMapping("/page")
     @Operation(summary = "查询参数配置列表")
-    public Result<List<SysConfig>> page(PageQuery pageQuery, SysConfig sysConfig) {
-        return success(sysConfigService.page(pageQuery, sysConfig));
+    public Result<List<SysConfig>> page(PageQuery pageQuery, SysConfigQuery sysConfigQuery) {
+        return success(sysConfigService.page(pageQuery, sysConfigQuery));
     }
 
     /**
      * 查询参数配置列表
      *
-     * @param sysConfig 查询条件
+     * @param sysConfigQuery 查询条件
      * @return 参数配置列表
      */
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
     @GetMapping("/list")
     @Operation(summary = "查询参数配置列表")
-    public Result<List<SysConfig>> list(SysConfig sysConfig) {
-        return success(sysConfigService.list(sysConfig));
+    public Result<List<SysConfig>> list(SysConfigQuery sysConfigQuery) {
+        return success(sysConfigService.list(sysConfigQuery));
     }
 
     /**
@@ -80,31 +81,17 @@ public class SysConfigController extends BaseController {
     }
 
     /**
-     * 新增参数配置
+     * 保存参数配置
      *
      * @param sysConfig 参数配置信息
      * @return 操作结果
      */
     @AccessLog(title = "参数配置", operateType = OperateType.SAVE)
-    @SaCheckPermission("system:sysConfig:add")
-    @PostMapping("/add")
-    @Operation(summary = "修改参数配置")
-    public Result<Boolean> add(@Valid @RequestBody SysConfig sysConfig) {
-        return result(sysConfigService.save(sysConfig), OperateType.SAVE);
-    }
-
-    /**
-     * 修改参数配置
-     *
-     * @param sysConfig 参数配置信息
-     * @return 操作结果
-     */
-    @AccessLog(title = "参数配置", operateType = OperateType.UPDATE)
-    @SaCheckPermission("system:sysConfig:update")
-    @PostMapping("/update")
-    @Operation(summary = "修改参数配置")
-    public Result<Boolean> update(@Valid @RequestBody SysConfig sysConfig) {
-        return result(sysConfigService.updateById(sysConfig), OperateType.UPDATE);
+    @SaCheckPermission("system:sysConfig:save")
+    @PostMapping("/save")
+    @Operation(summary = "保存参数配置")
+    public Result<Boolean> save(@Valid @RequestBody SysConfig sysConfig) {
+        return result(sysConfigService.validSave(sysConfig), OperateType.SAVE);
     }
 
     /**
@@ -157,15 +144,15 @@ public class SysConfigController extends BaseController {
     /**
      * 导出参数配置数据
      *
-     * @param sysConfig 查询条件
+     * @param sysConfigQuery 查询条件
      * @return Excel文件
      */
     @AccessLog(title = "参数配置", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysConfig:export")
     @GetMapping("/export")
     @Operation(summary = "导出参数配置")
-    public ResponseEntity<Resource> exportData(SysConfig sysConfig) {
-        List<SysConfig> list = sysConfigService.list(sysConfig);
+    public ResponseEntity<Resource> exportData(SysConfigQuery sysConfigQuery) {
+        List<SysConfig> list = sysConfigService.list(sysConfigQuery);
         return ExcelUtil.exportExcel(list, "参数配置", SysConfig.class);
     }
 

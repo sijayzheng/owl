@@ -19,5 +19,5 @@ public class MainTest {
         System.out.println(now.isAfter(LocalDate.parse(split[0])) && now.isBefore(LocalDate.parse(split[1])));
     }
 
-     
+
 }

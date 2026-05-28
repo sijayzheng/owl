@@ -11,28 +11,24 @@ export const sysMenuApi = {
   getById(id: number) {
     return request.get<SysMenu>(`/system/sys-menu/${id}`)
   },
-  // 新增系统菜单
-  add(data: SysMenuForm) {
-    return request.post<boolean>('/system/sys-menu/add', data)
-  },
-  // 修改系统菜单
-  update(data: SysMenuForm) {
-    return request.post<boolean>('/system/sys-menu/update', data)
+  // 保存系统菜单
+  save(data: SysMenuForm) {
+    return request.post<boolean>('/system/sys-menu/save', data)
   },
   // 删除系统菜单
   remove(ids: number[]) {
     return request.post<boolean>('/system/sys-menu/remove', ids)
   },
   // 下载系统菜单导入模板
-  //template() {
-  //  return request.get<>('/system/sys-menu/template')
-  //},
+  template() {
+    return request.get('/system/sys-menu/template')
+  },
   // 导入系统菜单数据
-  //importData() {
-  //  return request.post<>('/system/sys-menu/import')
-  //},
+  importData() {
+    return request.post('/system/sys-menu/import')
+  },
   // 导出系统菜单数据
-  //exportData(data: SysMenuQuery) {
-  //  return request.get<>('/system/sys-menu/export', data)
-  //},
+  exportData(data: SysMenuQuery) {
+    return request.get('/system/sys-menu/export', data)
+  },
 }

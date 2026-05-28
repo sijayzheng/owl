@@ -24,12 +24,14 @@ import static cn.sijay.owl.gen.entity.table.GenTableTableDef.GEN_TABLE;
 @Service
 public class GenTableService extends ServiceImpl<GenTableMapper, GenTable> implements IService<GenTable> {
     private final GenColumnService columnService;
+    private final GenTableMapper genTableMapper;
 
     public List<GenTable> list(GenTable genTable) {
-        List<GenTable> list = list(query(genTable));
-        for (GenTable table : list) {
-            table.setColumns(columnService.listByTableId(table.getId()));
-        }
+        List<GenTable> list = genTableMapper.selectListWithRelationsByQuery(query(genTable));
+//        List<GenTable> list = list(query(genTable));
+//        for (GenTable table : list) {
+//            table.setColumns(columnService.listByTableId(table.getId()));
+//        }
         return list;
     }
 

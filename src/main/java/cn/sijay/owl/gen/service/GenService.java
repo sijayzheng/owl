@@ -1,36 +1,42 @@
 package cn.sijay.owl.gen.service;
 
 import cn.sijay.owl.common.enums.NamingCase;
+import cn.sijay.owl.common.exceptions.BaseException;
 import cn.sijay.owl.common.exceptions.ServiceException;
 import cn.sijay.owl.common.utils.FileUtil;
 import cn.sijay.owl.common.utils.NamingUtil;
 import cn.sijay.owl.gen.constants.GenConstants;
+import cn.sijay.owl.gen.entity.ColumnInfo;
 import cn.sijay.owl.gen.entity.GenColumn;
 import cn.sijay.owl.gen.entity.GenTable;
+import cn.sijay.owl.gen.entity.TableInfo;
 import cn.sijay.owl.gen.enums.HtmlType;
 import cn.sijay.owl.gen.enums.JavaType;
 import cn.sijay.owl.gen.enums.QueryType;
+import cn.sijay.owl.gen.mapper.GenTableMapper;
 import cn.sijay.owl.gen.properties.GenProperties;
+import cn.sijay.owl.gen.utils.SqlTypesUtil;
 import com.mybatisflex.core.query.QueryColumn;
 import com.mybatisflex.core.query.QueryWrapper;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * GenService
@@ -42,97 +48,163 @@ import java.util.Map;
 @Slf4j
 @Service
 public class GenService {
+
     private final GenTableService tableService;
+    private final GenTableMapper tableMapper;
     private final GenColumnService columnService;
     private final Configuration configuration;
     private final GenProperties genProperties;
 
-    @Transactional
-    public void importTable(@NotEmpty List<String> tables) {
-        for (String table : tables) {
-            GenTable genTable = tableService.getOne(QueryWrapper.create()
-                                                                .select("table_name", "table_comment")
-                                                                .from("information_schema.tables")
-                                                                .where("table_schema=schema()")
-                                                                .and(new QueryColumn("table_name").eq(table)));
-            if (genTable == null) {
-                throw new ServiceException(GenService.class, "表{}不存在", table);
-            }
-            genTable.setModuleName(StringUtils.substringBefore(table, "_"));
-            genTable.setClassName(NamingUtil.caseConvert(table, NamingCase.UPPER_CAMEL_CASE));
-            genTable.setClassComment(genTable.getTableComment().replaceAll("表$", ""));
-            genTable.setFunctionName(NamingUtil.caseConvert(table, NamingCase.LOWER_CAMEL_CASE));
-            tableService.save(genTable);
-            Long tableId = genTable.getId();
-            QueryWrapper query = QueryWrapper.create()
-                                             .select(
-                                                 "column_name",
-                                                 "ordinal_position as sort",
-                                                 "is_nullable='NO' as required",
-                                                 "column_type",
-                                                 "column_key='PRI' as primary_key",
-                                                 "extra='auto_increment' as incremental",
-                                                 "column_comment"
-                                             )
-                                             .from("information_schema.columns")
-                                             .where("TABLE_SCHEMA=schema()")
-                                             .and(new QueryColumn("table_name").eq(table))
-                                             .orderBy(new QueryColumn("ordinal_position").asc());
-            List<GenColumn> list = columnService.list(query);
-            for (GenColumn column : list) {
-                String columnType = column.getColumnType();
-                String dataType = (columnType.contains("(") ? StringUtils.substringBefore(columnType, "(") : columnType).toLowerCase();
-                // 统一转小写 避免有些数据库默认大写问题 如果需要特别书写方式 请在实体类增加注解标注别名
-                String columnName = column.getColumnName().toLowerCase();
+    private final JdbcTemplate jdbcTemplate;
 
-                column.setTableId(tableId);
-                column.setJavaType(switch (dataType) {
-                    case "date" -> JavaType.LOCAL_DATE;
-                    case "time" -> JavaType.LOCAL_TIME;
-                    case "datetime", "timestamp" -> JavaType.LOCAL_DATE_TIME;
-                    case "tinyint" -> columnType.contains("(") && getLength(columnType) > 1 ? JavaType.INTEGER : JavaType.BOOLEAN;
-                    case "bit" -> JavaType.BOOLEAN;
-                    case "smallint", "mediumint", "int", "integer", "year" -> JavaType.INTEGER;
-                    case "bigint" -> JavaType.LONG;
-                    case "float" -> JavaType.FLOAT;
-                    case "double" -> JavaType.DOUBLE;
-                    case "decimal", "numeric" -> JavaType.BIG_DECIMAL;
-                    case "binary", "varbinary", "tinyblob", "blob", "mediumblob", "longblob" -> JavaType.BYTE_ARRAY;
-                    default -> JavaType.STRING;
-                });
-                column.setJavaField(NamingUtil.caseConvert(column.getColumnName(), NamingCase.LOWER_CAMEL_CASE));
-                boolean isSelect = Strings.CS.containsAny(dataType, "enum", "set");
-                column.setQueryType(switch (column.getJavaType()) {
-                    case JavaType.STRING -> isSelect ? QueryType.EQUALS : QueryType.LIKE;
-                    case JavaType.LOCAL_DATE, JavaType.LOCAL_TIME, JavaType.LOCAL_DATE_TIME -> QueryType.BETWEEN;
-                    default -> QueryType.EQUALS;
-                });
-                column.setHtmlType(switch (column.getJavaType()) {
-                    case JavaType.STRING -> isSelect ? HtmlType.SELECT : columnType.contains("(") && getLength(columnType) >= 500 ? HtmlType.TEXTAREA : HtmlType.INPUT;
-                    case JavaType.LOCAL_DATE -> HtmlType.DATE;
-                    case JavaType.LOCAL_TIME -> HtmlType.TIME;
-                    case JavaType.LOCAL_DATE_TIME -> HtmlType.DATETIME;
-                    case JavaType.BOOLEAN -> HtmlType.RADIO;
-                    case JavaType.INTEGER, JavaType.FLOAT, JavaType.DOUBLE, JavaType.BIG_DECIMAL -> HtmlType.NUMBER;
-                    case JavaType.LONG -> columnName.contains("id") ? HtmlType.SELECT : HtmlType.NUMBER;
-                    case JavaType.BYTE_ARRAY -> HtmlType.FILE;
-                });
-                boolean need = !GenConstants.NEEDLESS.contains(columnName);
-                column.setInsertable(need && !column.getPrimaryKey());
-                column.setEditable(need);
-                boolean flag = need && switch (column.getHtmlType()) {
-                    case HtmlType.INPUT, HtmlType.NUMBER, HtmlType.SELECT, HtmlType.RADIO, HtmlType.DATETIME, HtmlType.DATE, HtmlType.TIME -> true;
-                    default -> false;
-                };
-                column.setListable(flag);
-                column.setQueryable(!column.getPrimaryKey() && !"remark".equals(columnName) && flag);
-                columnService.save(column);
+    /**
+     * 获取数据库中所有表的信息
+     */
+    List<TableInfo> getTables(List<String> tableNames) throws SQLException {
+        List<TableInfo> tables = new ArrayList<>();
+        try (Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            String catalog = connection.getCatalog();
+            String schema = connection.getSchema();
+            ResultSet rs = metaData.getTables(catalog, schema, "%", new String[]{"TABLE"});
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                if (Strings.CI.equalsAny(tableName, tableNames.toArray(new String[0]))) {
+                    List<String> primaryKeys = getPrimaryKeys(catalog, schema, tableName);
+                    tables.add(new TableInfo(
+                        tableName.toLowerCase(),
+                        rs.getString("REMARKS"),
+                        getTableColumns(catalog, schema, tableName, primaryKeys)
+                    ));
+                }
             }
+            rs.close();
         }
+        return tables;
     }
 
-    private int getLength(String columnType) {
-        return Integer.parseInt(StringUtils.substringBetween(columnType, "(", ")"));
+    /**
+     * 获取指定表的所有字段信息
+     *
+     * @param tableName 表名
+     */
+    List<ColumnInfo> getTableColumns(String catalog, String schema, String tableName, List<String> primaryKeys) throws SQLException {
+        List<ColumnInfo> columns = new ArrayList<>();
+
+        try (Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet rs = metaData.getColumns(catalog, schema, tableName, null);
+            while (rs.next()) {
+                String columnName = rs.getString("COLUMN_NAME");
+                ColumnInfo columnInfo = new ColumnInfo(
+                    columnName,     // 列名
+                    rs.getInt("DATA_TYPE"),             // SQL 数据类型（int 值）
+                    rs.getInt("COLUMN_SIZE"),         // 列长度/精度
+                    rs.getBoolean("NULLABLE"),              // 是否允许 NULL
+                    rs.getString("REMARKS"),             // 列注释
+                    rs.getInt("ORDINAL_POSITION"),             // 列注释
+                    rs.getBoolean("IS_AUTOINCREMENT"),// 是否自增
+                    primaryKeys.contains(columnName)
+                );
+                columns.add(columnInfo);
+            }
+            rs.close();
+        }
+        return columns;
+    }
+
+    /**
+     * 获取指定表的主键信息
+     */
+    List<String> getPrimaryKeys(String catalog, String schema, String tableName) throws SQLException {
+        List<String> primaryKeys = new ArrayList<>();
+        try (Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet rs = metaData.getPrimaryKeys(catalog, schema, tableName);
+            while (rs.next()) {
+                primaryKeys.add(rs.getString("COLUMN_NAME"));
+            }
+            rs.close();
+        }
+        return primaryKeys;
+    }
+
+    @Transactional
+    public void importTable(List<String> tables) {
+        try {
+            List<TableInfo> tableInfos = getTables(tables);
+            for (TableInfo tableInfo : tableInfos) {
+                String tableName = tableInfo.tableName();
+                String remarks = tableInfo.remarks();
+                GenTable genTable = new GenTable();
+                genTable.setTableName(tableName);
+                genTable.setTableComment(remarks);
+                genTable.setModuleName(StringUtils.substringBefore(tableName, "_"));
+                genTable.setClassName(NamingUtil.caseConvert(tableName, NamingCase.UPPER_CAMEL_CASE));
+                genTable.setClassComment(remarks.replaceAll("表$", ""));
+                genTable.setFunctionName(NamingUtil.caseConvert(tableName, NamingCase.LOWER_CAMEL_CASE));
+                tableService.save(genTable);
+                Long tableId = genTable.getId();
+                List<GenColumn> list = tableInfo.columns()
+                                                .stream()
+                                                .map(columnInfo -> {
+                                                    String columnName = columnInfo.columnName().toLowerCase();
+                                                    GenColumn column = new GenColumn();
+                                                    column.setTableId(tableId);
+                                                    column.setColumnName(columnName);
+                                                    column.setColumnComment(columnInfo.remarks());
+                                                    column.setColumnType(SqlTypesUtil.getDataTypeName(columnInfo.dataType()));
+                                                    column.setJavaType(switch (column.getColumnType()) {
+                                                        case "bit", "boolean" -> JavaType.BOOLEAN;
+                                                        case "tinyint", "smallint", "integer" -> JavaType.INTEGER;
+                                                        case "bigint" -> JavaType.LONG;
+                                                        case "real" -> JavaType.FLOAT;
+                                                        case "float", "double" -> JavaType.DOUBLE;
+                                                        case "decimal", "numeric" -> JavaType.BIG_DECIMAL;
+                                                        case "binary", "varbinary", "longvarbinary", "blob" -> JavaType.BYTE_ARRAY;
+                                                        case "date" -> JavaType.LOCAL_DATE;
+                                                        case "time", "time_with_timezone" -> JavaType.LOCAL_TIME;
+                                                        case "timestamp", "timestamp_with_timezone" -> JavaType.LOCAL_DATE_TIME;
+                                                        default -> JavaType.STRING;
+                                                    });
+                                                    column.setJavaField(NamingUtil.caseConvert(columnName, NamingCase.LOWER_CAMEL_CASE));
+                                                    boolean primaryKey = columnInfo.primaryKey();
+                                                    column.setPrimaryKey(primaryKey);
+                                                    column.setIncremental(columnInfo.increment());
+                                                    column.setRequired(!columnInfo.nullable());
+                                                    column.setSort(columnInfo.sort());
+                                                    int maxLength = columnInfo.maxLength();
+                                                    if (JavaType.STRING.equals(column.getJavaType())) {
+                                                        column.setMaxLength(maxLength);
+                                                    }
+                                                    column.setQueryType(switch (column.getJavaType()) {
+                                                        case JavaType.STRING -> QueryType.LIKE;
+                                                        case JavaType.LOCAL_DATE, JavaType.LOCAL_TIME, JavaType.LOCAL_DATE_TIME -> QueryType.BETWEEN;
+                                                        default -> QueryType.EQUALS;
+                                                    });
+                                                    column.setHtmlType(switch (column.getJavaType()) {
+                                                        case JavaType.STRING -> maxLength < 500 ? HtmlType.INPUT : HtmlType.TEXTAREA;
+                                                        case JavaType.LOCAL_DATE -> HtmlType.DATE;
+                                                        case JavaType.LOCAL_TIME -> HtmlType.TIME;
+                                                        case JavaType.LOCAL_DATE_TIME -> HtmlType.DATETIME;
+                                                        case JavaType.BOOLEAN -> HtmlType.RADIO;
+                                                        case JavaType.INTEGER, JavaType.FLOAT, JavaType.DOUBLE, JavaType.BIG_DECIMAL -> HtmlType.NUMBER;
+                                                        case JavaType.LONG -> columnName.contains("id") ? HtmlType.SELECT : HtmlType.NUMBER;
+                                                        case JavaType.BYTE_ARRAY -> HtmlType.FILE;
+                                                    });
+                                                    boolean need = !GenConstants.NEEDLESS.contains(columnName);
+                                                    column.setEditable(need);
+                                                    boolean flag = need && GenConstants.NEED_QUERY.contains(column.getHtmlType());
+                                                    column.setListable(flag);
+                                                    column.setQueryable(!primaryKey && !"remark".equals(columnName) && flag);
+                                                    return column;
+                                                })
+                                                .toList();
+                columnService.saveBatch(list);
+            }
+        } catch (SQLException e) {
+            throw new BaseException("数据表导入失败，" + e.getMessage());
+        }
     }
 
     /**
@@ -143,12 +215,12 @@ public class GenService {
     public void generateCode(Long tableId) {
         // 生成代码
         // 获取表信息
-        GenTable table = tableService.getById(tableId);
+        GenTable table = tableMapper.selectOneWithRelationsById(tableId);
         if (table == null) {
             throw new ServiceException(getClass(), "表信息不存在");
         }
         // 获取列信息
-        List<GenColumn> columns = columnService.listByTableId(tableId);
+        List<GenColumn> columns = table.getColumns();
         if (CollectionUtils.isEmpty(columns)) {
             throw new ServiceException(getClass(), "列信息不存在");
         }
@@ -164,13 +236,16 @@ public class GenService {
         String vuePath = FileUtil.joinPath(rootPath, "ui", "src");
         try {
             FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
-            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
-            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
-            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
-            FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
-            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + "Types.ts"), codeMap.get("types.ts"));
-            FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, className + ".vue"), codeMap.get("index.vue"));
+            if (!table.getEntityOnly()) {
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
+                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + "Types.ts"), codeMap.get("types.ts"));
+                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
+                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, className + ".vue"), codeMap.get("index.vue"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException(getClass(), "渲染模板失败，表名：" + table.getTableName());

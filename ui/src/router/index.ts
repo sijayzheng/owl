@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { createRouter, createWebHistory } from 'vue-router'
-import Layout from '@/layout/layout.vue'
+import Layout from '@/layout/Layout.vue'
 import { usePermissionStore } from '@/store/permissionStore'
 
 /**

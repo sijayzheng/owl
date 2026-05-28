@@ -1,9 +1,6 @@
 package cn.sijay.owl.gen.entity;
 
-import com.mybatisflex.annotation.Column;
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
-import com.mybatisflex.annotation.Table;
+import com.mybatisflex.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -98,6 +95,12 @@ public class GenTable implements Serializable {
     @Column(comment = "所属菜单")
     private Long menuId;
 
-    @Column(ignore = true)
+    /**
+     * 仅生成实体类
+     */
+    @Column(comment = "仅生成实体类")
+    private Boolean entityOnly;
+
+    @RelationOneToMany(selfField = "id", targetField = "tableId", targetTable = "gen_column")
     private List<GenColumn> columns;
 }

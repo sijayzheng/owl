@@ -9,11 +9,14 @@ export interface SysConfig extends BaseEntity {
   configValue: string
 }
 
-export interface SysConfigQuery extends PageQuery {
+export interface SysConfigQuery {
   // 参数名称
   configName?: string
   // 参数键名
   configKey?: string
+}
+
+export interface SysConfigPageQuery extends SysConfigQuery, PageQuery {
 }
 
 export interface SysConfigForm {
@@ -27,9 +30,13 @@ export interface SysConfigForm {
   configValue?: string
 }
 
-export const sysConfigFormInitData: SysConfigForm = {
+export const sysConfigInitData: SysConfigForm = {
+  // 主键
   id: undefined,
-  configName: '',
-  configKey: '',
-  configValue: '',
+  // 参数名称
+  configName: undefined,
+  // 参数键名
+  configKey: undefined,
+  // 参数键值
+  configValue: undefined,
 }

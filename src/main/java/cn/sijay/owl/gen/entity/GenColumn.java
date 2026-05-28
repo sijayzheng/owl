@@ -73,6 +73,12 @@ public class GenColumn implements Serializable {
     private String javaField;
 
     /**
+     * 最大长度
+     */
+    @Column(comment = "最大长度")
+    private Integer maxLength;
+
+    /**
      * 是否主键
      */
     @Column(comment = "是否主键")
@@ -89,12 +95,6 @@ public class GenColumn implements Serializable {
      */
     @Column(comment = "是否必填")
     private Boolean required;
-
-    /**
-     * 是否插入
-     */
-    @Column(comment = "是否插入")
-    private Boolean insertable;
 
     /**
      * 是否编辑

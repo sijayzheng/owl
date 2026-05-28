@@ -15,13 +15,16 @@ export interface SysRole extends BaseEntity {
   deptCheckStrictly: boolean
   // 启用
   enabled: boolean
-  // 删除
-  deleted: boolean
 }
 
-export interface SysRoleQuery extends PageQuery {
+export interface SysRoleQuery {
   // 角色名称
   roleName?: string
+  // 启用
+  enabled?: boolean
+}
+
+export interface SysRolePageQuery extends SysRoleQuery, PageQuery {
 }
 
 export interface SysRoleForm {
@@ -41,4 +44,23 @@ export interface SysRoleForm {
   deptCheckStrictly?: boolean
   // 启用
   enabled?: boolean
+}
+
+export const sysRoleInitData: SysRoleForm = {
+  // 主键
+  id: undefined,
+  // 角色名称
+  roleName: undefined,
+  // 角色权限字符串
+  roleCode: undefined,
+  // 显示顺序
+  sort: undefined,
+  // 数据权限
+  dataScope: undefined,
+  // 菜单树选择项关联显示
+  menuCheckStrictly: undefined,
+  // 部门树选择项关联显示
+  deptCheckStrictly: undefined,
+  // 启用
+  enabled: undefined,
 }

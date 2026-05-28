@@ -40,10 +40,6 @@ export interface GenColumn {
    */
   required: boolean
   /**
-   * 是否插入
-   */
-  insertable: boolean
-  /**
    * 是否编辑
    */
   editable: boolean

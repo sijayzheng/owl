@@ -11,6 +11,8 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import compression from 'vite-plugin-compression'
 import progress from 'vite-plugin-progress'
+import { getFileBasedRouteName } from 'vue-router/unplugin'
+import VueRouter from 'vue-router/vite'
 
 // https://vite.dev/config/
 const apiPrefix = /^\/api/
@@ -21,6 +23,34 @@ export default defineConfig({
     },
   },
   plugins: [
+    VueRouter({
+      // 如何以及扫描哪些文件夹以查找文件
+      routesFolder: [
+        {
+          src: 'src/views',
+          path: '',
+        },
+      ],
+      // 哪些类型的文件应被视为页面
+      extensions: ['.vue'],
+      // 要包含哪些文件
+      filePatterns: ['**/*'],
+      // 要排除的文件
+      exclude: [],
+      // 生成的 d.ts 文件路径
+      dts: true,
+      // 如何生成路由名称
+      getRouteName: routeNode => getFileBasedRouteName(routeNode),
+      // <route> 自定义块的默认语言
+      routeBlockLang: 'json5',
+      // 如何导入路由，也可以是字符串
+      importMode: 'async',
+      // 路径解析器的选项
+      pathParser: {
+        // `users.[id]` 应该被解析为 `users/:id` 吗？
+        dotNesting: true,
+      },
+    }),
     vue(),
     vueJsx(),
     UnoCSS(),

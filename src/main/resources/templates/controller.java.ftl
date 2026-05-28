@@ -7,6 +7,7 @@ import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
+import ${packageName}.${moduleName}.dto.${className}Query;
 import ${packageName}.${moduleName}.entity.${className};
 import ${packageName}.${moduleName}.service.${className}Service;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,31 +52,31 @@ public class ${className}Controller extends BaseController {
     /**
      * 分页查询${classComment}列表
      *
-     * @param pageQuery       分页参数
-     * @param ${functionName} 查询条件
+     * @param pageQuery            分页参数
+     * @param ${functionName}Query 查询条件
      * @return ${classComment}分页列表
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
     @GetMapping("/page")
     @Operation(summary = "查询${classComment}列表")
-    public Result<List<${className}>> page(PageQuery pageQuery, ${className} ${functionName}) {
-        return success(${functionName}Service.page(pageQuery, ${functionName}));
+    public Result<List<${className}>> page(PageQuery pageQuery, ${className}Query ${functionName}Query) {
+        return success(${functionName}Service.page(pageQuery, ${functionName}Query));
     }
 </#if>
 
     /**
      * 查询${classComment}列表
      *
-     * @param ${functionName} 查询条件
+     * @param ${functionName}Query 查询条件
      * @return ${classComment}列表
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
     @GetMapping("/list")
     @Operation(summary = "查询${classComment}列表")
-    public Result<List<${className}>> list(${className} ${functionName}) {
-        return success(${functionName}Service.list(${functionName}));
+    public Result<List<${className}>> list(${className}Query ${functionName}Query) {
+        return success(${functionName}Service.list(${functionName}Query));
     }
 
     /**
@@ -93,31 +94,17 @@ public class ${className}Controller extends BaseController {
     }
 
     /**
-     * 新增${classComment}
+     * 保存${classComment}
      *
      * @param ${functionName} ${classComment}信息
      * @return 操作结果
      */
-    @AccessLog(title = "${classComment}", operateType = OperateType.ADD)
-    @SaCheckPermission("${moduleName}:${functionName}:add")
-    @PostMapping("/add")
-    @Operation(summary = "修改${classComment}")
-    public Result<Boolean> add(@Valid @RequestBody ${className} ${functionName}) {
-        return result(${functionName}Service.save(${functionName}), OperateType.ADD);
-    }
-
-    /**
-     * 修改${classComment}
-     *
-     * @param ${functionName} ${classComment}信息
-     * @return 操作结果
-     */
-    @AccessLog(title = "${classComment}", operateType = OperateType.UPDATE)
-    @SaCheckPermission("${moduleName}:${functionName}:update")
-    @PostMapping("/update")
-    @Operation(summary = "修改${classComment}")
-    public Result<Boolean> update(@Valid @RequestBody ${className} ${functionName}) {
-        return result(${functionName}Service.updateById(${functionName}), OperateType.UPDATE);
+    @AccessLog(title = "${classComment}", operateType = OperateType.SAVE)
+    @SaCheckPermission("${moduleName}:${functionName}:save")
+    @PostMapping("/save")
+    @Operation(summary = "保存${classComment}")
+    public Result<Boolean> save(@Valid @RequestBody ${className} ${functionName}) {
+        return result(${functionName}Service.validSave(${functionName}), OperateType.SAVE);
     }
 
     /**
@@ -170,15 +157,15 @@ public class ${className}Controller extends BaseController {
     /**
      * 导出${classComment}数据
      *
-     * @param ${functionName} 查询条件
+     * @param ${functionName}Query 查询条件
      * @return Excel文件
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.EXPORT)
     @SaCheckPermission("${moduleName}:${functionName}:export")
     @GetMapping("/export")
     @Operation(summary = "导出${classComment}")
-    public ResponseEntity<Resource> exportData(${className} ${functionName}) {
-        List<${className}> list = ${functionName}Service.list(${functionName});
+    public ResponseEntity<Resource> exportData(${className}Query ${functionName}Query) {
+        List<${className}> list = ${functionName}Service.list(${functionName}Query);
         return ExcelUtil.exportExcel(list, "${classComment}", ${className}.class);
     }
 

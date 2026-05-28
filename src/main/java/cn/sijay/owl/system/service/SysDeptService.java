@@ -1,5 +1,6 @@
 package cn.sijay.owl.system.service;
 
+import cn.sijay.owl.system.dto.SysDeptQuery;
 import cn.sijay.owl.system.entity.SysDept;
 import cn.sijay.owl.system.mapper.SysDeptMapper;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -102,24 +103,36 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
     /**
      * 构建查询条件
      *
-     * @param sysDept 查询条件对象
+     * @param sysDeptQuery 查询条件对象
      * @return 查询包装器
      */
-    private QueryWrapper query(SysDept sysDept) {
+    private QueryWrapper query(SysDeptQuery sysDeptQuery) {
         QueryWrapper query = query();
-        query.and(SYS_DEPT.DEPT_NAME.like(sysDept.getDeptName()));
-        query.and(SYS_DEPT.ENABLED.eq(sysDept.getEnabled()));
+        query.and(SYS_DEPT.PARENT_ID.eq(sysDeptQuery.parentId()));
+        query.and(SYS_DEPT.DEPT_NAME.like(sysDeptQuery.deptName()));
+        query.and(SYS_DEPT.DEPT_CATEGORY.eq(sysDeptQuery.deptCategory()));
+        query.and(SYS_DEPT.ENABLED.eq(sysDeptQuery.enabled()));
         return query;
     }
 
     /**
      * 查询系统部门列表
      *
-     * @param sysDept 查询条件
+     * @param sysDeptQuery 查询条件
      * @return 系统部门列表
      */
-    public List<SysDept> list(SysDept sysDept) {
-        return list(query(sysDept));
+    public List<SysDept> list(SysDeptQuery sysDeptQuery) {
+        return list(query(sysDeptQuery));
+    }
+
+    /**
+     * 校验并保存系统部门
+     *
+     * @param sysDept 系统部门实体
+     * @return 保存结果
+     */
+    public boolean validSave(SysDept sysDept) {
+        return saveOrUpdate(sysDept);
     }
 
     public String getDeptNameById(Long deptId) {

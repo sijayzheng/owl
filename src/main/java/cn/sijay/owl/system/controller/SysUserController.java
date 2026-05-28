@@ -7,6 +7,7 @@ import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
+import cn.sijay.owl.system.dto.SysUserQuery;
 import cn.sijay.owl.system.entity.SysUser;
 import cn.sijay.owl.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,30 +40,30 @@ public class SysUserController extends BaseController {
     /**
      * 分页查询系统用户列表
      *
-     * @param pageQuery 分页参数
-     * @param sysUser   查询条件
+     * @param pageQuery    分页参数
+     * @param sysUserQuery 查询条件
      * @return 系统用户分页列表
      */
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
     @GetMapping("/page")
     @Operation(summary = "查询系统用户列表")
-    public Result<List<SysUser>> page(PageQuery pageQuery, SysUser sysUser) {
-        return success(sysUserService.page(pageQuery, sysUser));
+    public Result<List<SysUser>> page(PageQuery pageQuery, SysUserQuery sysUserQuery) {
+        return success(sysUserService.page(pageQuery, sysUserQuery));
     }
 
     /**
      * 查询系统用户列表
      *
-     * @param sysUser 查询条件
+     * @param sysUserQuery 查询条件
      * @return 系统用户列表
      */
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
     @GetMapping("/list")
     @Operation(summary = "查询系统用户列表")
-    public Result<List<SysUser>> list(SysUser sysUser) {
-        return success(sysUserService.list(sysUser));
+    public Result<List<SysUser>> list(SysUserQuery sysUserQuery) {
+        return success(sysUserService.list(sysUserQuery));
     }
 
     /**
@@ -80,31 +81,17 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * 新增系统用户
+     * 保存系统用户
      *
      * @param sysUser 系统用户信息
      * @return 操作结果
      */
     @AccessLog(title = "系统用户", operateType = OperateType.SAVE)
-    @SaCheckPermission("system:sysUser:add")
-    @PostMapping("/add")
-    @Operation(summary = "修改系统用户")
-    public Result<Boolean> add(@Valid @RequestBody SysUser sysUser) {
-        return result(sysUserService.save(sysUser), OperateType.SAVE);
-    }
-
-    /**
-     * 修改系统用户
-     *
-     * @param sysUser 系统用户信息
-     * @return 操作结果
-     */
-    @AccessLog(title = "系统用户", operateType = OperateType.UPDATE)
-    @SaCheckPermission("system:sysUser:update")
-    @PostMapping("/update")
-    @Operation(summary = "修改系统用户")
-    public Result<Boolean> update(@Valid @RequestBody SysUser sysUser) {
-        return result(sysUserService.updateById(sysUser), OperateType.UPDATE);
+    @SaCheckPermission("system:sysUser:save")
+    @PostMapping("/save")
+    @Operation(summary = "保存系统用户")
+    public Result<Boolean> save(@Valid @RequestBody SysUser sysUser) {
+        return result(sysUserService.validSave(sysUser), OperateType.SAVE);
     }
 
     /**
@@ -157,15 +144,15 @@ public class SysUserController extends BaseController {
     /**
      * 导出系统用户数据
      *
-     * @param sysUser 查询条件
+     * @param sysUserQuery 查询条件
      * @return Excel文件
      */
     @AccessLog(title = "系统用户", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysUser:export")
     @GetMapping("/export")
     @Operation(summary = "导出系统用户")
-    public ResponseEntity<Resource> exportData(SysUser sysUser) {
-        List<SysUser> list = sysUserService.list(sysUser);
+    public ResponseEntity<Resource> exportData(SysUserQuery sysUserQuery) {
+        List<SysUser> list = sysUserService.list(sysUserQuery);
         return ExcelUtil.exportExcel(list, "系统用户", SysUser.class);
     }
 

@@ -46,7 +46,7 @@
         <sa-token.version>1.45.0</sa-token.version>
         <mybatis-flex.version>1.11.6</mybatis-flex.version>
         <HikariCP.version>7.0.2</HikariCP.version>
-        <p6spy.version>1.12.1</p6spy.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <fesod.version>2.0.1-incubating</fesod.version>
         <ttl.version>2.14.0</ttl.version>
         <caffeine.version>3.1.8</caffeine.version>
@@ -97,6 +97,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
 
         <dependency>
@@ -167,8 +172,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.gavlyukovskiy</groupId>
-            <artifactId>p6spy-spring-boot-starter</artifactId>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
             <version>${p6spy.version}</version>
         </dependency>
 

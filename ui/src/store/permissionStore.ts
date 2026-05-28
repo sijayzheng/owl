@@ -1,8 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { routes as allRoutes } from 'vue-router/auto-routes'
-import { commonApi } from '@/api/auth/commonApi'
-import InnerLink from '@/layout/components/InnerLink/index.vue'
-import Layout from '@/layout/index.vue'
+import InnerLink from '@/layout/components/InnerLink.vue'
+import Layout from '@/layout/Layout.vue'
 import { staticRouters } from '@/router'
 
 export const usePermissionStore = defineStore('permission', () => {
@@ -60,8 +59,13 @@ export const usePermissionStore = defineStore('permission', () => {
     return new Promise<RouteRecordRaw[]>(resolve => resolve(asyncRouters))
   }
 
+  function getRoutes() {
+    return routes.value
+  }
+
   return {
     routes,
     generateRoutes,
+    getRoutes,
   }
 })

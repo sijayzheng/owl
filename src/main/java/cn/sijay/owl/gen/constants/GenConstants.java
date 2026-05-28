@@ -1,5 +1,7 @@
 package cn.sijay.owl.gen.constants;
 
+import cn.sijay.owl.gen.enums.HtmlType;
+
 import java.util.List;
 
 /**
@@ -15,10 +17,12 @@ public interface GenConstants {
     List<String> TEMPLATES = List.of(
         "controller.java",
         "entity.java",
+        "query.java",
         "mapper.java",
         "service.java",
         "api.ts",
         "types.ts",
         "sql"
     );
+    List<HtmlType> NEED_QUERY = List.of(HtmlType.INPUT, HtmlType.NUMBER, HtmlType.SELECT, HtmlType.RADIO, HtmlType.DATETIME, HtmlType.DATE, HtmlType.TIME);
 }

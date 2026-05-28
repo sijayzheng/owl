@@ -11,28 +11,24 @@ export const sysDeptApi = {
   getById(id: number) {
     return request.get<SysDept>(`/system/sys-dept/${id}`)
   },
-  // 新增系统部门
-  add(data: SysDeptForm) {
-    return request.post<boolean>('/system/sys-dept/add', data)
-  },
-  // 修改系统部门
-  update(data: SysDeptForm) {
-    return request.post<boolean>('/system/sys-dept/update', data)
+  // 保存系统部门
+  save(data: SysDeptForm) {
+    return request.post<boolean>('/system/sys-dept/save', data)
   },
   // 删除系统部门
   remove(ids: number[]) {
     return request.post<boolean>('/system/sys-dept/remove', ids)
   },
   // 下载系统部门导入模板
-  //template() {
-  //  return request.get<>('/system/sys-dept/template')
-  //},
+  template() {
+    return request.get('/system/sys-dept/template')
+  },
   // 导入系统部门数据
-  //importData() {
-  //  return request.post<>('/system/sys-dept/import')
-  //},
+  importData() {
+    return request.post('/system/sys-dept/import')
+  },
   // 导出系统部门数据
-  //exportData(data: SysDeptQuery) {
-  //  return request.get<>('/system/sys-dept/export', data)
-  //},
+  exportData(data: SysDeptQuery) {
+    return request.get('/system/sys-dept/export', data)
+  },
 }

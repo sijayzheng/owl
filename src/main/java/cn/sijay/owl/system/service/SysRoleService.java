@@ -1,6 +1,7 @@
 package cn.sijay.owl.system.service;
 
 import cn.sijay.owl.common.entity.PageQuery;
+import cn.sijay.owl.system.dto.SysRoleQuery;
 import cn.sijay.owl.system.entity.SysRole;
 import cn.sijay.owl.system.mapper.SysRoleMapper;
 import com.mybatisflex.core.paginate.Page;
@@ -31,34 +32,44 @@ public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole> implemen
     /**
      * 分页查询系统角色
      *
-     * @param pageQuery 分页参数
-     * @param sysRole   查询条件
+     * @param pageQuery    分页参数
+     * @param sysRoleQuery 查询条件
      * @return 系统角色分页数据
      */
-    public Page<SysRole> page(PageQuery pageQuery, SysRole sysRole) {
-        return page(pageQuery.build(), pageQuery.setOrder(query(sysRole)));
+    public Page<SysRole> page(PageQuery pageQuery, SysRoleQuery sysRoleQuery) {
+        return page(pageQuery.build(), pageQuery.setOrder(query(sysRoleQuery)));
     }
 
     /**
      * 构建查询条件
      *
-     * @param sysRole 查询条件对象
+     * @param sysRoleQuery 查询条件对象
      * @return 查询包装器
      */
-    private QueryWrapper query(SysRole sysRole) {
+    private QueryWrapper query(SysRoleQuery sysRoleQuery) {
         QueryWrapper query = query();
-        query.and(SYS_ROLE.ROLE_NAME.like(sysRole.getRoleName()));
+        query.and(SYS_ROLE.ROLE_NAME.like(sysRoleQuery.roleName()));
+        query.and(SYS_ROLE.ENABLED.eq(sysRoleQuery.enabled()));
         return query;
     }
 
     /**
      * 查询系统角色列表
      *
-     * @param sysRole 查询条件
+     * @param sysRoleQuery 查询条件
      * @return 系统角色列表
      */
-    public List<SysRole> list(SysRole sysRole) {
-        return list(query(sysRole));
+    public List<SysRole> list(SysRoleQuery sysRoleQuery) {
+        return list(query(sysRoleQuery));
     }
 
+    /**
+     * 校验并保存系统角色
+     *
+     * @param sysRole 系统角色实体
+     * @return 保存结果
+     */
+    public boolean validSave(SysRole sysRole) {
+        return saveOrUpdate(sysRole);
+    }
 }

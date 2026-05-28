@@ -24,7 +24,6 @@ declare global {
   const controlledComputed: typeof import('@vueuse/core').controlledComputed
   const controlledRef: typeof import('@vueuse/core').controlledRef
   const createApp: typeof import('vue').createApp
-  const createCustomNameComponent: typeof import('./src/store/permissionStore').createCustomNameComponent
   const createEventHook: typeof import('@vueuse/core').createEventHook
   const createGlobalState: typeof import('@vueuse/core').createGlobalState
   const createInjectionState: typeof import('@vueuse/core').createInjectionState
@@ -44,8 +43,6 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const extendRef: typeof import('@vueuse/core').extendRef
-  const fileOssStorageApi: typeof import('./src/api/file/fileOssStorageApi').fileOssStorageApi
-  const fileStorageApi: typeof import('./src/api/file/fileStorageApi').fileStorageApi
   const firstUpperCase: typeof import('./src/utils/index').firstUpperCase
   const genApi: typeof import('./src/api/gen/genApi').genApi
   const getActivePinia: typeof import('pinia').getActivePinia
@@ -68,9 +65,6 @@ declare global {
   const isReadonly: typeof import('vue').isReadonly
   const isRef: typeof import('vue').isRef
   const isShallow: typeof import('vue').isShallow
-  const logAccessApi: typeof import('./src/api/log/logAccessApi').logAccessApi
-  const logLoginApi: typeof import('./src/api/log/logLoginApi').logLoginApi
-  const logTaskApi: typeof import('./src/api/log/logTaskApi').logTaskApi
   const makeDestructurable: typeof import('@vueuse/core').makeDestructurable
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
@@ -133,18 +127,15 @@ declare global {
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
   const sysConfigApi: typeof import('./src/api/system/sysConfigApi').sysConfigApi
-  const sysConfigFormInitData: typeof import('./src/types/system/sysConfigTypes').sysConfigFormInitData
+  const sysConfigInitData: typeof import('./src/types/system/sysConfigTypes').sysConfigInitData
   const sysDeptApi: typeof import('./src/api/system/sysDeptApi').sysDeptApi
-  const sysDictDataApi: typeof import('./src/api/system/sysDictDataApi').sysDictDataApi
-  const sysDictTypeApi: typeof import('./src/api/system/sysDictTypeApi').sysDictTypeApi
+  const sysDeptInitData: typeof import('./src/types/system/sysDeptTypes').sysDeptInitData
   const sysMenuApi: typeof import('./src/api/system/sysMenuApi').sysMenuApi
-  const sysMessageApi: typeof import('./src/api/system/sysMessageApi').sysMessageApi
-  const sysNoticeApi: typeof import('./src/api/system/sysNoticeApi').sysNoticeApi
-  const sysPostApi: typeof import('./src/api/system/sysPostApi').sysPostApi
+  const sysMenuInitData: typeof import('./src/types/system/sysMenuTypes').sysMenuInitData
   const sysRoleApi: typeof import('./src/api/system/sysRoleApi').sysRoleApi
-  const sysTaskApi: typeof import('./src/api/system/sysTaskApi').sysTaskApi
+  const sysRoleInitData: typeof import('./src/types/system/sysRoleTypes').sysRoleInitData
   const sysUserApi: typeof import('./src/api/system/sysUserApi').sysUserApi
-  const sysUserMfaRecoveryCodesApi: typeof import('./src/api/system/sysUserMfaRecoveryCodesApi').sysUserMfaRecoveryCodesApi
+  const sysUserInitData: typeof import('./src/types/system/sysUserTypes').sysUserInitData
   const templateRef: typeof import('@vueuse/core').templateRef
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
@@ -374,63 +365,24 @@ declare global {
   export type { LoginReq, LoginResp, PasswordChangeForm, UserInfo, Meta, Route, Captcha } from './src/types/auth'
   import('./src/types/auth')
   // @ts-ignore
-  export type { FileOssStorage, FileOssStorageQuery, FileOssStorageForm } from './src/types/file/fileOssStorageTypes'
-  import('./src/types/file/fileOssStorageTypes')
-  // @ts-ignore
-  export type { FileStorage, FileStorageQuery, FileStorageForm } from './src/types/file/fileStorageTypes'
-  import('./src/types/file/fileStorageTypes')
-  // @ts-ignore
   export type { GenColumn } from './src/types/gen/genColumn'
   import('./src/types/gen/genColumn')
   // @ts-ignore
   export type { GenTable, GenTableQuery } from './src/types/gen/genTable'
   import('./src/types/gen/genTable')
   // @ts-ignore
-  export type { TagView } from './src/types/layout'
-  import('./src/types/layout')
-  // @ts-ignore
-  export type { LogAccess, LogAccessQuery, LogAccessForm } from './src/types/log/logAccessTypes'
-  import('./src/types/log/logAccessTypes')
-  // @ts-ignore
-  export type { LogLogin, LogLoginQuery, LogLoginForm } from './src/types/log/logLoginTypes'
-  import('./src/types/log/logLoginTypes')
-  // @ts-ignore
-  export type { LogTask, LogTaskQuery, LogTaskForm } from './src/types/log/logTaskTypes'
-  import('./src/types/log/logTaskTypes')
-  // @ts-ignore
-  export type { SysConfig, SysConfigQuery, SysConfigForm } from './src/types/system/sysConfigTypes'
+  export type { SysConfig, SysConfigQuery, SysConfigPageQuery, SysConfigForm } from './src/types/system/sysConfigTypes'
   import('./src/types/system/sysConfigTypes')
   // @ts-ignore
-  export type { SysDept, SysDeptQuery, SysDeptForm } from './src/types/system/sysDeptTypes'
+  export type { SysDept, SysDeptQuery, SysDeptPageQuery, SysDeptForm } from './src/types/system/sysDeptTypes'
   import('./src/types/system/sysDeptTypes')
   // @ts-ignore
-  export type { SysDictData, SysDictDataQuery, SysDictDataForm } from './src/types/system/sysDictDataTypes'
-  import('./src/types/system/sysDictDataTypes')
-  // @ts-ignore
-  export type { SysDictType, SysDictTypeQuery, SysDictTypeForm } from './src/types/system/sysDictTypeTypes'
-  import('./src/types/system/sysDictTypeTypes')
-  // @ts-ignore
-  export type { SysMenu, SysMenuQuery, SysMenuForm } from './src/types/system/sysMenuTypes'
+  export type { SysMenu, SysMenuQuery, SysMenuPageQuery, SysMenuForm } from './src/types/system/sysMenuTypes'
   import('./src/types/system/sysMenuTypes')
   // @ts-ignore
-  export type { SysMessage, SysMessageQuery, SysMessageForm } from './src/types/system/sysMessageTypes'
-  import('./src/types/system/sysMessageTypes')
-  // @ts-ignore
-  export type { SysNotice, SysNoticeQuery, SysNoticeForm } from './src/types/system/sysNoticeTypes'
-  import('./src/types/system/sysNoticeTypes')
-  // @ts-ignore
-  export type { SysPost, SysPostQuery, SysPostForm } from './src/types/system/sysPostTypes'
-  import('./src/types/system/sysPostTypes')
-  // @ts-ignore
-  export type { SysRole, SysRoleQuery, SysRoleForm } from './src/types/system/sysRoleTypes'
+  export type { SysRole, SysRoleQuery, SysRolePageQuery, SysRoleForm } from './src/types/system/sysRoleTypes'
   import('./src/types/system/sysRoleTypes')
   // @ts-ignore
-  export type { SysTask, SysTaskQuery, SysTaskForm } from './src/types/system/sysTaskTypes'
-  import('./src/types/system/sysTaskTypes')
-  // @ts-ignore
-  export type { SysUserMfaRecoveryCodes, SysUserMfaRecoveryCodesQuery, SysUserMfaRecoveryCodesForm } from './src/types/system/sysUserMfaRecoveryCodesTypes'
-  import('./src/types/system/sysUserMfaRecoveryCodesTypes')
-  // @ts-ignore
-  export type { SysUser, SysUserQuery, SysUserForm } from './src/types/system/sysUserTypes'
+  export type { SysUser, SysUserQuery, SysUserPageQuery, SysUserForm } from './src/types/system/sysUserTypes'
   import('./src/types/system/sysUserTypes')
 }

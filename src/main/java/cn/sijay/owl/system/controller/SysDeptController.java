@@ -6,6 +6,7 @@ import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
+import cn.sijay.owl.system.dto.SysDeptQuery;
 import cn.sijay.owl.system.entity.SysDept;
 import cn.sijay.owl.system.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,15 +51,15 @@ public class SysDeptController extends BaseController {
     /**
      * 查询系统部门列表
      *
-     * @param sysDept 查询条件
+     * @param sysDeptQuery 查询条件
      * @return 系统部门列表
      */
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
     @GetMapping("/list")
     @Operation(summary = "查询系统部门列表")
-    public Result<List<SysDept>> list(SysDept sysDept) {
-        return success(sysDeptService.list(sysDept));
+    public Result<List<SysDept>> list(SysDeptQuery sysDeptQuery) {
+        return success(sysDeptService.list(sysDeptQuery));
     }
 
     /**
@@ -76,31 +77,17 @@ public class SysDeptController extends BaseController {
     }
 
     /**
-     * 新增系统部门
+     * 保存系统部门
      *
      * @param sysDept 系统部门信息
      * @return 操作结果
      */
     @AccessLog(title = "系统部门", operateType = OperateType.SAVE)
-    @SaCheckPermission("system:sysDept:add")
-    @PostMapping("/add")
-    @Operation(summary = "修改系统部门")
-    public Result<Boolean> add(@Valid @RequestBody SysDept sysDept) {
-        return result(sysDeptService.save(sysDept), OperateType.SAVE);
-    }
-
-    /**
-     * 修改系统部门
-     *
-     * @param sysDept 系统部门信息
-     * @return 操作结果
-     */
-    @AccessLog(title = "系统部门", operateType = OperateType.UPDATE)
-    @SaCheckPermission("system:sysDept:update")
-    @PostMapping("/update")
-    @Operation(summary = "修改系统部门")
-    public Result<Boolean> update(@Valid @RequestBody SysDept sysDept) {
-        return result(sysDeptService.updateById(sysDept), OperateType.UPDATE);
+    @SaCheckPermission("system:sysDept:save")
+    @PostMapping("/save")
+    @Operation(summary = "保存系统部门")
+    public Result<Boolean> save(@Valid @RequestBody SysDept sysDept) {
+        return result(sysDeptService.validSave(sysDept), OperateType.SAVE);
     }
 
     /**
@@ -153,15 +140,15 @@ public class SysDeptController extends BaseController {
     /**
      * 导出系统部门数据
      *
-     * @param sysDept 查询条件
+     * @param sysDeptQuery 查询条件
      * @return Excel文件
      */
     @AccessLog(title = "系统部门", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysDept:export")
     @GetMapping("/export")
     @Operation(summary = "导出系统部门")
-    public ResponseEntity<Resource> exportData(SysDept sysDept) {
-        List<SysDept> list = sysDeptService.list(sysDept);
+    public ResponseEntity<Resource> exportData(SysDeptQuery sysDeptQuery) {
+        List<SysDept> list = sysDeptService.list(sysDeptQuery);
         return ExcelUtil.exportExcel(list, "系统部门", SysDept.class);
     }
 
