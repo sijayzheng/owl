@@ -27,6 +27,7 @@ export default antfu(
       }],
       'ts/consistent-type-definitions': ['error', 'interface'],
       '@typescript-eslint/promise-function-async': 'off',
+      'ts/strict-boolean-expressions': 'off',
     },
   },
 )

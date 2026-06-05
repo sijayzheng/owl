@@ -28,6 +28,7 @@ public class SysMenu extends BaseEntity {
      * 主键
      */
     @Id(keyType = KeyType.Auto, comment = "主键")
+    @ExcelProperty(value = "主键")
     @Column(value = "id", comment = "主键")
     private Long id;
 
@@ -79,14 +80,14 @@ public class SysMenu extends BaseEntity {
      */
     @Column(value = "foreign_link", comment = "是否为外链")
     @ExcelProperty(value = "是否为外链")
-    private Boolean foreignLink;
+    private boolean foreignLink;
 
     /**
      * 是否缓存
      */
     @Column(value = "cached", comment = "是否缓存")
     @ExcelProperty(value = "是否缓存")
-    private Boolean cached;
+    private boolean cached;
 
     /**
      * 菜单类型
@@ -100,14 +101,14 @@ public class SysMenu extends BaseEntity {
      */
     @Column(value = "visible", comment = "显示")
     @ExcelProperty(value = "显示")
-    private Boolean visible;
+    private boolean visible;
 
     /**
      * 启用
      */
     @Column(value = "enabled", comment = "启用")
     @ExcelProperty(value = "启用")
-    private Boolean enabled;
+    private boolean enabled;
 
     /**
      * 权限标识

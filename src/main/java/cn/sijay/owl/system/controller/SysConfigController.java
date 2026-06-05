@@ -18,7 +18,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys-config")
+@RequestMapping("/system/sysConfig")
 @RestController
 public class SysConfigController extends BaseController {
     private final SysConfigService sysConfigService;
@@ -40,7 +39,7 @@ public class SysConfigController extends BaseController {
     /**
      * 分页查询参数配置列表
      *
-     * @param pageQuery      分页参数
+     * @param pageQuery            分页参数
      * @param sysConfigQuery 查询条件
      * @return 参数配置分页列表
      */
@@ -116,9 +115,9 @@ public class SysConfigController extends BaseController {
      */
     @AccessLog(title = "参数配置", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysConfig:import")
-    @GetMapping("/template")
+    @GetMapping("/downloadTemplate")
     @Operation(summary = "下载参数配置模板")
-    public ResponseEntity<Resource> template() throws IOException {
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "参数配置模板", SysConfig.class);
     }
 

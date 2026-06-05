@@ -1,8 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { ElMessage } from 'element-plus'
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layout/Layout.vue'
-import { usePermissionStore } from '@/store/permissionStore'
 
 /**
  * 不重定向白名单
@@ -20,7 +18,7 @@ export const staticRouters: RouteRecordRaw[] = [
       path: 'index',
       name: 'Index',
       component: async () => import('@/views/Index.vue'),
-      meta: { title: '首页', icon: 'HomeFilled' },
+      meta: { title: '首页', icon: 'HomeFilled', affix: true },
     }],
   },
   {
@@ -41,11 +39,6 @@ export const staticRouters: RouteRecordRaw[] = [
     component: async () => import('@/views/error/404.vue'),
     meta: { title: '404', hidden: true },
   },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
-    meta: { title: '404', hidden: true },
-  },
 ]
 
 const router = createRouter({
@@ -58,14 +51,8 @@ const {
   done,
 } = useNProgress()
 
-const {
-  loadStart,
-  loadDone,
-} = usePageLoading()
-
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   start()
-  loadStart()
   if (getToken()) {
     if (to.path === '/login') {
       return { path: '/' }
@@ -79,13 +66,25 @@ router.beforeEach(async (to, from) => {
           finalRoutes.forEach((route) => {
             router.addRoute(route)
           })
-          return to
+          // 添加兜底 404 路由（必须在动态路由之后添加，避免拦截动态路由匹配）
+          router.addRoute({
+            path: '/:pathMatch(.*)*',
+            redirect: '/404',
+            meta: { title: '404', hidden: true },
+          })
+          // 使用路径字符串触发重新导航，让新添加的路由参与匹配
+          return to.fullPath
         } catch (err) {
+          console.error(err)
           await useUserStore().logout()
           ElMessage.error('用户信息获取失败')
           return { path: '/' }
         }
       } else {
+        // 动态路由已加载，检查路由是否真实存在
+        if (to.matched.length === 0 || (to.matched.length === 1 && to.matched[0]?.path === '/:pathMatch(.*)*')) {
+          return { name: '404', path: '/404' }
+        }
         return true
       }
     }
@@ -109,7 +108,6 @@ router.afterEach((to) => {
     observe: false,
   })
   done() // 结束Progress
-  loadDone()
 })
 
 export default router

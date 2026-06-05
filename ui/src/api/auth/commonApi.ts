@@ -1,5 +1,3 @@
-import type { RouteRecordRaw } from 'vue-router'
-
 export const commonApi = {
   // 获取用户信息
   getUserInfo() {
@@ -7,6 +5,6 @@ export const commonApi = {
   },
   // 获取所有路由
   getRoutes() {
-    return request.get<Array<RouteRecordRaw>>('/common/getRoutes')
+    return request.get<Route[]>('/common/getRoutes')
   },
 }

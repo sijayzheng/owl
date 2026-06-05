@@ -49,7 +49,7 @@ export interface GenTable {
   menuId: number
 }
 
-export interface GenTableQuery extends PageQuery extends PageQuery{
+export interface GenTableQuery extends PageQuery {
   /**
    * 物理表名
    */

@@ -35,8 +35,8 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      *
      * @return 树形结构数据列表
      */
-    public List<SysMenu> getTree() {
-        return buildTree(list());
+    public List<SysMenu> getTree(SysMenuQuery sysMenuQuery) {
+        return buildTree(list(query(sysMenuQuery)));
     }
 
     /**
@@ -85,7 +85,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      */
     private List<SysMenu> getChildList(List<SysMenu> list, SysMenu parent) {
         return list.stream()
-                   .filter(item -> item.getParentId() != null && item.getParentId().equals(parent.getId()))
+                   .filter(item -> Objects.equals(item.getParentId(), parent.getId()))
                    .collect(Collectors.toList());
     }
 
@@ -97,7 +97,7 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
      * @return 是否有子节点
      */
     private boolean hasChild(List<SysMenu> list, SysMenu node) {
-        return list.stream().anyMatch(item -> item.getParentId() != null && item.getParentId().equals(node.getId()));
+        return list.stream().anyMatch(item -> Objects.equals(item.getParentId(), node.getId()));
     }
 
     /**

@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/${moduleName}/${path}")
+@RequestMapping("/${moduleName}/${functionName}")
 @RestController
 public class ${className}Controller extends BaseController {
     private final ${className}Service ${functionName}Service;
@@ -45,8 +45,8 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
     @GetMapping("/tree")
-    public Result<List<${className}>> getTree() {
-        return success(${functionName}Service.getTree());
+    public Result<List<${className}>> getTree(${className}Query ${functionName}Query) {
+        return success(${functionName}Service.getTree(${functionName}Query));
     }
 <#else>
     /**
@@ -129,9 +129,9 @@ public class ${className}Controller extends BaseController {
      */
     @AccessLog(title = "${classComment}", operateType = OperateType.IMPORT)
     @SaCheckPermission("${moduleName}:${functionName}:import")
-    @GetMapping("/template")
+    @GetMapping("/downloadTemplate")
     @Operation(summary = "下载${classComment}模板")
-    public ResponseEntity<Resource> template() throws IOException {
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "${classComment}模板", ${className}.class);
     }
 

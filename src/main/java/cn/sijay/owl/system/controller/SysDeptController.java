@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys-dept")
+@RequestMapping("/system/sysDept")
 @RestController
 public class SysDeptController extends BaseController {
     private final SysDeptService sysDeptService;
@@ -44,8 +44,8 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
     @GetMapping("/tree")
-    public Result<List<SysDept>> getTree() {
-        return success(sysDeptService.getTree());
+    public Result<List<SysDept>> getTree(SysDeptQuery sysDeptQuery) {
+        return success(sysDeptService.getTree(sysDeptQuery));
     }
 
     /**
@@ -112,9 +112,9 @@ public class SysDeptController extends BaseController {
      */
     @AccessLog(title = "系统部门", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysDept:import")
-    @GetMapping("/template")
+    @GetMapping("/downloadTemplate")
     @Operation(summary = "下载系统部门模板")
-    public ResponseEntity<Resource> template() throws IOException {
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统部门模板", SysDept.class);
     }
 

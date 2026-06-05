@@ -1,8 +1,9 @@
 package cn.sijay.owl;
 
 
+import cn.sijay.owl.common.utils.PasswordUtil;
+
 import java.io.IOException;
-import java.time.LocalDate;
 
 /**
  * MainTest
@@ -13,10 +14,7 @@ import java.time.LocalDate;
 public class MainTest {
 
     public static void main(String[] args) throws IOException {
-
-        String[] split = "2026-04-22,2026-06-06".split(",");
-        LocalDate now = LocalDate.now();
-        System.out.println(now.isAfter(LocalDate.parse(split[0])) && now.isBefore(LocalDate.parse(split[1])));
+        System.out.println(PasswordUtil.hash("123456"));
     }
 
 

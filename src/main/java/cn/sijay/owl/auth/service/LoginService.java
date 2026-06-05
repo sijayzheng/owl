@@ -37,7 +37,7 @@ public class LoginService {
         if (user == null) {
             throw new AuthException("用户名或密码错误");
         }
-        if (!user.getEnabled()) {
+        if (!user.isEnabled()) {
             throw new AuthException("用户已被禁用");
         }
         boolean check = PasswordUtil.check(loginReq.password(), user.getPassword());

@@ -1,9 +1,9 @@
-@use './variables.module.scss' as vars;
+@use './variables.module.scss' as *;
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': vars.$primary-color,
+      'base': $primary-color,
     ),
   ),
 );

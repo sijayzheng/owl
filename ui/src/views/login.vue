@@ -41,7 +41,7 @@ const loginFormData = ref<LoginReq>({
   username: 'admin',
   password: '123456',
   uuid: '',
-  captcha: '9527',
+  captcha: '',
 })
 
 const captchaImg = ref('')
@@ -51,7 +51,7 @@ function login() {
 }
 
 function getCaptcha() {
-  loginFormData.value.captcha = ''
+  loginFormData.value.captcha = '9527'
   authApi.captcha().then((res) => {
     loginFormData.value.uuid = res.uuid
     captchaImg.value = res.img

@@ -1,3 +1,5 @@
+import type { RouteLocationNormalized } from 'vue-router'
+
 declare global {
   /**
    * 统一响应结果类型
@@ -56,16 +58,40 @@ declare global {
     updateTime: string
   }
 
-  interface TagView {
-    fullPath: string
-    path: string
-    title: string
-    name?: string
-    icon?: string
-    affix?: boolean
-    query?: Record<string, string>
-    params?: Record<string, string>
+  type TagView = RouteLocationNormalized & {
+    title?: string
   }
 
+  interface Meta {
+    // 设置该路由在侧边栏和面包屑中展示的名字
+    title: string
+    // 图标
+    icon: string
+    // 设置为true，则不会被 <keep-alive>缓存
+    noCache: boolean
+    // 内链地址（http(s)://开头）
+    link: string
+  }
+
+  interface Route {
+    // 路由名字
+    name: string
+    // 路由地址
+    path: string
+    // 是否隐藏路由，当设置 true 的时候该路由不会再侧边栏出现
+    hidden: boolean
+    // 重定向地址，当设置 noRedirect 的时候该路由在面包屑导航中不可被点击
+    redirect: string
+    // 组件地址
+    component: string
+    // 路由参数：如 {"id": 1, "name": "ry"}
+    query: string
+    // 其他元素
+    meta: Meta
+    // 子路由
+    children: Array<Route>
+  }
+
+  type Pair = Record<string, any>
 }
 export {}

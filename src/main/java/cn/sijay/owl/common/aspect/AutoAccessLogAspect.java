@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -76,17 +75,13 @@ public class AutoAccessLogAspect {
             // 记录访问日志
             log.info("访问日志 - 模块: {}, 操作: {}, 方法: {}", title, operateType, method.getName());
         }
-
-
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String url = request.getRequestURI();
         Signature signature = point.getStaticPart().getSignature();
         String params = JsonUtil.toJson(Arrays.stream(point.getArgs())
                                               .filter(arg -> !(arg instanceof HttpServletResponse || arg instanceof HttpServletRequest || arg instanceof MultipartFile))
                                               .toList());
-        log.info("开始请求 => URL【{}】,参数为:【{}】", url, params);
-        String method1 = signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()";
-        log.info("----{}---", method1);
+        log.info("开始请求 => URL【{}】,参数为:【{}】，调用方法：【{}】", url, params, signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()");
         return point.proceed();
     }
 
@@ -99,7 +94,8 @@ public class AutoAccessLogAspect {
                                               .toList());
         log.info("开始请求 => URL【{}】,参数为:【{}】", url, params);
         String method = signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()";
-        String returnResult = ObjectUtils.isEmpty(result) ? "" : JsonUtil.toJson(result);
+        System.out.println(result.getClass().getName());
+//        String returnResult = ObjectUtils.isEmpty(result) ? "" : JsonUtil.toJson(result);
 //        LogBusiness logBusiness = new LogBusiness().setUserId(1L).setIp(request.getRemoteAddr()).setMethod(method).setParams(params)
 //                                                   .setRequestType(request.getMethod()).setRequestUrl(request.getRequestURI())
 //                                                   .setBusinessName(oprLog.value()).setOperationType(oprLog.operateType()).setReturnResult(returnResult)
@@ -110,7 +106,7 @@ public class AutoAccessLogAspect {
         }
 //        logBusiness.setOperationResult(ResultCodeEnum.SUCCESS);
 //        System.out.println(logBusiness);
-        log.info("请求结束 => URL【{}】,请求结果为【{}】", url, returnResult);
+//        log.info("请求结束 => URL【{}】,请求结果为【{}】", url, returnResult);
         try {
             // *========数据库日志=========*//
 //            OpLogEvent operLog = new OpLogEvent();

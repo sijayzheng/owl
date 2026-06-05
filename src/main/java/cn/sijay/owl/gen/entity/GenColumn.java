@@ -109,6 +109,12 @@ public class GenColumn implements Serializable {
     private Boolean listable;
 
     /**
+     * 可导出
+     */
+    @Column(comment = "可导出")
+    private Boolean exportable;
+
+    /**
      * 是否查询
      */
     @Column(comment = "是否查询")

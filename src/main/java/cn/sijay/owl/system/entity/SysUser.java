@@ -25,6 +25,7 @@ public class SysUser extends BaseEntity {
      * 主键
      */
     @Id(keyType = KeyType.Auto, comment = "主键")
+    @ExcelProperty(value = "主键")
     @Column(value = "id", comment = "主键")
     private Long id;
 
@@ -88,7 +89,7 @@ public class SysUser extends BaseEntity {
      * 是否启用MFA
      */
     @Column(value = "mfa_enabled", comment = "是否启用MFA")
-    private Boolean mfaEnabled;
+    private boolean mfaEnabled;
 
     /**
      * TOTP密钥
@@ -101,13 +102,14 @@ public class SysUser extends BaseEntity {
      * 启用
      */
     @Column(value = "enabled", comment = "启用")
-    private Boolean enabled;
+    @ExcelProperty(value = "启用")
+    private boolean enabled;
 
     /**
      * 删除
      */
     @Column(value = "deleted", comment = "删除")
-    private Boolean deleted;
+    private boolean deleted;
 
     @RelationManyToMany(
         joinTable = "sys_user_role", // 中间表
@@ -115,5 +117,4 @@ public class SysUser extends BaseEntity {
         joinTargetColumn = "role_id"
     )
     private List<SysRole> roles;
-
 }

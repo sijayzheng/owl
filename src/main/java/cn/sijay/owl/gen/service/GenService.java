@@ -13,7 +13,6 @@ import cn.sijay.owl.gen.entity.TableInfo;
 import cn.sijay.owl.gen.enums.HtmlType;
 import cn.sijay.owl.gen.enums.JavaType;
 import cn.sijay.owl.gen.enums.QueryType;
-import cn.sijay.owl.gen.mapper.GenTableMapper;
 import cn.sijay.owl.gen.properties.GenProperties;
 import cn.sijay.owl.gen.utils.SqlTypesUtil;
 import com.mybatisflex.core.query.QueryColumn;
@@ -50,7 +49,6 @@ import java.util.*;
 public class GenService {
 
     private final GenTableService tableService;
-    private final GenTableMapper tableMapper;
     private final GenColumnService columnService;
     private final Configuration configuration;
     private final GenProperties genProperties;
@@ -215,12 +213,12 @@ public class GenService {
     public void generateCode(Long tableId) {
         // 生成代码
         // 获取表信息
-        GenTable table = tableMapper.selectOneWithRelationsById(tableId);
+        GenTable table = tableService.getById(tableId);
         if (table == null) {
             throw new ServiceException(getClass(), "表信息不存在");
         }
         // 获取列信息
-        List<GenColumn> columns = table.getColumns();
+        List<GenColumn> columns = columnService.listByTableId(tableId);
         if (CollectionUtils.isEmpty(columns)) {
             throw new ServiceException(getClass(), "列信息不存在");
         }
@@ -235,16 +233,16 @@ public class GenService {
         String javaPath = FileUtil.joinPath(rootPath, "src", "main", "java", genProperties.getPackageName().replace('.', File.separatorChar), moduleName);
         String vuePath = FileUtil.joinPath(rootPath, "ui", "src");
         try {
-            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
+//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
             if (!table.getEntityOnly()) {
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, functionName + "Types.ts"), codeMap.get("types.ts"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
+//                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, className + "Types.ts"), codeMap.get("types.ts"));
                 FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
-                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, className + ".vue"), codeMap.get("index.vue"));
+                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName + ".vue"), codeMap.get("index.vue"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -290,6 +288,7 @@ public class GenService {
                                       .toList();
         data.put("imports", imports);
         data.put("hasBase", CollectionUtils.containsAll(columns.parallelStream().map(GenColumn::getColumnName).toList(), GenConstants.BASE_FIELD));
+        data.put("primaryKey", columns.stream().filter(GenColumn::getPrimaryKey).findFirst().orElse(new GenColumn()));
         data.put("date", "2026-04-09");// LocalDate.now());
         return data;
     }

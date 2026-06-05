@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys-menu")
+@RequestMapping("/system/sysMenu")
 @RestController
 public class SysMenuController extends BaseController {
     private final SysMenuService sysMenuService;
@@ -44,8 +44,8 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
     @GetMapping("/tree")
-    public Result<List<SysMenu>> getTree() {
-        return success(sysMenuService.getTree());
+    public Result<List<SysMenu>> getTree(SysMenuQuery sysMenuQuery) {
+        return success(sysMenuService.getTree(sysMenuQuery));
     }
 
     /**
@@ -112,9 +112,9 @@ public class SysMenuController extends BaseController {
      */
     @AccessLog(title = "系统菜单", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysMenu:import")
-    @GetMapping("/template")
+    @GetMapping("/downloadTemplate")
     @Operation(summary = "下载系统菜单模板")
-    public ResponseEntity<Resource> template() throws IOException {
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统菜单模板", SysMenu.class);
     }
 

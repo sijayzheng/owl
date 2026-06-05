@@ -35,8 +35,8 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
      *
      * @return 树形结构数据列表
      */
-    public List<SysDept> getTree() {
-        return buildTree(list());
+    public List<SysDept> getTree(SysDeptQuery sysDeptQuery) {
+        return buildTree(list(query(sysDeptQuery)));
     }
 
     /**
@@ -85,7 +85,7 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
      */
     private List<SysDept> getChildList(List<SysDept> list, SysDept parent) {
         return list.stream()
-                   .filter(item -> item.getParentId() != null && item.getParentId().equals(parent.getId()))
+                   .filter(item -> Objects.equals(item.getParentId(), parent.getId()))
                    .collect(Collectors.toList());
     }
 
@@ -97,7 +97,7 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
      * @return 是否有子节点
      */
     private boolean hasChild(List<SysDept> list, SysDept node) {
-        return list.stream().anyMatch(item -> item.getParentId() != null && item.getParentId().equals(node.getId()));
+        return list.stream().anyMatch(item -> Objects.equals(item.getParentId(), node.getId()));
     }
 
     /**
@@ -108,7 +108,6 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
      */
     private QueryWrapper query(SysDeptQuery sysDeptQuery) {
         QueryWrapper query = query();
-        query.and(SYS_DEPT.PARENT_ID.eq(sysDeptQuery.parentId()));
         query.and(SYS_DEPT.DEPT_NAME.like(sysDeptQuery.deptName()));
         query.and(SYS_DEPT.DEPT_CATEGORY.eq(sysDeptQuery.deptCategory()));
         query.and(SYS_DEPT.ENABLED.eq(sysDeptQuery.enabled()));
@@ -139,7 +138,8 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
         QueryWrapper wrapper = query()
             .select(SYS_DEPT.DEPT_NAME)
             .from(SYS_DEPT)
-            .where(SYS_DEPT.ID.eq(deptId));
+            .where(SYS_DEPT.ID.eq(deptId))
+            .orderBy(SYS_DEPT.ID.asc());
         return Objects.requireNonNull(getOne(wrapper)).getDeptName();
     }
 }

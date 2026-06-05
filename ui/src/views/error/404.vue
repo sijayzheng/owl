@@ -3,16 +3,22 @@
     <div class="error-content">
       <div class="error-icon">
         <el-icon size="120" color="#409EFF">
-          <DocumentDelete/>
+          <DocumentDelete />
         </el-icon>
       </div>
-      <h1 class="error-code">404</h1>
-      <p class="error-message">抱歉，您访问的页面不存在</p>
-      <p class="error-description">请检查您输入的网址是否正确，或点击下方按钮返回首页</p>
+      <h1 class="error-code">
+        404
+      </h1>
+      <p class="error-message">
+        抱歉，您访问的页面不存在
+      </p>
+      <p class="error-description">
+        请检查您输入的网址是否正确，或点击下方按钮返回首页
+      </p>
       <div class="error-actions">
         <el-button type="primary" size="large" @click="goHome">
           <el-icon>
-            <HomeFilled/>
+            <HomeFilled />
           </el-icon>
           {{ remaining }}秒后返回首页
         </el-button>
@@ -22,27 +28,26 @@
 </template>
 
 <script setup lang="ts">
-import {useRouter} from 'vue-router'
-import {DocumentDelete, HomeFilled} from '@element-plus/icons-vue'
+import { DocumentDelete, HomeFilled } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const goHome = () => {
+function goHome() {
   router.push('/')
 }
 
 const {
   remaining,
-  start
+  start,
 } = useCountdown(3, {
   onComplete() {
     goHome()
-  }
+  },
 })
 onMounted(() => {
   start()
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -69,7 +74,7 @@ onMounted(() => {
     .error-code {
       font-size: 80px;
       font-weight: 700;
-      color: #409EFF;
+      color: #409eff;
       margin: 0 0 16px;
       line-height: 1;
     }

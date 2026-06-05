@@ -18,7 +18,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sys-user")
+@RequestMapping("/system/sysUser")
 @RestController
 public class SysUserController extends BaseController {
     private final SysUserService sysUserService;
@@ -40,7 +39,7 @@ public class SysUserController extends BaseController {
     /**
      * 分页查询系统用户列表
      *
-     * @param pageQuery    分页参数
+     * @param pageQuery            分页参数
      * @param sysUserQuery 查询条件
      * @return 系统用户分页列表
      */
@@ -116,9 +115,9 @@ public class SysUserController extends BaseController {
      */
     @AccessLog(title = "系统用户", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysUser:import")
-    @GetMapping("/template")
+    @GetMapping("/downloadTemplate")
     @Operation(summary = "下载系统用户模板")
-    public ResponseEntity<Resource> template() throws IOException {
+    public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统用户模板", SysUser.class);
     }
 

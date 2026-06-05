@@ -26,6 +26,7 @@ public class SysDept extends BaseEntity {
      * 主键
      */
     @Id(keyType = KeyType.Auto, comment = "主键")
+    @ExcelProperty(value = "主键")
     @Column(value = "id", comment = "主键")
     private Long id;
 
@@ -40,7 +41,6 @@ public class SysDept extends BaseEntity {
      * 祖级列表
      */
     @Column(value = "ancestors", comment = "祖级列表")
-    @ExcelProperty(value = "祖级列表")
     private String ancestors;
 
     /**
@@ -90,13 +90,13 @@ public class SysDept extends BaseEntity {
      */
     @Column(value = "enabled", comment = "启用")
     @ExcelProperty(value = "启用")
-    private Boolean enabled;
+    private boolean enabled;
 
     /**
      * 删除
      */
     @Column(value = "deleted", comment = "删除")
-    private Boolean deleted;
+    private boolean deleted;
 
     /**
      * 子列表

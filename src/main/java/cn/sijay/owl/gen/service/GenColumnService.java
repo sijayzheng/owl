@@ -20,6 +20,6 @@ import static cn.sijay.owl.gen.entity.table.GenColumnTableDef.GEN_COLUMN;
 public class GenColumnService extends ServiceImpl<GenColumnMapper, GenColumn> implements IService<GenColumn> {
     public List<GenColumn> listByTableId(Long tableId) {
         return list(query().where(GEN_COLUMN.TABLE_ID.eq(tableId))
-                           .orderBy(GEN_COLUMN.SORT.asc()));
+                           .orderBy(GEN_COLUMN.TABLE_ID.asc(), GEN_COLUMN.SORT.asc()));
     }
 }

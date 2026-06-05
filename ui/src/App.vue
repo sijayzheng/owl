@@ -1,6 +1,6 @@
 <template>
   <el-config-provider :button="{ autoInsertSpace: true }" :locale="zhCn" :message="messageConfig" size="default">
-    <router-view/>
+    <router-view />
   </el-config-provider>
 </template>
 

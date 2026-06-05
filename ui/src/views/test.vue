@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-center wh-full">
+  <div class="wh-full flex-center">
     <el-card class="w-400px">
       <template #header>
         <div class="flex-between">
@@ -33,18 +33,20 @@
   </div>
   <section id="center">
     <div class="hero">
-      <img :src="LogoImg" class="base" width="170" height="179" alt=""/>
-      <img :src="LogoImg" class="framework" alt="Vue logo"/>
-      <img :src="LogoImg" class="vite" alt="Vite logo"/>
+      <img :src="LogoImg" class="base" width="170" height="179" alt="">
+      <img :src="LogoImg" class="framework" alt="Vue logo">
+      <img :src="LogoImg" class="vite" alt="Vite logo">
     </div>
     <div>
       <h1>Get started</h1>
       <p>Edit <code>src/App.vue</code> and save to test <code>HMR</code></p>
     </div>
-    <button class="counter" @click="count++">Count is {{ count }}</button>
+    <button class="counter" @click="count++">
+      Count is {{ count }}
+    </button>
   </section>
 
-  <div class="ticks"></div>
+  <div class="ticks" />
 
   <section id="next-steps">
     <div id="docs">
@@ -53,13 +55,13 @@
       <ul>
         <li>
           <a href="https://vite.dev/" target="_blank">
-            <img class="logo" :src="LogoImg" alt=""/>
+            <img class="logo" :src="LogoImg" alt="">
             Explore Vite
           </a>
         </li>
         <li>
           <a href="https://vuejs.org/" target="_blank">
-            <img class="button-icon" :src="LogoImg" alt=""/>
+            <img class="button-icon" :src="LogoImg" alt="">
             Learn more
           </a>
         </li>
@@ -93,13 +95,12 @@
     </div>
   </section>
 
-  <div class="ticks"></div>
-  <section id="spacer"></section>
+  <div class="ticks" />
+  <section id="spacer" />
 </template>
+
 <script setup lang="ts">
-import {Moon, Sunny} from '@element-plus/icons-vue'
-import {isDark} from '@/composables/dark'
-import {ref} from 'vue'
+import { Moon, Sunny } from '@element-plus/icons-vue'
 import LogoImg from '@/assets/logo.png'
 
 const count = ref(0)

@@ -37,8 +37,8 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
      *
      * @return 树形结构数据列表
      */
-    public List<${className}> getTree() {
-        return buildTree(list());
+    public List<${className}> getTree(${className}Query ${functionName}Query) {
+        return buildTree(list(query(${functionName}Query)));
     }
 
     /**
@@ -87,7 +87,7 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
      */
     private List<${className}> getChildList(List<${className}> list, ${className} parent) {
         return list.stream()
-                   .filter(item -> item.get${treeParentKey?cap_first}() != null && item.get${treeParentKey?cap_first}().equals(parent.get${treeKey?cap_first}()))
+                   .filter(item -> Objects.equals(item.get${treeParentKey?cap_first}(), parent.get${treeKey?cap_first}()))
                    .collect(Collectors.toList());
     }
 
@@ -99,7 +99,7 @@ public class ${className}Service extends ServiceImpl<${className}Mapper, ${class
      * @return 是否有子节点
      */
     private boolean hasChild(List<${className}> list, ${className} node) {
-        return list.stream().anyMatch(item -> item.get${treeParentKey?cap_first}() != null && item.get${treeParentKey?cap_first}().equals(node.get${treeKey?cap_first}()));
+        return list.stream().anyMatch(item -> Objects.equals(item.get${treeParentKey?cap_first}(), node.get${treeKey?cap_first}()));
     }
 <#else>
     /**

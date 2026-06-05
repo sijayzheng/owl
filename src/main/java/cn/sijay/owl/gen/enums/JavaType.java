@@ -16,7 +16,7 @@ public enum JavaType {
     LONG("Long", "长整数", "", "number"),
     FLOAT("Float", "单精度浮点数", "", "number"),
     DOUBLE("Double", "双精度浮点数", "", "number"),
-    BOOLEAN("Boolean", "布尔型", "", "boolean"),
+    BOOLEAN("boolean", "布尔型", "", "boolean"),
     BIG_DECIMAL("BigDecimal", "数字", "java.math.BigDecimal", "number"),
     LOCAL_DATE("LocalDate", "日期", "java.time.LocalDate", "string"),
     LOCAL_TIME("LocalTime", "时间", "java.time.LocalTime", "string"),

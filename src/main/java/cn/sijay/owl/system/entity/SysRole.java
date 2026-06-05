@@ -25,6 +25,7 @@ public class SysRole extends BaseEntity {
      * 主键
      */
     @Id(keyType = KeyType.Auto, comment = "主键")
+    @ExcelProperty(value = "主键")
     @Column(value = "id", comment = "主键")
     private Long id;
 
@@ -64,27 +65,27 @@ public class SysRole extends BaseEntity {
      */
     @Column(value = "menu_check_strictly", comment = "菜单树选择项关联显示")
     @ExcelProperty(value = "菜单树选择项关联显示")
-    private Boolean menuCheckStrictly;
+    private boolean menuCheckStrictly;
 
     /**
      * 部门树选择项关联显示
      */
     @Column(value = "dept_check_strictly", comment = "部门树选择项关联显示")
     @ExcelProperty(value = "部门树选择项关联显示")
-    private Boolean deptCheckStrictly;
+    private boolean deptCheckStrictly;
 
     /**
      * 启用
      */
     @Column(value = "enabled", comment = "启用")
     @ExcelProperty(value = "启用")
-    private Boolean enabled;
+    private boolean enabled;
 
     /**
      * 删除
      */
     @Column(value = "deleted", comment = "删除")
-    private Boolean deleted;
+    private boolean deleted;
 
     @RelationManyToMany(
         joinTable = "sys_role_menu", // 中间表

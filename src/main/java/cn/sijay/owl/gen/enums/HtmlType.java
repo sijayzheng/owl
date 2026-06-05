@@ -17,12 +17,13 @@ public enum HtmlType {
     NUMBER("数字框"),
     SELECT("下拉框"),
     RADIO("单选框"),
-    DATETIME("日期选择"),
+    DATETIME("日期时间"),
     DATE("日期"),
     TIME("时间"),
     IMAGE("图片上传"),
     FILE("文件上传"),
-    EDITOR("富文本");
+    EDITOR("富文本"),
+    ;
 
     private final String description;
 }

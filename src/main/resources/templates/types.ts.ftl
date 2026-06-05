@@ -3,10 +3,10 @@ export interface ${className} <#if hasBase>extends BaseEntity</#if> {
   // ${column.columnComment}
   ${column.javaField}: ${column.javaType.tsType}
 </#list>
-    <#if isTree>
+<#if isTree>
   // 子列表
   children: ${className}[]
-    </#if>
+</#if>
 }
 
 export interface ${className}Query {

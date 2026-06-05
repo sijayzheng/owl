@@ -48,6 +48,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/gen/EditTable': RouteRecordInfo<
+      '/gen/EditTable',
+      '/gen/EditTable',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/Index': RouteRecordInfo<
       '/Index',
       '/Index',
@@ -62,37 +69,37 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/system/SysConfig': RouteRecordInfo<
-      '/system/SysConfig',
-      '/system/SysConfig',
+    '/system/sysConfig': RouteRecordInfo<
+      '/system/sysConfig',
+      '/system/sysConfig',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/system/SysDept': RouteRecordInfo<
-      '/system/SysDept',
-      '/system/SysDept',
+    '/system/sysDept': RouteRecordInfo<
+      '/system/sysDept',
+      '/system/sysDept',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/system/SysMenu': RouteRecordInfo<
-      '/system/SysMenu',
-      '/system/SysMenu',
+    '/system/sysMenu': RouteRecordInfo<
+      '/system/sysMenu',
+      '/system/sysMenu',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/system/SysRole': RouteRecordInfo<
-      '/system/SysRole',
-      '/system/SysRole',
+    '/system/sysRole': RouteRecordInfo<
+      '/system/sysRole',
+      '/system/sysRole',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/system/SysUser': RouteRecordInfo<
-      '/system/SysUser',
-      '/system/SysUser',
+    '/system/sysUser': RouteRecordInfo<
+      '/system/sysUser',
+      '/system/sysUser',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -135,6 +142,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/gen/EditTable.vue': {
+      routes:
+        | '/gen/EditTable'
+      views:
+        | never
+    }
     'src/views/Index.vue': {
       routes:
         | '/Index'
@@ -147,33 +160,33 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/system/SysConfig.vue': {
+    'src/views/system/sysConfig.vue': {
       routes:
-        | '/system/SysConfig'
+        | '/system/sysConfig'
       views:
         | never
     }
-    'src/views/system/SysDept.vue': {
+    'src/views/system/sysDept.vue': {
       routes:
-        | '/system/SysDept'
+        | '/system/sysDept'
       views:
         | never
     }
-    'src/views/system/SysMenu.vue': {
+    'src/views/system/sysMenu.vue': {
       routes:
-        | '/system/SysMenu'
+        | '/system/sysMenu'
       views:
         | never
     }
-    'src/views/system/SysRole.vue': {
+    'src/views/system/sysRole.vue': {
       routes:
-        | '/system/SysRole'
+        | '/system/sysRole'
       views:
         | never
     }
-    'src/views/system/SysUser.vue': {
+    'src/views/system/sysUser.vue': {
       routes:
-        | '/system/SysUser'
+        | '/system/sysUser'
       views:
         | never
     }

@@ -15,8 +15,5 @@ public class SysMenuTest {
 
     @Test
     public void test() {
-
     }
-
-
 }

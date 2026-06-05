@@ -5,6 +5,7 @@ import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
 import org.apache.fesod.sheet.annotation.ExcelProperty;
@@ -24,6 +25,7 @@ public class SysConfig extends BaseEntity {
      * 主键
      */
     @Id(keyType = KeyType.Auto, comment = "主键")
+    @ExcelProperty(value = "主键")
     @Column(value = "id", comment = "主键")
     private Long id;
 
@@ -31,6 +33,7 @@ public class SysConfig extends BaseEntity {
      * 参数名称
      */
     @Column(value = "config_name", comment = "参数名称")
+    @NotBlank(message = "参数名称不能为空")
     @ExcelProperty(value = "参数名称")
     private String configName;
 
@@ -38,6 +41,7 @@ public class SysConfig extends BaseEntity {
      * 参数键名
      */
     @Column(value = "config_key", comment = "参数键名")
+    @NotBlank(message = "参数键名不能为空")
     @ExcelProperty(value = "参数键名")
     private String configKey;
 
@@ -45,6 +49,7 @@ public class SysConfig extends BaseEntity {
      * 参数键值
      */
     @Column(value = "config_value", comment = "参数键值")
+    @NotBlank(message = "参数键值不能为空")
     @ExcelProperty(value = "参数键值")
     private String configValue;
 

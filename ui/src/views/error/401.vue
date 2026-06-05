@@ -3,16 +3,22 @@
     <div class="error-content">
       <div class="error-icon">
         <el-icon size="120" color="#E6A23C">
-          <Lock/>
+          <Lock />
         </el-icon>
       </div>
-      <h1 class="error-code">401</h1>
-      <p class="error-message">抱歉，您没有权限访问该页面</p>
-      <p class="error-description">您可能需要登录或联系管理员获取访问权限</p>
+      <h1 class="error-code">
+        401
+      </h1>
+      <p class="error-message">
+        抱歉，您没有权限访问该页面
+      </p>
+      <p class="error-description">
+        您可能需要登录或联系管理员获取访问权限
+      </p>
       <div class="error-actions">
         <el-button type="primary" size="large" @click="goLogin">
           <el-icon>
-            <UserFilled/>
+            <UserFilled />
           </el-icon>
           {{ remaining }}秒后跳转登录页
         </el-button>
@@ -22,27 +28,26 @@
 </template>
 
 <script setup lang="ts">
-import {useRouter} from 'vue-router'
-import {Lock, UserFilled} from '@element-plus/icons-vue'
+import { Lock, UserFilled } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const goLogin = () => {
+function goLogin() {
   router.push('/login')
 }
 
 const {
   remaining,
-  start
+  start,
 } = useCountdown(3, {
   onComplete() {
     goLogin()
-  }
+  },
 })
 onMounted(() => {
   start()
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -69,7 +74,7 @@ onMounted(() => {
     .error-code {
       font-size: 80px;
       font-weight: 700;
-      color: #E6A23C;
+      color: #e6a23c;
       margin: 0 0 16px;
       line-height: 1;
     }

@@ -42,6 +42,9 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
      */
     <#if column.primaryKey>
     @Id(<#if column.incremental>keyType = KeyType.Auto, </#if>comment = "${column.shotComment()}")
+        <#if column.exportable>
+    @ExcelProperty(value = "${column.shotComment()}")
+        </#if>
     </#if>
     @Column(value = "${column.columnName}", comment = "${column.shotComment()}"<#if column.javaField == 'version'>, version = true</#if>)
     <#if !column.primaryKey>
@@ -52,7 +55,7 @@ public class ${className} <#if hasBase>extends BaseEntity<#else>implements Seria
     @NotNull(message = "${column.shotComment()}不能为空")
             </#if>
         </#if>
-        <#if column.export()>
+        <#if column.exportable>
             <#if (column.columnOption.dictCode())?has_content>
     @ExcelProperty(value = "${column.shotComment()}", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictCode = "${column.columnOption.dictCode}")

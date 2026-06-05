@@ -1,9 +1,11 @@
 <template>
-    <h1>系统菜单页面</h1>
+  信息编辑
 </template>
 
 <script setup lang="ts">
+
 </script>
 
 <style scoped lang="scss">
+
 </style>

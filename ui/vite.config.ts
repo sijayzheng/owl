@@ -32,9 +32,9 @@ export default defineConfig({
         },
       ],
       // 哪些类型的文件应被视为页面
-      extensions: ['.vue'],
+      extensions: [ '.vue' ],
       // 要包含哪些文件
-      filePatterns: ['**/*'],
+      filePatterns: [ '**/*' ],
       // 要排除的文件
       exclude: [],
       // 生成的 d.ts 文件路径
@@ -55,16 +55,15 @@ export default defineConfig({
     vueJsx(),
     UnoCSS(),
     AutoImport({
-      imports: ['vue', 'vue-router', '@vueuse/core', 'pinia', {
-        'element-plus': ['ElMessage', 'ElMessageBox', 'ElNotification', 'ElLoading'],
+      imports: [ 'vue', 'vue-router', '@vueuse/core', 'pinia', {
+        'element-plus': [ 'ElMessage', 'ElMessageBox', 'ElNotification', 'ElLoading' ],
       }, {
-        'alova/client': ['useFetcher', 'useForm', 'usePagination', 'useRequest', 'useUploader'],
-      }],
+        'alova/client': [ 'useFetcher', 'useForm', 'usePagination', 'useRequest', 'useUploader' ],
+      } ],
       resolvers: [
         ElementPlusResolver(),
         IconsResolver({ prefix: 'Icon' }),
       ],
-      dts: true,
       dirs: [
         'src/api/**',
         'src/utils/**',
@@ -76,14 +75,16 @@ export default defineConfig({
           types: true,
         },
       ],
+      vueTemplate: true,
+      dts: true,
     }),
     Components({
       resolvers: [
         ElementPlusResolver({ importStyle: 'sass' }),
-        IconsResolver({ enabledCollections: ['ep'] }),
+        IconsResolver({ enabledCollections: [ 'ep' ] }),
       ],
       dts: true,
-      dirs: ['src/components/**'],
+      dirs: [ 'src/components/**' ],
     }),
     ElementPlus({ useSource: true }),
     Icons({ autoInstall: true }),
@@ -112,6 +113,8 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: '../src/main/resources/static',
+    assetsDir: 'static',
     chunkSizeWarningLimit: 1000,
     modulePreload: false,
     cssCodeSplit: true,
@@ -127,7 +130,8 @@ export default defineConfig({
       'alova',
       'alova/fetch',
       'alova/vue',
-      'element-plus/es/components/message/style/index',
+      '@alova/adapter-axios',
+      'axios',
       'echarts',
       'vxe-table',
       'dayjs',
@@ -136,7 +140,10 @@ export default defineConfig({
       'qs',
       'crypto-js',
       'file-saver',
+      'vue-types',
+      // Element Plus 样式子模块：部分样式可能未被自动预构建，显式列出以避免开发时请求瀑布流
       'element-plus/es',
+      'element-plus/es/components/message/style/index',
       'element-plus/es/components/avatar/style/index',
       'element-plus/es/components/badge/style/index',
       'element-plus/es/components/base/style/index',
@@ -155,6 +162,19 @@ export default defineConfig({
       'element-plus/es/components/form-item/style/index',
       'element-plus/es/components/form/style/index',
       'element-plus/es/components/input/style/index',
+      'element-plus/es/components/config-provider/style/index',
+      'element-plus/es/components/card/style/index',
+      'element-plus/es/components/empty/style/index',
+      'element-plus/es/components/link/style/index',
+      'element-plus/es/components/loading/style/index',
+      'element-plus/es/components/message-box/style/index',
+      'element-plus/es/components/popover/style/index',
+      'element-plus/es/components/tooltip/style/index',
+      'element-plus/es/components/dialog/style/index',
+      'element-plus/es/components/notification/style/index',
+      'element-plus/es/components/pagination/style/index',
+      'element-plus/es/components/table-column/style/index',
+      'element-plus/es/components/table/style/index',
     ],
   },
 })

@@ -56,7 +56,7 @@ project-root/
 │   │   ├── views/                # 页面级组件（按模块划分，文件使用实体类名小驼峰格式）
 │   │   ├── components/           # 可复用的 UI 组件
 │   │   ├── router/               # Vue Router 配置
-│   │   ├── stores/               # Pinia 存储
+│   │   ├── store/               # Pinia 存储
 │   │   ├── utils/                # 工具函数与请求拦截器
 │   │   ├── types/                # TypeScript 类型定义（按模块划分，文件使用实体类名小驼峰格式）
 │   │   └── App.vue
@@ -177,7 +177,7 @@ public record Result<T>(
 
 - 组件：`views/` 和 `components/` 下使用大驼峰命名，如 `UserTable.vue`
 - API 模块：`api/` 下使用小驼峰，如 `userApi.ts`
-- 状态管理：`stores/` 下使用小驼峰，如 `userStore.ts`
+- 状态管理：`store/` 下使用小驼峰，如 `userStore.ts`
 - 工具/类型：`utils/`、`types/` 下使用小驼峰
 
 ### 状态管理
@@ -194,7 +194,7 @@ public record Result<T>(
 ```ts
 // api/userApi.ts
 import request from '@/utils/request'
-import type {User} from '@/types/user'
+import type { User } from '@/types/user'
 
 export const userApi = {
     getUserList: (params: any) => request.get<Result<User>>('/users', params),

@@ -73,6 +73,7 @@ public class ExcelUtil {
             return ResponseEntity.ok()
                                  .contentType(MediaType.APPLICATION_OCTET_STREAM)
                                  .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + percentEncodedFileName + "\"")
+                                 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION)
                                  .body(new ByteArrayResource(bos.toByteArray()));
         } catch (IOException e) {
             throw new RuntimeException(e);
