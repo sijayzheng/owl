@@ -30,7 +30,7 @@ create table gen_column
     incremental    boolean      default false comment '是否自增',
     required       boolean      default false comment '是否必填',
     editable       boolean      default true comment '是否编辑',
-    listable       boolean      default true comment '是否列表',
+    visible        boolean      default true comment '是否展示',
     queryable      boolean      default false comment '是否查询',
     query_type     varchar(32)  default 'EQUAL' comment '查询方式',
     html_type      varchar(32)  default 'INPUT' comment '显示类型',

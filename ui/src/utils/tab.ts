@@ -1,5 +1,4 @@
 import type { RouteLocationMatched, RouteLocationNormalized } from 'vue-router'
-import router from '@/router'
 
 export default {
   /**
@@ -38,14 +37,10 @@ export default {
     })
   },
   // 关闭指定tab页签
-  async closePage(
-    obj?: RouteLocationNormalized,
-  ): Promise<{ visitedViews: RouteLocationNormalized[], cachedViews: string[] } | any> {
+  async closePage(obj?: RouteLocationNormalized): Promise<{ visitedViews: RouteLocationNormalized[], cachedViews: string[] } | any> {
     if (obj === undefined) {
       // prettier-ignore
-      const { visitedViews } = await useTagViewStore().delView(
-        router.currentRoute.value,
-      )
+      const { visitedViews } = await useTagViewStore().delView(router.currentRoute.value)
       const latestView = visitedViews.slice(-1)[0]
       if (latestView) {
         return router.push(latestView.fullPath)

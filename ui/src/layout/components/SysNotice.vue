@@ -34,8 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
-
 const noticeStore = useNoticeStore()
 const NOTICE_GROUP = {
   SYSTEM: 'system',

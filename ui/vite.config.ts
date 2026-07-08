@@ -70,6 +70,7 @@ export default defineConfig({
         'src/composables/**',
         'src/hooks/**',
         'src/store/**',
+        'src/router/**',
         {
           glob: 'src/types/**',
           types: true,

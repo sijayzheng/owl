@@ -15,8 +15,6 @@ import cn.sijay.owl.gen.enums.JavaType;
 import cn.sijay.owl.gen.enums.QueryType;
 import cn.sijay.owl.gen.properties.GenProperties;
 import cn.sijay.owl.gen.utils.SqlTypesUtil;
-import com.mybatisflex.core.query.QueryColumn;
-import com.mybatisflex.core.query.QueryWrapper;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -58,27 +56,27 @@ public class GenService {
     /**
      * 获取数据库中所有表的信息
      */
-    List<TableInfo> getTables(List<String> tableNames) throws SQLException {
-        List<TableInfo> tables = new ArrayList<>();
+    public TableInfo getTableInfo(String tableName) throws SQLException {
+        TableInfo tableInfo = null;
         try (Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
             String catalog = connection.getCatalog();
             String schema = connection.getSchema();
-            ResultSet rs = metaData.getTables(catalog, schema, "%", new String[]{"TABLE"});
+            ResultSet rs = metaData.getTables(catalog, schema, null, new String[]{"TABLE"});
             while (rs.next()) {
-                String tableName = rs.getString("TABLE_NAME");
-                if (Strings.CI.equalsAny(tableName, tableNames.toArray(new String[0]))) {
+                String name = rs.getString("TABLE_NAME");
+                if (Strings.CI.equals(tableName, name)) {
                     List<String> primaryKeys = getPrimaryKeys(catalog, schema, tableName);
-                    tables.add(new TableInfo(
+                    tableInfo = new TableInfo(
                         tableName.toLowerCase(),
                         rs.getString("REMARKS"),
-                        getTableColumns(catalog, schema, tableName, primaryKeys)
-                    ));
+                        getTableColumns(catalog, schema, name, primaryKeys)
+                    );
                 }
             }
             rs.close();
         }
-        return tables;
+        return tableInfo;
     }
 
     /**
@@ -128,78 +126,79 @@ public class GenService {
     }
 
     @Transactional
-    public void importTable(List<String> tables) {
+    public void importTable(String tableName) {
         try {
-            List<TableInfo> tableInfos = getTables(tables);
-            for (TableInfo tableInfo : tableInfos) {
-                String tableName = tableInfo.tableName();
-                String remarks = tableInfo.remarks();
-                GenTable genTable = new GenTable();
-                genTable.setTableName(tableName);
-                genTable.setTableComment(remarks);
-                genTable.setModuleName(StringUtils.substringBefore(tableName, "_"));
-                genTable.setClassName(NamingUtil.caseConvert(tableName, NamingCase.UPPER_CAMEL_CASE));
-                genTable.setClassComment(remarks.replaceAll("表$", ""));
-                genTable.setFunctionName(NamingUtil.caseConvert(tableName, NamingCase.LOWER_CAMEL_CASE));
-                tableService.save(genTable);
-                Long tableId = genTable.getId();
-                List<GenColumn> list = tableInfo.columns()
-                                                .stream()
-                                                .map(columnInfo -> {
-                                                    String columnName = columnInfo.columnName().toLowerCase();
-                                                    GenColumn column = new GenColumn();
-                                                    column.setTableId(tableId);
-                                                    column.setColumnName(columnName);
-                                                    column.setColumnComment(columnInfo.remarks());
-                                                    column.setColumnType(SqlTypesUtil.getDataTypeName(columnInfo.dataType()));
-                                                    column.setJavaType(switch (column.getColumnType()) {
-                                                        case "bit", "boolean" -> JavaType.BOOLEAN;
-                                                        case "tinyint", "smallint", "integer" -> JavaType.INTEGER;
-                                                        case "bigint" -> JavaType.LONG;
-                                                        case "real" -> JavaType.FLOAT;
-                                                        case "float", "double" -> JavaType.DOUBLE;
-                                                        case "decimal", "numeric" -> JavaType.BIG_DECIMAL;
-                                                        case "binary", "varbinary", "longvarbinary", "blob" -> JavaType.BYTE_ARRAY;
-                                                        case "date" -> JavaType.LOCAL_DATE;
-                                                        case "time", "time_with_timezone" -> JavaType.LOCAL_TIME;
-                                                        case "timestamp", "timestamp_with_timezone" -> JavaType.LOCAL_DATE_TIME;
-                                                        default -> JavaType.STRING;
-                                                    });
-                                                    column.setJavaField(NamingUtil.caseConvert(columnName, NamingCase.LOWER_CAMEL_CASE));
-                                                    boolean primaryKey = columnInfo.primaryKey();
-                                                    column.setPrimaryKey(primaryKey);
-                                                    column.setIncremental(columnInfo.increment());
-                                                    column.setRequired(!columnInfo.nullable());
-                                                    column.setSort(columnInfo.sort());
-                                                    int maxLength = columnInfo.maxLength();
-                                                    if (JavaType.STRING.equals(column.getJavaType())) {
-                                                        column.setMaxLength(maxLength);
-                                                    }
-                                                    column.setQueryType(switch (column.getJavaType()) {
-                                                        case JavaType.STRING -> QueryType.LIKE;
-                                                        case JavaType.LOCAL_DATE, JavaType.LOCAL_TIME, JavaType.LOCAL_DATE_TIME -> QueryType.BETWEEN;
-                                                        default -> QueryType.EQUALS;
-                                                    });
-                                                    column.setHtmlType(switch (column.getJavaType()) {
-                                                        case JavaType.STRING -> maxLength < 500 ? HtmlType.INPUT : HtmlType.TEXTAREA;
-                                                        case JavaType.LOCAL_DATE -> HtmlType.DATE;
-                                                        case JavaType.LOCAL_TIME -> HtmlType.TIME;
-                                                        case JavaType.LOCAL_DATE_TIME -> HtmlType.DATETIME;
-                                                        case JavaType.BOOLEAN -> HtmlType.RADIO;
-                                                        case JavaType.INTEGER, JavaType.FLOAT, JavaType.DOUBLE, JavaType.BIG_DECIMAL -> HtmlType.NUMBER;
-                                                        case JavaType.LONG -> columnName.contains("id") ? HtmlType.SELECT : HtmlType.NUMBER;
-                                                        case JavaType.BYTE_ARRAY -> HtmlType.FILE;
-                                                    });
-                                                    boolean need = !GenConstants.NEEDLESS.contains(columnName);
-                                                    column.setEditable(need);
-                                                    boolean flag = need && GenConstants.NEED_QUERY.contains(column.getHtmlType());
-                                                    column.setListable(flag);
-                                                    column.setQueryable(!primaryKey && !"remark".equals(columnName) && flag);
-                                                    return column;
-                                                })
-                                                .toList();
-                columnService.saveBatch(list);
+            TableInfo tableInfo = getTableInfo(tableName);
+            if (tableInfo == null) {
+                log.error("未查询到{}的表结构信息", tableName);
+                throw new ServiceException(GenService.class, "未查询到" + tableName + "的表结构信息");
             }
+            String remarks = tableInfo.remarks();
+            GenTable genTable = new GenTable();
+            genTable.setTableName(tableName);
+            genTable.setTableComment(remarks);
+            genTable.setModuleName(StringUtils.substringBefore(tableName, "_"));
+            genTable.setClassName(NamingUtil.caseConvert(tableName, NamingCase.UPPER_CAMEL_CASE));
+            genTable.setClassComment(remarks.replaceAll("表$", ""));
+            genTable.setFunctionName(NamingUtil.caseConvert(tableName, NamingCase.LOWER_CAMEL_CASE));
+            tableService.save(genTable);
+            Long tableId = genTable.getId();
+            List<GenColumn> list = tableInfo.columns()
+                                            .stream()
+                                            .map(columnInfo -> {
+                                                String columnName = columnInfo.columnName().toLowerCase();
+                                                GenColumn column = new GenColumn();
+                                                column.setTableId(tableId);
+                                                column.setColumnName(columnName);
+                                                column.setColumnComment(columnInfo.remarks());
+                                                column.setColumnType(SqlTypesUtil.getDataTypeName(columnInfo.dataType()));
+                                                column.setJavaType(switch (column.getColumnType()) {
+                                                    case "bit", "boolean" -> JavaType.BOOLEAN;
+                                                    case "tinyint", "smallint", "integer" -> JavaType.INTEGER;
+                                                    case "bigint" -> JavaType.LONG;
+                                                    case "real" -> JavaType.FLOAT;
+                                                    case "float", "double" -> JavaType.DOUBLE;
+                                                    case "decimal", "numeric" -> JavaType.BIG_DECIMAL;
+                                                    case "binary", "varbinary", "longvarbinary", "blob" -> JavaType.BYTE_ARRAY;
+                                                    case "date" -> JavaType.LOCAL_DATE;
+                                                    case "time", "time_with_timezone" -> JavaType.LOCAL_TIME;
+                                                    case "timestamp", "timestamp_with_timezone" -> JavaType.LOCAL_DATE_TIME;
+                                                    default -> JavaType.STRING;
+                                                });
+                                                column.setJavaField(NamingUtil.caseConvert(columnName, NamingCase.LOWER_CAMEL_CASE));
+                                                boolean primaryKey = columnInfo.primaryKey();
+                                                column.setPrimaryKey(primaryKey);
+                                                column.setIncremental(columnInfo.increment());
+                                                column.setRequired(!columnInfo.nullable());
+                                                column.setSort(columnInfo.sort());
+                                                int maxLength = columnInfo.maxLength();
+                                                if (JavaType.STRING.equals(column.getJavaType())) {
+                                                    column.setMaxLength(maxLength);
+                                                }
+                                                column.setQueryType(switch (column.getJavaType()) {
+                                                    case JavaType.STRING -> QueryType.LIKE;
+                                                    case JavaType.LOCAL_DATE, JavaType.LOCAL_TIME, JavaType.LOCAL_DATE_TIME -> QueryType.BETWEEN;
+                                                    default -> QueryType.EQUALS;
+                                                });
+                                                column.setHtmlType(switch (column.getJavaType()) {
+                                                    case JavaType.STRING -> maxLength < 500 ? HtmlType.INPUT : HtmlType.TEXTAREA;
+                                                    case JavaType.LOCAL_DATE -> HtmlType.DATE;
+                                                    case JavaType.LOCAL_TIME -> HtmlType.TIME;
+                                                    case JavaType.LOCAL_DATE_TIME -> HtmlType.DATETIME;
+                                                    case JavaType.BOOLEAN -> HtmlType.RADIO;
+                                                    case JavaType.INTEGER, JavaType.FLOAT, JavaType.DOUBLE, JavaType.BIG_DECIMAL -> HtmlType.NUMBER;
+                                                    case JavaType.LONG -> columnName.contains("id") ? HtmlType.SELECT : HtmlType.NUMBER;
+                                                    case JavaType.BYTE_ARRAY -> HtmlType.FILE;
+                                                });
+                                                boolean need = !GenConstants.NEEDLESS.contains(columnName);
+                                                column.setEditable(need);
+                                                boolean flag = need && GenConstants.NEED_QUERY.contains(column.getHtmlType());
+                                                column.setVisible(flag);
+                                                column.setQueryable(!primaryKey && !"remark".equals(columnName) && flag);
+                                                return column;
+                                            })
+                                            .toList();
+            columnService.saveBatch(list);
         } catch (SQLException e) {
             throw new BaseException("数据表导入失败，" + e.getMessage());
         }
@@ -233,14 +232,14 @@ public class GenService {
         String javaPath = FileUtil.joinPath(rootPath, "src", "main", "java", genProperties.getPackageName().replace('.', File.separatorChar), moduleName);
         String vuePath = FileUtil.joinPath(rootPath, "ui", "src");
         try {
-//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
+            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
             if (!table.getEntityOnly()) {
-//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
-//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
-//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
-//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
-//                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-//                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, className + "Types.ts"), codeMap.get("types.ts"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
+                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
+                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, className + "Types.ts"), codeMap.get("types.ts"));
                 FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
                 FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName + ".vue"), codeMap.get("index.vue"));
             }
@@ -294,13 +293,40 @@ public class GenService {
     }
 
     public List<GenTable> listDbTable(GenTable genTable) {
-        return tableService.list(QueryWrapper.create()
-                                             .select("table_name", "table_comment")
-                                             .from("information_schema.tables")
-                                             .where("table_schema=schema()")
-                                             .and(new QueryColumn("table_name").like(genTable.getTableName()))
-                                             .and(new QueryColumn("table_comment").like(genTable.getTableComment()))
-        );
+        List<String> exist = new ArrayList<>();
+        exist.add("gen_column");
+        exist.add("gen_table");
+        exist.addAll(tableService.list().stream().map(GenTable::getTableName).toList());
+        List<GenTable> tables = new ArrayList<>();
+        String name = genTable.getTableName();
+        String comment = genTable.getTableComment();
+        try (Connection connection = Objects.requireNonNull(jdbcTemplate.getDataSource()).getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            String catalog = connection.getCatalog();
+            String schema = connection.getSchema();
+            ResultSet rs = metaData.getTables(catalog, schema, null, new String[]{"TABLE"});
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME").toLowerCase();
+                String remarks = rs.getString("REMARKS");
+                boolean flag = true;
+                if (StringUtils.isNotBlank(name)) {
+                    flag = Strings.CI.contains(tableName, name);
+                }
+                if (flag && StringUtils.isNotBlank(comment)) {
+                    flag = Strings.CI.contains(remarks, comment);
+                }
+                if (!exist.contains(tableName) && flag) {
+                    GenTable table = new GenTable();
+                    table.setTableName(tableName);
+                    table.setTableComment(remarks);
+                    tables.add(table);
+                }
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new ServiceException(GenService.class, "数据库表查询失败", e);
+        }
+        return tables;
     }
 
     /**
@@ -317,5 +343,15 @@ public class GenService {
             log.error("渲染模板失败: ", e);
             throw new ServiceException(getClass(), "渲染模板失败: ", e);
         }
+    }
+
+    public boolean remove(List<Long> ids) {
+        return tableService.removeByIds(ids) && columnService.removeByTableIds(ids);
+    }
+
+    public boolean update(GenTable genTable) {
+        tableService.updateById(genTable);
+        columnService.updateBatch(genTable.getColumns());
+        return true;
     }
 }

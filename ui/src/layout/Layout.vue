@@ -35,9 +35,10 @@
             </div>
             <div class="tag-view">
               <ElScrollbar ref="scrollPaneRef">
-                <router-link
+                <div
                   v-for="tag in visitedViews" :key="tag.fullPath || tag.path" :data-tag-key="tag.fullPath || tag.path"
-                  :to="tag.fullPath || tag.path || '/'" class="tag-view-item"
+                  class="tag-view-item" :class="{ active: isActive(tag) }"
+                  @click="router.push(tag.fullPath || tag.path || '/')"
                   @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : undefined"
                   @contextmenu.prevent="openMenu(tag, $event)"
                 >
@@ -47,7 +48,7 @@
                     </el-icon>
                     {{ tag.title || tag.meta?.title }}
                   </el-tag>
-                </router-link>
+                </div>
               </ElScrollbar>
             </div>
             <ul v-show="visible" :style="{ left: `${left}px`, top: `${top}px` }" class="tag-view-contextmenu">
@@ -657,7 +658,11 @@ onBeforeUnmount(() => {
             max-width: calc(100vw - 500px);
 
             .tag-view-item {
+              display: inline-flex;
+              align-items: center;
               margin-right: 4px;
+              cursor: pointer;
+              text-decoration: none;
             }
           }
 

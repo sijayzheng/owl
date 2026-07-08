@@ -7,4 +7,9 @@ export const commonApi = {
   getRoutes() {
     return request.get<Route[]>('/common/getRoutes')
   },
+  /** 获取Java类型 */
+  getEnumSelect(enumType: EnumType) {
+    return request.get<SelectNode[]>(`/common/getEnumSelect/${enumType}`)
+  },
+
 }

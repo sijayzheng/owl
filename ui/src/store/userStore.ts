@@ -1,5 +1,4 @@
 import defaultAvatar from '@/assets/avatar.jpg'
-import router from '@/router'
 
 export const useUserStore = defineStore('user', () => {
   const userInfo = ref<UserInfo>()

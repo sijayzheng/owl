@@ -49,12 +49,12 @@
         <el-table-column align="center" label="邮箱" prop="email" show-overflow-tooltip />
         <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip />
         <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="scope">
+          <template #default="{ row }">
             <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['system:sysDept:edit']" icon="Edit" link type="primary" @click="handleUpdate(scope.row.id)" />
+              <el-button v-hasPerm="['system:sysDept:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
             </el-tooltip>
-            <el-tooltip v-if="!scope.row.children" content="删除" placement="top">
-              <el-button v-hasPerm="['system:sysDept:remove']" icon="Delete" link type="primary" @click="handleDelete(scope.row.id)" />
+            <el-tooltip v-if="!row.children" content="删除" placement="top">
+              <el-button v-hasPerm="['system:sysDept:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -96,22 +96,19 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <div class="dialog-footer">
-          <el-button :loading="submitting" type="primary" @click="submit">
-            确定
-          </el-button>
-          <el-button @click="dialogVisible = false">
-            取消
-          </el-button>
-        </div>
+        <el-button :loading="submitting" type="primary" @click="submit">
+          确定
+        </el-button>
+        <el-button @click="dialogVisible = false">
+          取消
+        </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
-const rules = {
-}
+const rules = {}
 
 const queryFormRef = ref()
 const tableRef = ref()

@@ -47,15 +47,32 @@ export interface GenTable {
    * 所属菜单
    */
   menuId: number
+  /**
+   * 仅生成实体类
+   */
+  entityOnly: boolean
+
+  columns: GenColumn[]
 }
 
-export interface GenTableQuery extends PageQuery {
+export interface GenTableQuery {
   /**
    * 物理表名
    */
-  tableName: string
+  tableName?: string
   /**
    * 表注释
    */
-  tableComment: string
+  tableComment?: string
+}
+
+export interface GenTablePageQuery extends PageQuery {
+  /**
+   * 物理表名
+   */
+  tableName?: string
+  /**
+   * 表注释
+   */
+  tableComment?: string
 }

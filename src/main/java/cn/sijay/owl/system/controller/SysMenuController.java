@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
 import cn.sijay.owl.common.entity.Result;
+import cn.sijay.owl.common.entity.TreeNode;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysMenuQuery;
@@ -152,4 +153,15 @@ public class SysMenuController extends BaseController {
         return ExcelUtil.exportExcel(list, "系统菜单", SysMenu.class);
     }
 
+
+    /**
+     * 获取菜单选择下拉框
+     */
+    @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
+    @SaCheckPermission("system:sysMenu:query")
+    @GetMapping("/getMenuSelect")
+    @Operation(summary = "获取菜单选择下拉框")
+    public Result<List<TreeNode<Long>>> getMenuSelect() {
+        return success(sysMenuService.getMenuSelect());
+    }
 }

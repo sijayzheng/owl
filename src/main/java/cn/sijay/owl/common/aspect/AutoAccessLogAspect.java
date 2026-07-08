@@ -92,9 +92,9 @@ public class AutoAccessLogAspect {
         String params = JsonUtil.toJson(Arrays.stream(point.getArgs())
                                               .filter(arg -> !(arg instanceof HttpServletResponse || arg instanceof HttpServletRequest || arg instanceof MultipartFile))
                                               .toList());
-        log.info("开始请求 => URL【{}】,参数为:【{}】", url, params);
-        String method = signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()";
-        System.out.println(result.getClass().getName());
+//        log.info("开始请求 => URL【{}】,参数为:【{}】", url, params);
+//        String method = signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()";
+//        System.out.println(result.getClass().getName());
 //        String returnResult = ObjectUtils.isEmpty(result) ? "" : JsonUtil.toJson(result);
 //        LogBusiness logBusiness = new LogBusiness().setUserId(1L).setIp(request.getRemoteAddr()).setMethod(method).setParams(params)
 //                                                   .setRequestType(request.getMethod()).setRequestUrl(request.getRequestURI())

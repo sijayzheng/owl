@@ -1,5 +1,5 @@
 export interface ${className} <#if hasBase>extends BaseEntity</#if> {
-<#list columns?filter(item -> !item.based(hasBase)&&item.listable) as column>
+<#list columns?filter(item -> !item.based(hasBase)&&item.visible) as column>
   // ${column.columnComment}
   ${column.javaField}: ${column.javaType.tsType}
 </#list>

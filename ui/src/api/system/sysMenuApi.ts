@@ -33,4 +33,8 @@ export const sysMenuApi = {
   exportData(data: SysMenuQuery) {
     return request.download('/system/sysMenu/export', data)
   },
+  // 获取菜单选择下拉框
+  getMenuSelect() {
+    return request.get<TreeNode[]>('/system/sysMenu/getMenuSelect')
+  },
 }

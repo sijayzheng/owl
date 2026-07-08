@@ -14,11 +14,15 @@ import type {
   ParamValueZeroOrMore,
   ParamValueZeroOrOne,
 } from 'vue-router'
+import type {
+  _ExtractParamParserType,
+} from 'vue-router/experimental'
 
 declare module 'vue-router' {
   interface TypesConfig {
-    ParamParsers:
-      | never
+    _ParamParsers: {}
+    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
+    _RouteFileInfoMap: import('vue-router/auto-routes')._RouteFileInfoMap
   }
 }
 
@@ -129,11 +133,15 @@ declare module 'vue-router/auto-routes' {
         | '/error/401'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/views/error/404.vue': {
       routes:
         | '/error/404'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/views/gen/index.vue': {
@@ -141,11 +149,15 @@ declare module 'vue-router/auto-routes' {
         | '/gen/'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/views/gen/EditTable.vue': {
       routes:
         | '/gen/EditTable'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/views/Index.vue': {
@@ -153,11 +165,15 @@ declare module 'vue-router/auto-routes' {
         | '/Index'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/views/Login.vue': {
       routes:
         | '/Login'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/views/system/sysConfig.vue': {
@@ -165,11 +181,15 @@ declare module 'vue-router/auto-routes' {
         | '/system/sysConfig'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/views/system/sysDept.vue': {
       routes:
         | '/system/sysDept'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/views/system/sysMenu.vue': {
@@ -177,11 +197,15 @@ declare module 'vue-router/auto-routes' {
         | '/system/sysMenu'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/views/system/sysRole.vue': {
       routes:
         | '/system/sysRole'
       views:
+        | never
+      pathParamNames:
         | never
     }
     'src/views/system/sysUser.vue': {
@@ -189,11 +213,15 @@ declare module 'vue-router/auto-routes' {
         | '/system/sysUser'
       views:
         | never
+      pathParamNames:
+        | never
     }
     'src/views/Test.vue': {
       routes:
         | '/Test'
       views:
+        | never
+      pathParamNames:
         | never
     }
   }

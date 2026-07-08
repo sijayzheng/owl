@@ -25,6 +25,7 @@ declare global {
   const controlledComputed: typeof import('@vueuse/core').controlledComputed
   const controlledRef: typeof import('@vueuse/core').controlledRef
   const createApp: typeof import('vue').createApp
+  const createDisposableDirective: typeof import('@vueuse/core').createDisposableDirective
   const createEventHook: typeof import('@vueuse/core').createEventHook
   const createGlobalState: typeof import('@vueuse/core').createGlobalState
   const createInjectionState: typeof import('@vueuse/core').createInjectionState
@@ -117,6 +118,7 @@ declare global {
   const request: typeof import('./src/utils/request').default
   const resolveComponent: typeof import('vue').resolveComponent
   const resolveRef: typeof import('@vueuse/core').resolveRef
+  const router: typeof import('./src/router/index').default
   const scssD: typeof import('./src/types/scss.d').default
   const setActivePinia: typeof import('pinia').setActivePinia
   const setMapStoreSuffix: typeof import('pinia').setMapStoreSuffix
@@ -124,6 +126,7 @@ declare global {
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
+  const staticRouters: typeof import('./src/router/index').staticRouters
   const storeToRefs: typeof import('pinia').storeToRefs
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
@@ -321,7 +324,6 @@ declare global {
   const useToString: typeof import('@vueuse/core').useToString
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
-  const useUploadLoading: typeof import('./src/hooks/useUploadLoading').useUploadLoading
   const useUploader: typeof import('alova/client').useUploader
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
   const useUserMedia: typeof import('@vueuse/core').useUserMedia
@@ -377,7 +379,7 @@ declare global {
   export type { GenColumn } from './src/types/gen/GenColumn'
   import('./src/types/gen/GenColumn')
   // @ts-ignore
-  export type { GenTable, GenTableQuery } from './src/types/gen/GenTable'
+  export type { GenTable, GenTableQuery, GenTablePageQuery } from './src/types/gen/GenTable'
   import('./src/types/gen/GenTable')
   // @ts-ignore
   export type { SysConfig, SysConfigQuery, SysConfigPageQuery, SysConfigForm } from './src/types/system/SysConfigTypes'
@@ -420,6 +422,7 @@ declare module 'vue' {
     readonly controlledComputed: UnwrapRef<typeof import('@vueuse/core')['controlledComputed']>
     readonly controlledRef: UnwrapRef<typeof import('@vueuse/core')['controlledRef']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
+    readonly createDisposableDirective: UnwrapRef<typeof import('@vueuse/core')['createDisposableDirective']>
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
     readonly createInjectionState: UnwrapRef<typeof import('@vueuse/core')['createInjectionState']>
@@ -511,7 +514,7 @@ declare module 'vue' {
     readonly removeToken: UnwrapRef<typeof import('./src/utils/auth')['removeToken']>
     readonly request: UnwrapRef<typeof import('./src/utils/request')['default']>
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
-    readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
+    readonly router: UnwrapRef<typeof import('./src/router/index')['default']>
     readonly scssD: UnwrapRef<typeof import('./src/types/scss.d')['default']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
     readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
@@ -519,6 +522,7 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly staticRouters: UnwrapRef<typeof import('./src/router/index')['staticRouters']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>

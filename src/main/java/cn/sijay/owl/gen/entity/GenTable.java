@@ -104,5 +104,6 @@ public class GenTable implements Serializable {
     @Column(comment = "仅生成实体类")
     private Boolean entityOnly;
 
+    @Column(ignore = true)
     private List<GenColumn> columns;
 }

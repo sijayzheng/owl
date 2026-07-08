@@ -1,5 +1,8 @@
 package cn.sijay.owl.system.service;
 
+import cn.sijay.owl.common.entity.TreeNode;
+import cn.sijay.owl.common.enums.MenuType;
+import cn.sijay.owl.common.utils.TreeUtil;
 import cn.sijay.owl.system.dto.SysMenuQuery;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.mapper.SysMenuMapper;
@@ -132,4 +135,12 @@ public class SysMenuService extends ServiceImpl<SysMenuMapper, SysMenu> implemen
     public boolean validSave(SysMenu sysMenu) {
         return saveOrUpdate(sysMenu);
     }
+
+    /**
+     * 获取菜单选择下拉框
+     */
+    public List<TreeNode<Long>> getMenuSelect() {
+        return TreeUtil.buildTree(list(query().where(SYS_MENU.MENU_TYPE.ne(MenuType.BUTTON.name()))), SysMenu::getId, SysMenu::getMenuName, SysMenu::getParentId, 0L);
+    }
+
 }

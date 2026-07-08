@@ -26,26 +26,25 @@ public class GenTest {
 
     @Test
     public void importTable() {
-        genService.importTable(Arrays.stream("""
-                                         sys_message
-                                         sys_role
-                                         sys_task
-                                         sys_post
-                                         sys_user_post
-                                         sys_menu
-                                         sys_dict_type
-                                         sys_config
-                                         sys_dept
-                                         sys_notice
-                                         sys_role_menu
-                                         sys_dict_data
-                                         sys_user
-                                         sys_user_role
-                                         sys_user_mfa_recovery_codes
-                                         """.split("\n"))
-                                     .map(StringUtils::trim)
-                                     .filter(StringUtils::isNotBlank)
-                                     .toList());
+//                                         FILE_OSS_STORAGE
+//                                         SYS_TASK
+//                                         LOG_TASK
+        Arrays.stream("""
+                  FILE_STORAGE
+                  LOG_ACCESS
+                  LOG_LOGIN
+                  SYS_DICT_DATA
+                  SYS_DICT_TYPE
+                  SYS_MESSAGE
+                  SYS_NOTICE
+                  SYS_POST
+                  SYS_USER_MFA_RECOVERY_CODES
+                  SYS_USER_ONLINE
+                  SYS_USER_POST
+                  """.split("\n"))
+              .map(StringUtils::trim)
+              .filter(StringUtils::isNotBlank)
+              .forEach(genService::importTable);
     }
 
     @Test

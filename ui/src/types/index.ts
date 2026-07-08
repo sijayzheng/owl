@@ -93,5 +93,7 @@ declare global {
   }
 
   type Pair = Record<string, any>
+
+  type EnumType = 'JavaType' | 'QueryType' | 'HtmlType'
 }
 export {}

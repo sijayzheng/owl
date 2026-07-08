@@ -31,7 +31,7 @@ create table gen_column
     incremental    boolean      default false comment '是否自增',
     required       boolean      default false comment '是否必填',
     editable       boolean      default true comment '可编辑',
-    listable       boolean      default true comment '可展示',
+    visible        boolean      default true comment '可展示',
     exportable     boolean      default false comment '可导出',
     queryable      boolean      default false comment '可查询',
     query_type     varchar(32)  default 'EQUAL' comment '查询方式',

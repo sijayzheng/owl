@@ -3,8 +3,6 @@ package cn.sijay.owl;
 
 import cn.sijay.owl.common.utils.PasswordUtil;
 
-import java.io.IOException;
-
 /**
  * MainTest
  *
@@ -13,7 +11,7 @@ import java.io.IOException;
  */
 public class MainTest {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         System.out.println(PasswordUtil.hash("123456"));
     }
 

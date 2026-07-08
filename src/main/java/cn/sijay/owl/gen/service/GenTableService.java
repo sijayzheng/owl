@@ -1,15 +1,15 @@
 package cn.sijay.owl.gen.service;
 
+import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.gen.entity.GenTable;
 import cn.sijay.owl.gen.mapper.GenTableMapper;
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static cn.sijay.owl.gen.entity.table.GenTableTableDef.GEN_TABLE;
 
@@ -26,13 +26,8 @@ public class GenTableService extends ServiceImpl<GenTableMapper, GenTable> imple
     private final GenColumnService columnService;
     private final GenTableMapper genTableMapper;
 
-    public List<GenTable> list(GenTable genTable) {
-        List<GenTable> list = genTableMapper.selectListWithRelationsByQuery(query(genTable));
-//        List<GenTable> list = list(query(genTable));
-//        for (GenTable table : list) {
-//            table.setColumns(columnService.listByTableId(table.getId()));
-//        }
-        return list;
+    public Page<GenTable> page(PageQuery pageQuery, GenTable genTable) {
+        return page(pageQuery.build(), pageQuery.setOrder(query(genTable)));
     }
 
     public QueryWrapper query(GenTable genTable) {

@@ -44,9 +44,9 @@ export interface GenColumn {
    */
   editable: boolean
   /**
-   * 是否列表
+   * 是否展示
    */
-  listable: boolean
+  visible: boolean
   /**
    * 是否查询
    */

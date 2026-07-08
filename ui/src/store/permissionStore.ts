@@ -3,7 +3,6 @@ import { routes as allRoutes } from 'vue-router/auto-routes'
 import InnerLink from '@/layout/components/InnerLink.vue'
 import ParentView from '@/layout/components/ParentView.vue'
 import Layout from '@/layout/Layout.vue'
-import { staticRouters } from '@/router'
 
 // 扁平化路由树
 function flattenTree(tree: RouteRecordRaw[]): RouteRecordRaw[] {

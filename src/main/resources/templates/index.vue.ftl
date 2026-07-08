@@ -100,16 +100,16 @@
       <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
         <el-table-column fixed type="selection" width="50" />
         <el-table-column align="center" fixed label="${primaryKey.columnComment}" prop="${primaryKey.javaField}" width="100" />
-<#list columns?filter(item -> !item.based(hasBase)&&item.listable&&!item.primaryKey) as column>
+<#list columns?filter(item -> !item.based(hasBase)&&item.visible&&!item.primaryKey) as column>
         <el-table-column align="center" label="${column.columnComment}" prop="${column.javaField}" show-overflow-tooltip />
 </#list>
         <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="scope">
+          <template #default="{ row }">
             <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['${moduleName}:${functionName}:edit']" icon="Edit" link type="primary" @click="handleUpdate(scope.row.id)" />
+              <el-button v-hasPerm="['${moduleName}:${functionName}:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
             </el-tooltip>
             <el-tooltip content="删除" placement="top">
-              <el-button v-hasPerm="['${moduleName}:${functionName}:remove']" icon="Delete" link type="primary" @click="handleDelete(scope.row.id)" />
+              <el-button v-hasPerm="['${moduleName}:${functionName}:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -162,14 +162,12 @@
 </#list>
       </el-form>
       <template #footer>
-        <div class="dialog-footer">
-          <el-button :loading="submitting" type="primary" @click="submit">
-            确定
-          </el-button>
-          <el-button @click="dialogVisible = false">
-            取消
-          </el-button>
-        </div>
+        <el-button :loading="submitting" type="primary" @click="submit">
+          确定
+        </el-button>
+        <el-button @click="dialogVisible = false">
+          取消
+        </el-button>
       </template>
     </el-dialog>
   </div>

@@ -103,10 +103,10 @@ public class GenColumn implements Serializable {
     private Boolean editable;
 
     /**
-     * 是否列表
+     * 是否展示
      */
-    @Column(comment = "是否列表")
-    private Boolean listable;
+    @Column(comment = "是否展示")
+    private Boolean visible;
 
     /**
      * 可导出

@@ -1,8 +1,8 @@
 package cn.sijay.owl.gen.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.gen.entity.GenTable;
@@ -11,7 +11,6 @@ import cn.sijay.owl.gen.service.GenService;
 import cn.sijay.owl.gen.service.GenTableService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,16 +33,14 @@ public class GenController extends BaseController {
     private final GenService genService;
 
     @AccessLog(title = "代码生成", operateType = OperateType.QUERY)
-    @SaCheckPermission("gen:gen:query")
-    @GetMapping("/list")
+    @GetMapping("/page")
     @Operation(summary = "查询代码生成表列表")
-    public Result<List<GenTable>> list(GenTable genTable) {
-        return success(tableService.list(genTable));
+    public Result<List<GenTable>> page(PageQuery pageQuery, GenTable genTable) {
+        return success(tableService.page(pageQuery, genTable));
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.QUERY)
-    @SaCheckPermission("gen:gen:query")
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     @Operation(summary = "查询代码生成表详情")
     public Result<GenTable> getById(@PathVariable Long id) {
         GenTable genTable = tableService.getById(id);
@@ -54,44 +51,40 @@ public class GenController extends BaseController {
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.UPDATE)
-    @SaCheckPermission("gen:gen:update")
     @PostMapping("/update")
     @Operation(summary = "修改代码生成表")
     public Result<Boolean> update(@Valid @RequestBody GenTable genTable) {
-        return result(tableService.updateById(genTable), OperateType.UPDATE);
+        return result(genService.update(genTable), OperateType.UPDATE);
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.DELETE)
-    @SaCheckPermission("gen:gen:delete")
     @PostMapping("/remove")
     @Operation(summary = "删除代码生成表")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
-        return result(tableService.removeByIds(ids), OperateType.DELETE);
+        return result(genService.remove(ids), OperateType.DELETE);
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.QUERY)
-    @SaCheckPermission("gen:gen:query")
-    @GetMapping("/list-db-table")
+    @GetMapping("/listDbTable")
     @Operation(summary = "查询库中所有的表")
-    public Result<List<GenTable>> listDbTable(@RequestBody GenTable genTable) {
+    public Result<List<GenTable>> listDbTable(GenTable genTable) {
         return success(genService.listDbTable(genTable));
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.UPDATE)
-    @SaCheckPermission("gen:gen:update")
     @PostMapping("/import")
     @Operation(summary = "导入SQL并生成表")
-    public Result<Boolean> importData(@RequestBody @NotEmpty List<String> tables) {
-        genService.importTable(tables);
+    public Result<Boolean> importData(@RequestBody GenTable genTable) {
+        genService.importTable(genTable.getTableName());
         return success(OperateType.IMPORT);
     }
 
     @AccessLog(title = "代码生成", operateType = OperateType.GEN)
-    @SaCheckPermission("gen:gen:genCode")
     @PostMapping("/generate/{id}")
     @Operation(summary = "生成代码")
     public Result<Boolean> generateCode(@PathVariable Long id) {
         genService.generateCode(id);
         return success(OperateType.GEN);
     }
+
 }

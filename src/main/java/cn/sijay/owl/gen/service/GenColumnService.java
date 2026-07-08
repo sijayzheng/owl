@@ -22,4 +22,8 @@ public class GenColumnService extends ServiceImpl<GenColumnMapper, GenColumn> im
         return list(query().where(GEN_COLUMN.TABLE_ID.eq(tableId))
                            .orderBy(GEN_COLUMN.TABLE_ID.asc(), GEN_COLUMN.SORT.asc()));
     }
+
+    public boolean removeByTableIds(List<Long> ids) {
+        return remove(query().where(GEN_COLUMN.TABLE_ID.in(ids)));
+    }
 }
