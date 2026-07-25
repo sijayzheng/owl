@@ -1,6 +1,5 @@
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import HighLight from '@highlightjs/vue-plugin'
-import VXETable from 'vxe-table'
 import App from './App.vue'
 import router from './router'
 import '@/styles/dark.scss'
@@ -8,7 +7,6 @@ import '@/styles/index.scss'
 import 'animate.css'
 import 'nprogress/nprogress.css'
 import 'virtual:uno.css'
-import 'vxe-table/lib/style.css'
 import 'highlight.js/lib/common'
 import 'highlight.js/styles/atom-one-dark.css'
 import 'dayjs/locale/zh-cn'
@@ -18,11 +16,10 @@ const app = createApp(App)
 app.use(router)
 app.use(createPinia())
 
-Object.entries(ElementPlusIconsVue).forEach(([key, component]) => {
+Object.entries(ElementPlusIconsVue).forEach(([ key, component ]) => {
   app.component(key, component)
 })
 
-app.use(VXETable)
 app.use(HighLight)
 app.directive('hasPerm', {
   mounted(el: HTMLElement, binding: DirectiveBinding<string>) {

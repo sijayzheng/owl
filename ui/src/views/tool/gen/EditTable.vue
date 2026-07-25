@@ -97,7 +97,7 @@
         </el-table-column>
         <el-table-column prop="visible" label="是否展示" width="120">
           <template #default="scope">
-            <YesOrNoRadio v-model="scope.row.listable" />
+            <YesOrNoRadio v-model="scope.row.visible" />
           </template>
         </el-table-column>
         <el-table-column prop="queryable" label="是否查询" width="120">
@@ -163,8 +163,7 @@ const { loading: submitting, form, send: submit, updateForm } = useForm(
 const { data: menuTree } = useRequest(() => sysMenuApi.getMenuSelect())
 
 onMounted(() => {
-  const tableId = route.params?.tableId
-  genApi.getById(tableId).then((data) => {
+  genApi.getById(route.params?.tableId).then((data) => {
     updateForm(data)
   })
 })

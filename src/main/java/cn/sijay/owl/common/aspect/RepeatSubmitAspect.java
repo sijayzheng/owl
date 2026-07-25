@@ -5,13 +5,11 @@ import cn.sijay.owl.common.annotations.RepeatSubmit;
 import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.exceptions.BaseException;
-import cn.sijay.owl.common.utils.JsonUtil;
+import cn.sijay.owl.common.utils.AspectUtil;
 import cn.sijay.owl.common.utils.RedisUtil;
 import cn.sijay.owl.common.utils.ServletUtil;
 import cn.sijay.owl.common.utils.SmUtil;
-import com.mybatisflex.core.util.ArrayUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -19,13 +17,6 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.StringJoiner;
 
 /**
  * RepeatSubmitAspect
@@ -47,7 +38,7 @@ public class RepeatSubmitAspect {
             throw new BaseException("重复提交间隔时间不能小于'1'秒");
         }
         HttpServletRequest request = ServletUtil.getRequest();
-        String nowParams = argsArrayToString(point.getArgs());
+        String nowParams = AspectUtil.argsArrayToString(point.getArgs());
 
         // 请求地址（作为存放cache的key值）
         String url = request.getRequestURI();
@@ -94,47 +85,4 @@ public class RepeatSubmitAspect {
         KEY_CACHE.remove();
     }
 
-    /**
-     * 参数拼装
-     */
-    private String argsArrayToString(Object[] paramsArray) {
-        StringJoiner params = new StringJoiner(" ");
-        if (ArrayUtil.isEmpty(paramsArray)) {
-            return params.toString();
-        }
-        for (Object o : paramsArray) {
-            if (!Objects.isNull(o) && !isFilterObject(o)) {
-                params.add(JsonUtil.toJson(o));
-            }
-        }
-        return params.toString();
-    }
-
-    /**
-     * 判断是否需要过滤的对象。
-     *
-     * @param o 对象信息。
-     * @return 如果是需要过滤的对象，则返回true；否则返回false。
-     */
-    @SuppressWarnings("rawtypes")
-    public boolean isFilterObject(final Object o) {
-        Class<?> clazz = o.getClass();
-        if (clazz.isArray()) {
-            return MultipartFile.class.isAssignableFrom(clazz.getComponentType());
-        } else if (Collection.class.isAssignableFrom(clazz)) {
-            Collection collection = (Collection) o;
-            for (Object value : collection) {
-                return value instanceof MultipartFile;
-            }
-        } else if (Map.class.isAssignableFrom(clazz)) {
-            Map map = (Map) o;
-            for (Object value : map.values()) {
-                return value instanceof MultipartFile;
-            }
-        }
-        return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
-            || o instanceof BindingResult;
-    }
-
 }
-

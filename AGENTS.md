@@ -31,7 +31,6 @@
 - crypto-js / sm-crypto / jsencrypt（加解密操作）
 - dayjs（日期时间工具类）
 - echarts（图表工具类）
-- vxe-table 4（复杂表格工具）
 - pnpm (软件包管理器)
 
 # 项目结构

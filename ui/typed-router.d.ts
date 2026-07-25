@@ -45,23 +45,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/gen/': RouteRecordInfo<
-      '/gen/',
-      '/gen',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/gen/EditTable': RouteRecordInfo<
-      '/gen/EditTable',
-      '/gen/EditTable',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/Index': RouteRecordInfo<
       '/Index',
       '/Index',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/log/logAccess': RouteRecordInfo<
+      '/log/logAccess',
+      '/log/logAccess',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/log/logLogin': RouteRecordInfo<
+      '/log/logLogin',
+      '/log/logLogin',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -108,9 +108,30 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/system/sysUserOnline': RouteRecordInfo<
+      '/system/sysUserOnline',
+      '/system/sysUserOnline',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/Test': RouteRecordInfo<
       '/Test',
       '/Test',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/tool/gen/': RouteRecordInfo<
+      '/tool/gen/',
+      '/tool/gen',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/tool/gen/EditTable': RouteRecordInfo<
+      '/tool/gen/EditTable',
+      '/tool/gen/EditTable',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -144,25 +165,25 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'src/views/gen/index.vue': {
-      routes:
-        | '/gen/'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'src/views/gen/EditTable.vue': {
-      routes:
-        | '/gen/EditTable'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
     'src/views/Index.vue': {
       routes:
         | '/Index'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/views/log/logAccess.vue': {
+      routes:
+        | '/log/logAccess'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/views/log/logLogin.vue': {
+      routes:
+        | '/log/logLogin'
       views:
         | never
       pathParamNames:
@@ -216,9 +237,33 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
+    'src/views/system/sysUserOnline.vue': {
+      routes:
+        | '/system/sysUserOnline'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'src/views/Test.vue': {
       routes:
         | '/Test'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/views/tool/gen/index.vue': {
+      routes:
+        | '/tool/gen/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/views/tool/gen/EditTable.vue': {
+      routes:
+        | '/tool/gen/EditTable'
       views:
         | never
       pathParamNames:

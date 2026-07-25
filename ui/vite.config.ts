@@ -134,7 +134,6 @@ export default defineConfig({
       '@alova/adapter-axios',
       'axios',
       'echarts',
-      'vxe-table',
       'dayjs',
       'nprogress',
       'qrcode',

@@ -65,6 +65,10 @@ declare global {
   const isReadonly: typeof import('vue').isReadonly
   const isRef: typeof import('vue').isRef
   const isShallow: typeof import('vue').isShallow
+  const logAccessApi: typeof import('./src/api/log/logAccessApi').logAccessApi
+  const logAccessInitData: typeof import('./src/types/log/LogAccessTypes').logAccessInitData
+  const logLoginApi: typeof import('./src/api/log/logLoginApi').logLoginApi
+  const logLoginInitData: typeof import('./src/types/log/LogLoginTypes').logLoginInitData
   const makeDestructurable: typeof import('@vueuse/core').makeDestructurable
   const mapActions: typeof import('pinia').mapActions
   const mapGetters: typeof import('pinia').mapGetters
@@ -141,6 +145,8 @@ declare global {
   const sysTitle: typeof import('./src/utils/constants').sysTitle
   const sysUserApi: typeof import('./src/api/system/sysUserApi').sysUserApi
   const sysUserInitData: typeof import('./src/types/system/SysUserTypes').sysUserInitData
+  const sysUserOnlineApi: typeof import('./src/api/system/sysUserOnlineApi').sysUserOnlineApi
+  const sysUserOnlineInitData: typeof import('./src/types/system/SysUserOnlineTypes').sysUserOnlineInitData
   const tab: typeof import('./src/utils/tab').default
   const templateRef: typeof import('@vueuse/core').templateRef
   const throttledRef: typeof import('@vueuse/core').throttledRef
@@ -382,6 +388,12 @@ declare global {
   export type { GenTable, GenTableQuery, GenTablePageQuery } from './src/types/gen/GenTable'
   import('./src/types/gen/GenTable')
   // @ts-ignore
+  export type { LogAccess, LogAccessQuery, LogAccessPageQuery, LogAccessForm } from './src/types/log/LogAccessTypes'
+  import('./src/types/log/LogAccessTypes')
+  // @ts-ignore
+  export type { LogLogin, LogLoginQuery, LogLoginPageQuery, LogLoginForm } from './src/types/log/LogLoginTypes'
+  import('./src/types/log/LogLoginTypes')
+  // @ts-ignore
   export type { SysConfig, SysConfigQuery, SysConfigPageQuery, SysConfigForm } from './src/types/system/SysConfigTypes'
   import('./src/types/system/SysConfigTypes')
   // @ts-ignore
@@ -393,6 +405,9 @@ declare global {
   // @ts-ignore
   export type { SysRole, SysRoleQuery, SysRolePageQuery, SysRoleForm } from './src/types/system/SysRoleTypes'
   import('./src/types/system/SysRoleTypes')
+  // @ts-ignore
+  export type { SysUserOnline, SysUserOnlineQuery, SysUserOnlinePageQuery, SysUserOnlineForm } from './src/types/system/SysUserOnlineTypes'
+  import('./src/types/system/SysUserOnlineTypes')
   // @ts-ignore
   export type { SysUser, SysUserQuery, SysUserPageQuery, SysUserForm } from './src/types/system/SysUserTypes'
   import('./src/types/system/SysUserTypes')
@@ -462,6 +477,10 @@ declare module 'vue' {
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
     readonly isShallow: UnwrapRef<typeof import('vue')['isShallow']>
+    readonly logAccessApi: UnwrapRef<typeof import('./src/api/log/logAccessApi')['logAccessApi']>
+    readonly logAccessInitData: UnwrapRef<typeof import('./src/types/log/LogAccessTypes')['logAccessInitData']>
+    readonly logLoginApi: UnwrapRef<typeof import('./src/api/log/logLoginApi')['logLoginApi']>
+    readonly logLoginInitData: UnwrapRef<typeof import('./src/types/log/LogLoginTypes')['logLoginInitData']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
@@ -537,6 +556,8 @@ declare module 'vue' {
     readonly sysTitle: UnwrapRef<typeof import('./src/utils/constants')['sysTitle']>
     readonly sysUserApi: UnwrapRef<typeof import('./src/api/system/sysUserApi')['sysUserApi']>
     readonly sysUserInitData: UnwrapRef<typeof import('./src/types/system/SysUserTypes')['sysUserInitData']>
+    readonly sysUserOnlineApi: UnwrapRef<typeof import('./src/api/system/sysUserOnlineApi')['sysUserOnlineApi']>
+    readonly sysUserOnlineInitData: UnwrapRef<typeof import('./src/types/system/SysUserOnlineTypes')['sysUserOnlineInitData']>
     readonly tab: UnwrapRef<typeof import('./src/utils/tab')['default']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>

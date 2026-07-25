@@ -1,9 +1,22 @@
 package cn.sijay.owl.common.config;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.filter.SaServletFilter;
+import cn.dev33.satoken.httpauth.basic.SaHttpBasicUtil;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpInterface;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
+import cn.sijay.owl.auth.entity.UserInfo;
+import cn.sijay.owl.auth.utils.LoginHelper;
+import cn.sijay.owl.common.exceptions.BaseException;
 import cn.sijay.owl.common.exceptions.GlobalExceptionHandler;
 import cn.sijay.owl.common.filter.RepeatableFilter;
 import cn.sijay.owl.common.filter.XssFilter;
+import cn.sijay.owl.common.utils.ServletUtil;
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +27,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -39,32 +57,33 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 注册sa-token的拦截器
      */
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        // 注册路由拦截器，自定义验证规则
-//        registry.addInterceptor(new SaInterceptor(handler -> {
-//                    SaRouter
-//                        // 获取所有的
-//                        .match("/**")
-//                        // 对未排除的路径进行检查
-//                        .check(() -> {
-//                            HttpServletRequest request = ServletUtil.getRequest();
-//                            // 检查是否登录 是否有token
-//                            try {
-//                                StpUtil.checkLogin();
-//                            } catch (NotLoginException e) {
-//                                if (Objects.requireNonNull(request).getRequestURI().contains("sse")) {
-//                                    throw new BaseException(e.getMessage(), e.getCode());
-//                                } else {
-//                                    throw e;
-//                                }
-//                            }
-//                        });
-//                }))
-//                .addPathPatterns("/**")
-//                // 排除不需要拦截的路径
-//                .excludePathPatterns("/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/favicon.ico", "/error", "/*/api-docs", "/*/api-docs/**");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 注册路由拦截器，自定义验证规则
+        registry.addInterceptor(new SaInterceptor(handler -> {
+                    SaRouter
+                        // 获取所有的
+                        .match("/**")
+                        // 对未排除的路径进行检查
+                        .check(() -> {
+                            HttpServletRequest request = ServletUtil.getRequest();
+                            // 检查是否登录 是否有token
+                            try {
+                                StpUtil.checkLogin();
+                            } catch (NotLoginException e) {
+                                if (Objects.requireNonNull(request).getRequestURI().contains("sse")) {
+                                    throw new BaseException(e.getMessage(), e.getCode());
+                                } else {
+                                    throw e;
+                                }
+                            }
+                        });
+                }))
+                .addPathPatterns("/**")
+                // 排除不需要拦截的路径
+                .excludePathPatterns("/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/favicon.ico", "/error", "/*/api-docs", "/*/api-docs/**");
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
@@ -109,33 +128,34 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 权限接口实现(使用bean注入方便用户替换)
      */
-//    @Bean
-//    public StpInterface stpInterface() {
-//        return new StpInterface() {
-//            @Override
-//            public List<String> getPermissionList(Object loginId, String loginType) {
-//                UserInfo userInfo = LoginHelper.getUserInfo();
-//                return new ArrayList<>(userInfo.permissions());
-//            }
-//
-//            @Override
-//            public List<String> getRoleList(Object loginId, String loginType) {
-//                UserInfo userInfo = LoginHelper.getUserInfo();
-//                return new ArrayList<>(userInfo.roles());
-//            }
-//        };
-//    }
+    @Bean
+    public StpInterface stpInterface() {
+        return new StpInterface() {
+            @Override
+            public List<String> getPermissionList(Object loginId, String loginType) {
+                UserInfo userInfo = LoginHelper.getUserInfo();
+                return new ArrayList<>(userInfo.permissions());
+            }
+
+            @Override
+            public List<String> getRoleList(Object loginId, String loginType) {
+                UserInfo userInfo = LoginHelper.getUserInfo();
+                return new ArrayList<>(userInfo.roles());
+            }
+        };
+    }
 
     /**
      * 对 actuator 健康检查接口 做账号密码鉴权
      */
-//    @Bean
-//    public SaServletFilter getSaServletFilter() {
-//        return new SaServletFilter()
-//            .addInclude("/actuator", "/actuator/**")
-//            .setAuth(obj -> SaHttpBasicUtil.check("root:root"))
-//            .setError(e -> SaResult.error(e.getMessage()).setCode(HttpStatus.UNAUTHORIZED.value()));
-//    }
+    @Bean
+    public SaServletFilter getSaServletFilter() {
+        return new SaServletFilter()
+            .addInclude("/actuator", "/actuator/**")
+            .setAuth(obj -> SaHttpBasicUtil.check("root:root"))
+            .setError(e -> SaResult.error(e.getMessage()).setCode(HttpStatus.UNAUTHORIZED.value()));
+    }
+
     @Bean
     public FilterRegistrationBean<XssFilter> xssFilterRegistration() {
         FilterRegistrationBean<XssFilter> registration = new FilterRegistrationBean<>();
