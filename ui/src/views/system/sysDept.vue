@@ -38,27 +38,16 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" row-key="id" stripe border>
-        <el-table-column fixed type="selection" width="50" />
-        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="部门名称" prop="deptName" show-overflow-tooltip />
-        <el-table-column align="center" label="部门类别" prop="deptCategory" show-overflow-tooltip />
-        <el-table-column align="center" label="显示顺序" prop="sort" show-overflow-tooltip />
-        <el-table-column align="center" label="负责人" prop="leader" show-overflow-tooltip />
-        <el-table-column align="center" label="联系电话" prop="phone" show-overflow-tooltip />
-        <el-table-column align="center" label="邮箱" prop="email" show-overflow-tooltip />
-        <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip />
-        <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="{ row }">
-            <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['system:sysDept:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-            </el-tooltip>
-            <el-tooltip v-if="!row.children" content="删除" placement="top">
-              <el-button v-hasPerm="['system:sysDept:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns" row-key="id">
+        <template #action="{ row }">
+          <el-tooltip content="修改" placement="top">
+            <el-button v-hasPerm="['system:sysDept:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+          </el-tooltip>
+          <el-tooltip v-if="!row.children" content="删除" placement="top">
+            <el-button v-hasPerm="['system:sysDept:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+          </el-tooltip>
+        </template>
+      </DataTable>
     </el-card>
     <!-- 添加或修改系统部门对话框 -->
     <el-dialog v-model="dialogVisible" append-to-body title="保存系统部门" width="500px" @closed="() => resetForm()">
@@ -108,6 +97,18 @@
 </template>
 
 <script lang="ts" setup>
+import DataTable from '@/components/DataTable.vue'
+
+const columns = [
+  { prop: 'deptName', label: '部门名称', showOverflowTooltip: true },
+  { prop: 'deptCategory', label: '部门类别', showOverflowTooltip: true },
+  { prop: 'sort', label: '显示顺序', showOverflowTooltip: true },
+  { prop: 'leader', label: '负责人', showOverflowTooltip: true },
+  { prop: 'phone', label: '联系电话', showOverflowTooltip: true },
+  { prop: 'email', label: '邮箱', showOverflowTooltip: true },
+  { prop: 'enabled', label: '启用', showOverflowTooltip: true },
+]
+
 const rules = {}
 
 const queryFormRef = ref()

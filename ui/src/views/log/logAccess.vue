@@ -39,32 +39,16 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
-        <el-table-column fixed type="selection" width="50" />
-        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="用户id" prop="userId" show-overflow-tooltip />
-        <el-table-column align="center" label="模块标题" prop="title" show-overflow-tooltip />
-        <el-table-column align="center" label="业务类型" prop="operateType" show-overflow-tooltip />
-        <el-table-column align="center" label="方法名称" prop="method" show-overflow-tooltip />
-        <el-table-column align="center" label="请求方式" prop="requestMethod" show-overflow-tooltip />
-        <el-table-column align="center" label="访问人员" prop="accessUsername" show-overflow-tooltip />
-        <el-table-column align="center" label="请求url" prop="accessUrl" show-overflow-tooltip />
-        <el-table-column align="center" label="主机地址" prop="accessIp" show-overflow-tooltip />
-        <el-table-column align="center" label="访问地点" prop="accessLocation" show-overflow-tooltip />
-        <el-table-column align="center" label="访问状态" prop="status" show-overflow-tooltip />
-        <el-table-column align="center" label="访问时间" prop="accessTime" show-overflow-tooltip />
-        <el-table-column align="center" label="消耗时间" prop="costTime" show-overflow-tooltip />
-        <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="{ row }">
-            <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['log:logAccess:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button v-hasPerm="['log:logAccess:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns">
+        <template #action="{ row }">
+          <el-tooltip content="修改" placement="top">
+            <el-button v-hasPerm="['log:logAccess:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button v-hasPerm="['log:logAccess:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+          </el-tooltip>
+        </template>
+      </DataTable>
       <template #footer>
         <pagination v-show="total || 0 > 0" v-model:limit="queryParams.size" v-model:page="queryParams.page" :total="total" @pagination="listData" />
       </template>
@@ -133,6 +117,23 @@
 </template>
 
 <script lang="ts" setup>
+import DataTable from '@/components/DataTable.vue'
+
+const columns = [
+  { prop: 'userId', label: '用户id', showOverflowTooltip: true },
+  { prop: 'title', label: '模块标题', showOverflowTooltip: true },
+  { prop: 'operateType', label: '业务类型', showOverflowTooltip: true },
+  { prop: 'method', label: '方法名称', showOverflowTooltip: true },
+  { prop: 'requestMethod', label: '请求方式', showOverflowTooltip: true },
+  { prop: 'accessUsername', label: '访问人员', showOverflowTooltip: true },
+  { prop: 'accessUrl', label: '请求url', showOverflowTooltip: true },
+  { prop: 'accessIp', label: '主机地址', showOverflowTooltip: true },
+  { prop: 'accessLocation', label: '访问地点', showOverflowTooltip: true },
+  { prop: 'status', label: '访问状态', showOverflowTooltip: true },
+  { prop: 'accessTime', label: '访问时间', showOverflowTooltip: true },
+  { prop: 'costTime', label: '消耗时间', showOverflowTooltip: true },
+]
+
 const rules = {
 }
 

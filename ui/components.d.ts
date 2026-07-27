@@ -12,6 +12,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    DataTable: typeof import('./src/components/DataTable.vue')['default']
     DictSelector: typeof import('./src/components/DictSelector.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
@@ -65,6 +66,7 @@ declare module 'vue' {
 
 // For TSX support
 declare global {
+  const DataTable: typeof import('./src/components/DataTable.vue')['default']
   const DictSelector: typeof import('./src/components/DictSelector.vue')['default']
   const ElAvatar: typeof import('element-plus/es')['ElAvatar']
   const ElBadge: typeof import('element-plus/es')['ElBadge']

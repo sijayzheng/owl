@@ -36,23 +36,16 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
-        <el-table-column fixed type="selection" width="50" />
-        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="参数名称" prop="configName" show-overflow-tooltip />
-        <el-table-column align="center" label="参数键名" prop="configKey" show-overflow-tooltip />
-        <el-table-column align="center" label="参数键值" prop="configValue" show-overflow-tooltip />
-        <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="{ row }">
-            <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['system:sysConfig:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button v-hasPerm="['system:sysConfig:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns">
+        <template #action="{ row }">
+          <el-tooltip content="修改" placement="top">
+            <el-button v-hasPerm="['system:sysConfig:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button v-hasPerm="['system:sysConfig:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+          </el-tooltip>
+        </template>
+      </DataTable>
       <template #footer>
         <pagination v-show="total || 0 > 0" v-model:limit="queryParams.size" v-model:page="queryParams.page" :total="total" @pagination="listData" />
       </template>
@@ -83,6 +76,14 @@
 </template>
 
 <script lang="ts" setup>
+import DataTable from '@/components/DataTable.vue'
+
+const columns = [
+  { prop: 'configName', label: '参数名称', showOverflowTooltip: true },
+  { prop: 'configKey', label: '参数键名', showOverflowTooltip: true },
+  { prop: 'configValue', label: '参数键值', showOverflowTooltip: true },
+]
+
 const rules = {
   configName: [{ required: true, message: '参数名称不能为空', trigger: 'blur' }],
   configKey: [{ required: true, message: '参数键名不能为空', trigger: 'blur' }],

@@ -38,27 +38,16 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
-        <el-table-column fixed type="selection" width="50" />
-        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="角色名称" prop="roleName" show-overflow-tooltip />
-        <el-table-column align="center" label="角色权限字符串" prop="roleCode" show-overflow-tooltip />
-        <el-table-column align="center" label="显示顺序" prop="sort" show-overflow-tooltip />
-        <el-table-column align="center" label="数据权限" prop="dataScope" show-overflow-tooltip />
-        <el-table-column align="center" label="菜单树选择项关联显示" prop="menuCheckStrictly" show-overflow-tooltip />
-        <el-table-column align="center" label="部门树选择项关联显示" prop="deptCheckStrictly" show-overflow-tooltip />
-        <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip />
-        <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="{ row }">
-            <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['system:sysRole:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button v-hasPerm="['system:sysRole:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns">
+        <template #action="{ row }">
+          <el-tooltip content="修改" placement="top">
+            <el-button v-hasPerm="['system:sysRole:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button v-hasPerm="['system:sysRole:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+          </el-tooltip>
+        </template>
+      </DataTable>
       <template #footer>
         <pagination v-show="total || 0 > 0" v-model:limit="queryParams.size" v-model:page="queryParams.page" :total="total" @pagination="listData" />
       </template>
@@ -107,6 +96,18 @@
 </template>
 
 <script lang="ts" setup>
+import DataTable from '@/components/DataTable.vue'
+
+const columns = [
+  { prop: 'roleName', label: '角色名称', showOverflowTooltip: true },
+  { prop: 'roleCode', label: '角色权限字符串', showOverflowTooltip: true },
+  { prop: 'sort', label: '显示顺序', showOverflowTooltip: true },
+  { prop: 'dataScope', label: '数据权限', showOverflowTooltip: true },
+  { prop: 'menuCheckStrictly', label: '菜单树选择项关联显示', showOverflowTooltip: true },
+  { prop: 'deptCheckStrictly', label: '部门树选择项关联显示', showOverflowTooltip: true },
+  { prop: 'enabled', label: '启用', showOverflowTooltip: true },
+]
+
 const rules = {
   roleName: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
   roleCode: [{ required: true, message: '角色权限字符串不能为空', trigger: 'blur' }],

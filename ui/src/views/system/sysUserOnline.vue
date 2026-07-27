@@ -42,30 +42,16 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
-        <el-table-column fixed type="selection" width="50" />
-        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="用户id" prop="userId" show-overflow-tooltip />
-        <el-table-column align="center" label="用户账号" prop="username" show-overflow-tooltip />
-        <el-table-column align="center" label="部门名称" prop="deptName" show-overflow-tooltip />
-        <el-table-column align="center" label="登录ip" prop="loginIp" show-overflow-tooltip />
-        <el-table-column align="center" label="登录地点" prop="loginLocation" show-overflow-tooltip />
-        <el-table-column align="center" label="浏览器" prop="browser" show-overflow-tooltip />
-        <el-table-column align="center" label="操作系统" prop="os" show-overflow-tooltip />
-        <el-table-column align="center" label="登录时间" prop="loginTime" show-overflow-tooltip />
-        <el-table-column align="center" label="最后访问时间" prop="lastAccessTime" show-overflow-tooltip />
-        <el-table-column align="center" label="过期时间" prop="expireTime" show-overflow-tooltip />
-        <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="{ row }">
-            <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['system:sysUserOnline:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button v-hasPerm="['system:sysUserOnline:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns">
+        <template #action="{ row }">
+          <el-tooltip content="修改" placement="top">
+            <el-button v-hasPerm="['system:sysUserOnline:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button v-hasPerm="['system:sysUserOnline:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+          </el-tooltip>
+        </template>
+      </DataTable>
       <template #footer>
         <pagination v-show="total || 0 > 0" v-model:limit="queryParams.size" v-model:page="queryParams.page" :total="total" @pagination="listData" />
       </template>
@@ -87,6 +73,21 @@
 </template>
 
 <script lang="ts" setup>
+import DataTable from '@/components/DataTable.vue'
+
+const columns = [
+  { prop: 'userId', label: '用户id', showOverflowTooltip: true },
+  { prop: 'username', label: '用户账号', showOverflowTooltip: true },
+  { prop: 'deptName', label: '部门名称', showOverflowTooltip: true },
+  { prop: 'loginIp', label: '登录ip', showOverflowTooltip: true },
+  { prop: 'loginLocation', label: '登录地点', showOverflowTooltip: true },
+  { prop: 'browser', label: '浏览器', showOverflowTooltip: true },
+  { prop: 'os', label: '操作系统', showOverflowTooltip: true },
+  { prop: 'loginTime', label: '登录时间', showOverflowTooltip: true },
+  { prop: 'lastAccessTime', label: '最后访问时间', showOverflowTooltip: true },
+  { prop: 'expireTime', label: '过期时间', showOverflowTooltip: true },
+]
+
 const rules = {
   userId: [{ required: true, message: '用户id不能为空', trigger: 'blur' }],
   loginTime: [{ required: true, message: '登录时间不能为空', trigger: 'blur' }],

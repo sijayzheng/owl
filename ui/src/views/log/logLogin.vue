@@ -36,29 +36,16 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
-        <el-table-column fixed type="selection" width="50" />
-        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="用户id" prop="userId" show-overflow-tooltip />
-        <el-table-column align="center" label="用户账号" prop="username" show-overflow-tooltip />
-        <el-table-column align="center" label="登录ip地址" prop="loginIp" show-overflow-tooltip />
-        <el-table-column align="center" label="登录地址" prop="location" show-overflow-tooltip />
-        <el-table-column align="center" label="浏览器类型" prop="browser" show-overflow-tooltip />
-        <el-table-column align="center" label="操作系统" prop="os" show-overflow-tooltip />
-        <el-table-column align="center" label="登录状态" prop="succeeded" show-overflow-tooltip />
-        <el-table-column align="center" label="提示消息" prop="message" show-overflow-tooltip />
-        <el-table-column align="center" label="登录时间" prop="loginTime" show-overflow-tooltip />
-        <el-table-column align="center" fixed="right" label="操作" width="150">
-          <template #default="{ row }">
-            <el-tooltip content="修改" placement="top">
-              <el-button v-hasPerm="['log:logLogin:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button v-hasPerm="['log:logLogin:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns">
+        <template #action="{ row }">
+          <el-tooltip content="修改" placement="top">
+            <el-button v-hasPerm="['log:logLogin:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+          </el-tooltip>
+          <el-tooltip content="删除" placement="top">
+            <el-button v-hasPerm="['log:logLogin:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+          </el-tooltip>
+        </template>
+      </DataTable>
       <template #footer>
         <pagination v-show="total || 0 > 0" v-model:limit="queryParams.size" v-model:page="queryParams.page" :total="total" @pagination="listData" />
       </template>
@@ -80,6 +67,20 @@
 </template>
 
 <script lang="ts" setup>
+import DataTable from '@/components/DataTable.vue'
+
+const columns = [
+  { prop: 'userId', label: '用户id', showOverflowTooltip: true },
+  { prop: 'username', label: '用户账号', showOverflowTooltip: true },
+  { prop: 'loginIp', label: '登录ip地址', showOverflowTooltip: true },
+  { prop: 'location', label: '登录地址', showOverflowTooltip: true },
+  { prop: 'browser', label: '浏览器类型', showOverflowTooltip: true },
+  { prop: 'os', label: '操作系统', showOverflowTooltip: true },
+  { prop: 'succeeded', label: '登录状态', showOverflowTooltip: true },
+  { prop: 'message', label: '提示消息', showOverflowTooltip: true },
+  { prop: 'loginTime', label: '登录时间', showOverflowTooltip: true },
+]
+
 const rules = {
 }
 

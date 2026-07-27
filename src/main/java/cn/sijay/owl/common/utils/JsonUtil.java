@@ -12,9 +12,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,6 +22,7 @@ import java.util.Objects;
  * @author sijay
  * @since 2026-04-14
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonUtil {
     private final static ObjectMapper OBJECT_MAPPER = SpringUtil.getBean(ObjectMapper.class);
@@ -50,36 +50,35 @@ public class JsonUtil {
     }
 
     /**
-     * JSON 字符串转对象
+     * 反序列化为指定类型对象(仅支持非泛型根类型)
+     *
+     * @param json  JSON字符串
+     * @param clazz 目标类型
+     * @param <T>   类型参数
+     * @return 反序列化后的对象
      */
-    public static <T> T toObject(String json, Class<T> clazz) {
+    public static <T> T parseObject(String json, Class<T> clazz) {
         try {
             return OBJECT_MAPPER.readValue(json, clazz);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
+            log.error("反序列化失败: {}", e.getMessage(), e);
+            throw new RuntimeException("反序列化失败: " + e.getMessage(), e);
         }
     }
 
     /**
-     * JSON 转 List
+     * 反序列化，根据返回值类型，使用TypeReference为指定类型对象
+     *
+     * @param json JSON字符串
+     * @param <T>  类型参数
+     * @return 反序列化后的对象
      */
-    public static <T> List<T> toList(String json, Class<T> elementClass) {
-        try {
-            return OBJECT_MAPPER.readValue(json,
-                OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, elementClass));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
-        }
-    }
-
-    /**
-     * JSON 转复杂对象（如 Map、嵌套结构）
-     */
-    public static <T> T toComplexObject(String json, TypeReference<T> typeReference) {
+    public static <T> T parseObject(String json, TypeReference<T> typeReference) {
         try {
             return OBJECT_MAPPER.readValue(json, typeReference);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
+            log.error("反序列化失败: {}", e.getMessage(), e);
+            throw new RuntimeException("反序列化失败: " + e.getMessage(), e);
         }
     }
 
@@ -131,15 +130,6 @@ public class JsonUtil {
             return node.toString();
         } catch (JsonProcessingException e) {
             throw new RuntimeException("修改 JSON 节点失败", e);
-        }
-    }
-
-    public static <T> Collection<T> toCollection(String json) {
-        try {
-            return OBJECT_MAPPER.readValue(json, new TypeReference<>() {
-            });
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
     }
 
