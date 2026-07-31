@@ -3,6 +3,7 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.entity.TreeNode;
 import cn.sijay.owl.common.enums.OperateType;
@@ -10,7 +11,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysMenuQuery;
 import cn.sijay.owl.system.entity.SysMenu;
 import cn.sijay.owl.system.service.SysMenuService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sysMenu")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/system/sysMenu")
 @RestController
 public class SysMenuController extends BaseController {
     private final SysMenuService sysMenuService;
@@ -58,7 +58,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
     @GetMapping("/list")
-    @Operation(summary = "查询系统菜单列表")
     public Result<List<SysMenu>> list(SysMenuQuery sysMenuQuery) {
         return success(sysMenuService.list(sysMenuQuery));
     }
@@ -72,7 +71,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询系统菜单列表")
     public Result<SysMenu> getById(@PathVariable Long id) {
         return success(sysMenuService.getById(id));
     }
@@ -86,7 +84,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysMenu:save")
     @PostMapping("/save")
-    @Operation(summary = "保存系统菜单")
     public Result<Boolean> save(@Valid @RequestBody SysMenu sysMenu) {
         return result(sysMenuService.validSave(sysMenu), OperateType.SAVE);
     }
@@ -100,7 +97,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysMenu:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除系统菜单")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysMenuService.removeByIds(ids), OperateType.DELETE);
     }
@@ -114,7 +110,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysMenu:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载系统菜单模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统菜单模板", SysMenu.class);
     }
@@ -129,7 +124,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysMenu:import")
     @PostMapping("/import")
-    @Operation(summary = "导入系统菜单")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysMenu> result = ExcelUtil.importExcel(file.getInputStream(), SysMenu.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -147,7 +141,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysMenu:export")
     @GetMapping("/export")
-    @Operation(summary = "导出系统菜单")
     public ResponseEntity<Resource> exportData(SysMenuQuery sysMenuQuery) {
         List<SysMenu> list = sysMenuService.list(sysMenuQuery);
         return ExcelUtil.exportExcel(list, "系统菜单", SysMenu.class);
@@ -160,7 +153,6 @@ public class SysMenuController extends BaseController {
     @AccessLog(title = "系统菜单", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysMenu:query")
     @GetMapping("/getMenuSelect")
-    @Operation(summary = "获取菜单选择下拉框")
     public Result<List<TreeNode<Long>>> getMenuSelect() {
         return success(sysMenuService.getMenuSelect());
     }

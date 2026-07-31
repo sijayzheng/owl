@@ -5,8 +5,6 @@ export interface SysDept extends BaseEntity {
   parentId: number
   // 部门名称
   deptName: string
-  // 部门类别
-  deptCategory: number
   // 显示顺序
   sort: number
   // 负责人
@@ -26,8 +24,6 @@ export interface SysDeptQuery {
   parentId?: number
   // 部门名称
   deptName?: string
-  // 部门类别
-  deptCategory?: number
   // 启用
   enabled?: boolean
 }
@@ -44,8 +40,6 @@ export interface SysDeptForm {
   ancestors?: string
   // 部门名称
   deptName?: string
-  // 部门类别
-  deptCategory?: number
   // 显示顺序
   sort?: number
   // 负责人
@@ -67,8 +61,6 @@ export const sysDeptInitData: SysDeptForm = {
   ancestors: undefined,
   // 部门名称
   deptName: undefined,
-  // 部门类别
-  deptCategory: undefined,
   // 显示顺序
   sort: undefined,
   // 负责人

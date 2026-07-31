@@ -3,13 +3,13 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysDeptQuery;
 import cn.sijay.owl.system.entity.SysDept;
 import cn.sijay.owl.system.service.SysDeptService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sysDept")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/system/sysDept")
 @RestController
 public class SysDeptController extends BaseController {
     private final SysDeptService sysDeptService;
@@ -57,7 +57,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
     @GetMapping("/list")
-    @Operation(summary = "查询系统部门列表")
     public Result<List<SysDept>> list(SysDeptQuery sysDeptQuery) {
         return success(sysDeptService.list(sysDeptQuery));
     }
@@ -71,7 +70,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysDept:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询系统部门列表")
     public Result<SysDept> getById(@PathVariable Long id) {
         return success(sysDeptService.getById(id));
     }
@@ -85,7 +83,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysDept:save")
     @PostMapping("/save")
-    @Operation(summary = "保存系统部门")
     public Result<Boolean> save(@Valid @RequestBody SysDept sysDept) {
         return result(sysDeptService.validSave(sysDept), OperateType.SAVE);
     }
@@ -99,7 +96,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysDept:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除系统部门")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysDeptService.removeByIds(ids), OperateType.DELETE);
     }
@@ -113,7 +109,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysDept:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载系统部门模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统部门模板", SysDept.class);
     }
@@ -128,7 +123,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysDept:import")
     @PostMapping("/import")
-    @Operation(summary = "导入系统部门")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysDept> result = ExcelUtil.importExcel(file.getInputStream(), SysDept.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -146,7 +140,6 @@ public class SysDeptController extends BaseController {
     @AccessLog(title = "系统部门", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysDept:export")
     @GetMapping("/export")
-    @Operation(summary = "导出系统部门")
     public ResponseEntity<Resource> exportData(SysDeptQuery sysDeptQuery) {
         List<SysDept> list = sysDeptService.list(sysDeptQuery);
         return ExcelUtil.exportExcel(list, "系统部门", SysDept.class);

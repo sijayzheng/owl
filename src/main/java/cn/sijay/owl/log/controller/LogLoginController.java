@@ -3,6 +3,7 @@ package cn.sijay.owl.log.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -10,7 +11,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.log.dto.LogLoginQuery;
 import cn.sijay.owl.log.entity.LogLogin;
 import cn.sijay.owl.log.service.LogLoginService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -18,6 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/log/logLogin")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/log/logLogin")
 @RestController
 public class LogLoginController extends BaseController {
     private final LogLoginService logLoginService;
@@ -39,14 +40,13 @@ public class LogLoginController extends BaseController {
     /**
      * 分页查询登录日志列表
      *
-     * @param pageQuery            分页参数
+     * @param pageQuery     分页参数
      * @param logLoginQuery 查询条件
      * @return 登录日志分页列表
      */
     @AccessLog(title = "登录日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logLogin:query")
     @GetMapping("/page")
-    @Operation(summary = "查询登录日志列表")
     public Result<List<LogLogin>> page(PageQuery pageQuery, LogLoginQuery logLoginQuery) {
         return success(logLoginService.page(pageQuery, logLoginQuery));
     }
@@ -60,7 +60,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logLogin:query")
     @GetMapping("/list")
-    @Operation(summary = "查询登录日志列表")
     public Result<List<LogLogin>> list(LogLoginQuery logLoginQuery) {
         return success(logLoginService.list(logLoginQuery));
     }
@@ -74,7 +73,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.QUERY)
     @SaCheckPermission("log:logLogin:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询登录日志列表")
     public Result<LogLogin> getById(@PathVariable Long id) {
         return success(logLoginService.getById(id));
     }
@@ -88,7 +86,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.SAVE)
     @SaCheckPermission("log:logLogin:save")
     @PostMapping("/save")
-    @Operation(summary = "保存登录日志")
     public Result<Boolean> save(@Valid @RequestBody LogLogin logLogin) {
         return result(logLoginService.validSave(logLogin), OperateType.SAVE);
     }
@@ -102,7 +99,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.DELETE)
     @SaCheckPermission("log:logLogin:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除登录日志")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(logLoginService.removeByIds(ids), OperateType.DELETE);
     }
@@ -116,7 +112,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.IMPORT)
     @SaCheckPermission("log:logLogin:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载登录日志模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "登录日志模板", LogLogin.class);
     }
@@ -131,7 +126,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.IMPORT)
     @SaCheckPermission("log:logLogin:import")
     @PostMapping("/import")
-    @Operation(summary = "导入登录日志")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<LogLogin> result = ExcelUtil.importExcel(file.getInputStream(), LogLogin.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -149,7 +143,6 @@ public class LogLoginController extends BaseController {
     @AccessLog(title = "登录日志", operateType = OperateType.EXPORT)
     @SaCheckPermission("log:logLogin:export")
     @GetMapping("/export")
-    @Operation(summary = "导出登录日志")
     public ResponseEntity<Resource> exportData(LogLoginQuery logLoginQuery) {
         List<LogLogin> list = logLoginService.list(logLoginQuery);
         return ExcelUtil.exportExcel(list, "登录日志", LogLogin.class);

@@ -37,7 +37,6 @@ public class GenTest {
                   SYS_DICT_TYPE
                   SYS_MESSAGE
                   SYS_NOTICE
-                  SYS_POST
                   SYS_USER_MFA_RECOVERY_CODES
                   SYS_USER_ONLINE
                   SYS_USER_POST
@@ -52,6 +51,5 @@ public class GenTest {
         for (GenTable genTable : genTableService.list()) {
             genService.generateCode(genTable.getId());
         }
-
     }
 }

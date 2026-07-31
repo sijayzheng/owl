@@ -137,7 +137,7 @@ declare global {
   const sysConfigApi: typeof import('./src/api/system/sysConfigApi').sysConfigApi
   const sysConfigInitData: typeof import('./src/types/system/SysConfigTypes').sysConfigInitData
   const sysDeptApi: typeof import('./src/api/system/sysDeptApi').sysDeptApi
-  const sysDeptInitData: typeof import('./src/types/system/SysDeptTypes').sysDeptInitData
+  const sysDeptInitData: typeof import('./src/types/system/sysDeptTypes').sysDeptInitData
   const sysMenuApi: typeof import('./src/api/system/sysMenuApi').sysMenuApi
   const sysMenuInitData: typeof import('./src/types/system/SysMenuTypes').sysMenuInitData
   const sysRoleApi: typeof import('./src/api/system/sysRoleApi').sysRoleApi
@@ -397,9 +397,6 @@ declare global {
   export type { SysConfig, SysConfigQuery, SysConfigPageQuery, SysConfigForm } from './src/types/system/SysConfigTypes'
   import('./src/types/system/SysConfigTypes')
   // @ts-ignore
-  export type { SysDept, SysDeptQuery, SysDeptPageQuery, SysDeptForm } from './src/types/system/SysDeptTypes'
-  import('./src/types/system/SysDeptTypes')
-  // @ts-ignore
   export type { SysMenu, SysMenuQuery, SysMenuPageQuery, SysMenuForm } from './src/types/system/SysMenuTypes'
   import('./src/types/system/SysMenuTypes')
   // @ts-ignore
@@ -411,6 +408,9 @@ declare global {
   // @ts-ignore
   export type { SysUser, SysUserQuery, SysUserPageQuery, SysUserForm } from './src/types/system/SysUserTypes'
   import('./src/types/system/SysUserTypes')
+  // @ts-ignore
+  export type { SysDept, SysDeptQuery, SysDeptPageQuery, SysDeptForm } from './src/types/system/sysDeptTypes'
+  import('./src/types/system/sysDeptTypes')
 }
 
 // for vue template auto import
@@ -548,7 +548,7 @@ declare module 'vue' {
     readonly sysConfigApi: UnwrapRef<typeof import('./src/api/system/sysConfigApi')['sysConfigApi']>
     readonly sysConfigInitData: UnwrapRef<typeof import('./src/types/system/SysConfigTypes')['sysConfigInitData']>
     readonly sysDeptApi: UnwrapRef<typeof import('./src/api/system/sysDeptApi')['sysDeptApi']>
-    readonly sysDeptInitData: UnwrapRef<typeof import('./src/types/system/SysDeptTypes')['sysDeptInitData']>
+    readonly sysDeptInitData: UnwrapRef<typeof import('./src/types/system/sysDeptTypes')['sysDeptInitData']>
     readonly sysMenuApi: UnwrapRef<typeof import('./src/api/system/sysMenuApi')['sysMenuApi']>
     readonly sysMenuInitData: UnwrapRef<typeof import('./src/types/system/SysMenuTypes')['sysMenuInitData']>
     readonly sysRoleApi: UnwrapRef<typeof import('./src/api/system/sysRoleApi')['sysRoleApi']>

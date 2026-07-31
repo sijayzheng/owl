@@ -179,7 +179,7 @@ const rules = {
 
 const queryFormRef = ref()
 const tableRef = ref()
-const queryParams = ref<SysDeptQuery>({})
+const queryParams = ref<${className}Query>({})
 const dialogVisible = ref(false)
 
 const { data, send: listData, loading } = useRequest(() => ${functionName}Api.getTree(queryParams.value))

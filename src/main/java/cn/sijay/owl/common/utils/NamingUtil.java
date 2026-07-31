@@ -1,8 +1,8 @@
 package cn.sijay.owl.common.utils;
 
 import cn.sijay.owl.common.enums.NamingCase;
-import com.fasterxml.jackson.databind.util.NamingStrategyImpls;
 import com.google.common.base.CaseFormat;
+import tools.jackson.databind.util.NamingStrategyImpls;
 
 /**
  * NamingUtil

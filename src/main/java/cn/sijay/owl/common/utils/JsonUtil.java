@@ -2,17 +2,17 @@ package cn.sijay.owl.common.utils;
 
 import cn.sijay.owl.common.constants.ErrorConstants;
 import cn.sijay.owl.common.exceptions.BaseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ser.FilterProvider;
+import tools.jackson.databind.ser.std.SimpleBeanPropertyFilter;
+import tools.jackson.databind.ser.std.SimpleFilterProvider;
 
 import java.util.Objects;
 
@@ -25,15 +25,15 @@ import java.util.Objects;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonUtil {
-    private final static ObjectMapper OBJECT_MAPPER = SpringUtil.getBean(ObjectMapper.class);
+    private final static JsonMapper MAPPER = SpringUtil.getBean(JsonMapper.class);
 
     /**
      * 对象转 JSON 字符串
      */
     public static String toJson(Object obj) {
         try {
-            return OBJECT_MAPPER.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
+            return MAPPER.writeValueAsString(obj);
+        } catch (JacksonException e) {
             throw new RuntimeException(ErrorConstants.JSON_SERIAL_ERROR, e);
         }
     }
@@ -43,8 +43,8 @@ public class JsonUtil {
             return null;
         }
         try {
-            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+            return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        } catch (JacksonException e) {
             throw new BaseException(ErrorConstants.JSON_SERIAL_ERROR, e.getMessage());
         }
     }
@@ -59,8 +59,8 @@ public class JsonUtil {
      */
     public static <T> T parseObject(String json, Class<T> clazz) {
         try {
-            return OBJECT_MAPPER.readValue(json, clazz);
-        } catch (JsonProcessingException e) {
+            return MAPPER.readValue(json, clazz);
+        } catch (JacksonException e) {
             log.error("反序列化失败: {}", e.getMessage(), e);
             throw new RuntimeException("反序列化失败: " + e.getMessage(), e);
         }
@@ -75,8 +75,25 @@ public class JsonUtil {
      */
     public static <T> T parseObject(String json, TypeReference<T> typeReference) {
         try {
-            return OBJECT_MAPPER.readValue(json, typeReference);
-        } catch (JsonProcessingException e) {
+            return MAPPER.readValue(json, typeReference);
+        } catch (JacksonException e) {
+            log.error("反序列化失败: {}", e.getMessage(), e);
+            throw new RuntimeException("反序列化失败: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 反序列化，根据返回值类型，使用TypeReference为指定类型对象
+     *
+     * @param json JSON字符串
+     * @param <T>  类型参数
+     * @return 反序列化后的对象
+     */
+    public static <T> T parseObject(String json) {
+        try {
+            return MAPPER.readValue(json, new TypeReference<>() {
+            });
+        } catch (JacksonException e) {
             log.error("反序列化失败: {}", e.getMessage(), e);
             throw new RuntimeException("反序列化失败: " + e.getMessage(), e);
         }
@@ -89,8 +106,8 @@ public class JsonUtil {
         try {
             FilterProvider filters = new SimpleFilterProvider()
                 .addFilter(filterName, SimpleBeanPropertyFilter.serializeAllExcept(fieldsToExclude));
-            return OBJECT_MAPPER.writer(filters).writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
+            return MAPPER.writer(filters).writeValueAsString(obj);
+        } catch (JacksonException e) {
             throw new RuntimeException(ErrorConstants.JSON_SERIAL_ERROR, e);
         }
     }
@@ -100,8 +117,8 @@ public class JsonUtil {
      */
     public static JsonNode toJsonNode(String json) {
         try {
-            return OBJECT_MAPPER.readTree(json);
-        } catch (JsonProcessingException e) {
+            return MAPPER.readTree(json);
+        } catch (JacksonException e) {
             throw new RuntimeException(ErrorConstants.JSON_PARSE_ERROR, e);
         }
     }
@@ -111,7 +128,7 @@ public class JsonUtil {
      */
     public static String getNodeValue(JsonNode node, String fieldName) {
         JsonNode valueNode = node.get(fieldName);
-        return valueNode != null ? valueNode.asText() : null;
+        return valueNode != null ? valueNode.asString() : null;
     }
 
     /**
@@ -119,7 +136,7 @@ public class JsonUtil {
      */
     public static String modifyNode(String json, String fieldName, Object newValue) {
         try {
-            ObjectNode node = (ObjectNode) OBJECT_MAPPER.readTree(json);
+            ObjectNode node = (ObjectNode) MAPPER.readTree(json);
             switch (newValue) {
                 case String s -> node.put(fieldName, s);
                 case Integer i -> node.put(fieldName, i);
@@ -128,7 +145,7 @@ public class JsonUtil {
                 case null, default -> node.putPOJO(fieldName, newValue);
             }
             return node.toString();
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException("修改 JSON 节点失败", e);
         }
     }

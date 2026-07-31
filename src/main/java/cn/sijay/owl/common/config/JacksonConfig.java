@@ -1,25 +1,22 @@
 package cn.sijay.owl.common.config;
 
 import cn.sijay.owl.common.utils.XssUtil;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.NumberSerializer;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalDateTimeDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalTimeDeserializer;
+import tools.jackson.databind.ext.javatime.ser.LocalDateTimeSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalTimeSerializer;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.ser.jdk.NumberSerializer;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -37,64 +34,42 @@ import java.time.format.DateTimeFormatter;
 public class JacksonConfig {
 
     @Bean
-    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        // 全局配置序列化返回 JSON 处理
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        builder.serializerByType(Long.class, BigNumberSerializer.instance);
-        builder.serializerByType(Long.TYPE, BigNumberSerializer.instance);
-        builder.serializerByType(BigInteger.class, BigNumberSerializer.instance);
-        builder.serializerByType(BigDecimal.class, ToStringSerializer.instance);
-        builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
-        builder.serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_TIME));
+    JsonMapperBuilderCustomizer jacksonCustomizer() {
+        return builder -> {
+            builder.enable(SerializationFeature.INDENT_OUTPUT);
+            // 全局配置序列化返回 JSON 处理
+            // 1. 创建自定义模块
+            SimpleModule customModule = new SimpleModule();
+            // 2. 将之前的 serializerByType 配置，改为向模块添加序列化器
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
-        builder.deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_TIME));
+            // 为特定类型注册序列化器
+            customModule.addSerializer(Long.class, NumberSerializer.instance);
+            customModule.addSerializer(Long.TYPE, NumberSerializer.instance);
+            customModule.addSerializer(BigInteger.class, NumberSerializer.instance);
+            customModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
+            customModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
+            customModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_TIME));
 
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(String.class, new XssStringDeserializer());
-        builder.modules(module);
-        log.info("初始化Jackson配置完成");
-        return builder;
+            // 为特定类型注册反序列化器
+            customModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
+            customModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_TIME));
+
+            // 3. 注册您之前自定义的 XssStringDeserializer
+            customModule.addDeserializer(String.class, new ValueDeserializer<>() {
+                @Override
+                public String deserialize(JsonParser p, DeserializationContext ctxt) {
+                    String value = p.getValueAsString();
+                    return XssUtil.clean(value);
+                }
+            });
+
+            // 4. 将整个模块添加到 builder 中
+            builder.addModule(customModule);
+
+            log.info("初始化Jackson配置完成");
+        };
     }
 
-    /**
-     * 自定义字符串反序列化器，对 JSON 字符串值进行 XSS 过滤
-     */
-    static class XssStringDeserializer extends JsonDeserializer<String> {
-        @Override
-        public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-            String value = p.getValueAsString();
-            return XssUtil.clean(value);
-        }
-    }
-
-    @JacksonStdImpl
-    static
-    class BigNumberSerializer extends NumberSerializer {
-        /**
-         * 提供实例
-         */
-        public static final BigNumberSerializer instance = new BigNumberSerializer(Number.class);
-        /**
-         * 根据 JS Number.MAX_SAFE_INTEGER 与 Number.MIN_SAFE_INTEGER 得来
-         */
-        private static final long MAX_SAFE_INTEGER = 9007199254740991L;
-        private static final long MIN_SAFE_INTEGER = -9007199254740991L;
-
-        public BigNumberSerializer(Class<? extends Number> rawType) {
-            super(rawType);
-        }
-
-        @Override
-        public void serialize(Number value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-            // 超出范围 序列化为字符串
-            if (value.longValue() > MIN_SAFE_INTEGER && value.longValue() < MAX_SAFE_INTEGER) {
-                super.serialize(value, gen, provider);
-            } else {
-                gen.writeString(value.toString());
-            }
-        }
-    }
 }
 

@@ -5,6 +5,7 @@ import cn.sijay.owl.auth.entity.UserInfo;
 import cn.sijay.owl.auth.enums.EnumType;
 import cn.sijay.owl.auth.service.CommonService;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.entity.SelectOption;
 import cn.sijay.owl.gen.enums.HtmlType;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/common")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/common")
 @RestController
 public class CommonController extends BaseController {
     private final CommonService commonService;

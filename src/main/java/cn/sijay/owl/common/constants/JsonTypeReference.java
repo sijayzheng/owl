@@ -1,6 +1,7 @@
 package cn.sijay.owl.common.constants;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+
+import tools.jackson.core.type.TypeReference;
 
 import java.util.LinkedHashMap;
 import java.util.List;

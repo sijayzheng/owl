@@ -51,21 +51,21 @@ public class EncryptResponseBodyWrapper extends HttpServletResponseWrapper {
     public String getEncryptContent(HttpServletResponse servletResponse, String publicKey, String headerFlag) throws IOException {
         // 生成秘钥
 //        String aesPassword = RandomUtil.randomString(32);
-//        // 秘钥使用 Base64 编码
+// // 秘钥使用 Base64 编码
 //        String encryptAes = EncryptUtils.encryptByBase64(aesPassword);
-//        // Rsa 公钥加密 Base64 编码
+// // Rsa 公钥加密 Base64 编码
 //        String encryptPassword = EncryptUtils.encryptByRsa(encryptAes, publicKey);
 //
-//        // 设置响应头
+// // 设置响应头
 //        servletResponse.addHeader("Access-Control-Expose-Headers", headerFlag);
 //        servletResponse.setHeader(headerFlag, encryptPassword);
 //        servletResponse.setHeader("Access-Control-Allow-Origin", "*");
 //        servletResponse.setHeader("Access-Control-Allow-Methods", "*");
 //        servletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 //
-//        // 获取原始内容
+// // 获取原始内容
 //        String originalBody = this.getContent();
-//        // 对内容进行加密
+// // 对内容进行加密
 //        return EncryptUtils.encryptByAes(originalBody, aesPassword);
         return "";
     }

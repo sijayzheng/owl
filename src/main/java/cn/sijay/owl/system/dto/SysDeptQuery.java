@@ -9,7 +9,6 @@ package cn.sijay.owl.system.dto;
 public record SysDeptQuery(
     Long parentId,
     String deptName,
-    Long deptCategory,
     Boolean enabled
 ) {
 }

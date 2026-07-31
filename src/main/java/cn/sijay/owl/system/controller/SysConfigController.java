@@ -3,6 +3,7 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -10,7 +11,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysConfigQuery;
 import cn.sijay.owl.system.entity.SysConfig;
 import cn.sijay.owl.system.service.SysConfigService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -18,6 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sysConfig")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/system/sysConfig")
 @RestController
 public class SysConfigController extends BaseController {
     private final SysConfigService sysConfigService;
@@ -39,14 +40,13 @@ public class SysConfigController extends BaseController {
     /**
      * 分页查询参数配置列表
      *
-     * @param pageQuery            分页参数
+     * @param pageQuery      分页参数
      * @param sysConfigQuery 查询条件
      * @return 参数配置分页列表
      */
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
     @GetMapping("/page")
-    @Operation(summary = "查询参数配置列表")
     public Result<List<SysConfig>> page(PageQuery pageQuery, SysConfigQuery sysConfigQuery) {
         return success(sysConfigService.page(pageQuery, sysConfigQuery));
     }
@@ -60,7 +60,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
     @GetMapping("/list")
-    @Operation(summary = "查询参数配置列表")
     public Result<List<SysConfig>> list(SysConfigQuery sysConfigQuery) {
         return success(sysConfigService.list(sysConfigQuery));
     }
@@ -74,7 +73,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysConfig:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询参数配置列表")
     public Result<SysConfig> getById(@PathVariable Long id) {
         return success(sysConfigService.getById(id));
     }
@@ -88,7 +86,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysConfig:save")
     @PostMapping("/save")
-    @Operation(summary = "保存参数配置")
     public Result<Boolean> save(@Valid @RequestBody SysConfig sysConfig) {
         return result(sysConfigService.validSave(sysConfig), OperateType.SAVE);
     }
@@ -102,7 +99,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysConfig:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除参数配置")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysConfigService.removeByIds(ids), OperateType.DELETE);
     }
@@ -116,7 +112,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysConfig:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载参数配置模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "参数配置模板", SysConfig.class);
     }
@@ -131,7 +126,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysConfig:import")
     @PostMapping("/import")
-    @Operation(summary = "导入参数配置")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysConfig> result = ExcelUtil.importExcel(file.getInputStream(), SysConfig.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -149,7 +143,6 @@ public class SysConfigController extends BaseController {
     @AccessLog(title = "参数配置", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysConfig:export")
     @GetMapping("/export")
-    @Operation(summary = "导出参数配置")
     public ResponseEntity<Resource> exportData(SysConfigQuery sysConfigQuery) {
         List<SysConfig> list = sysConfigService.list(sysConfigQuery);
         return ExcelUtil.exportExcel(list, "参数配置", SysConfig.class);

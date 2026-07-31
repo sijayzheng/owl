@@ -43,8 +43,7 @@
     "./uno.config.ts",
     "./eslint.config.*",
     "./auto-imports.d.ts",
-    "./components.d.ts",
-    "./typed-router.d.ts"
+    "./components.d.ts"
   ],
   "exclude": [
     "node_modules",

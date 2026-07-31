@@ -26,13 +26,13 @@ public class DecryptRequestBodyWrapper extends HttpServletRequestWrapper {
         // 获取 AES 密码 采用 RSA 加密
         String headerRsa = request.getHeader(headerFlag);
 //        String decryptAes = EncryptUtils.decryptByRsa(headerRsa, privateKey);
-//        // 解密 AES 密码
+// // 解密 AES 密码
 //        String aesPassword = EncryptUtils.decryptByBase64(decryptAes);
 //        request.setCharacterEncoding(Constants.UTF8);
 //        try (ServletInputStream inputStream = request.getInputStream()) {
 //            byte[] readBytes = inputStream.readAllBytes();
 //            String requestBody = new String(readBytes, StandardCharsets.UTF_8);
-//            // 解密 body 采用 AES 加密
+// // 解密 body 采用 AES 加密
 //            String decryptBody = EncryptUtils.decryptByAes(requestBody, aesPassword);
 //            body = decryptBody.getBytes(StandardCharsets.UTF_8);
 //        }

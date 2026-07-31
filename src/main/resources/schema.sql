@@ -44,44 +44,24 @@ create table gen_column
 drop table if exists sys_dept;
 create table sys_dept
 (
-    id            bigint not null auto_increment primary key comment '主键',
-    parent_id     bigint        default 0 comment '父部门id',
-    ancestors     varchar(1000) default '' comment '祖级列表',
-    dept_name     varchar(30)   default '' comment '部门名称',
-    dept_category bigint        default 0 comment '部门类别',
-    sort          int           default 0 comment '显示顺序',
-    leader        bigint        default null comment '负责人',
-    phone         varchar(11)   default '' comment '联系电话',
-    email         varchar(50)   default '' comment '邮箱',
-    enabled       boolean       default true comment '启用',
-    deleted       boolean       default false comment '删除',
-    create_dept   bigint        default 1 comment '创建部门',
-    create_by     bigint        default 1 comment '创建者',
-    create_time   datetime      default current_timestamp comment '创建时间',
-    update_by     bigint        default 1 comment '更新者',
-    update_time   datetime      default current_timestamp comment '更新时间',
+    id          bigint not null auto_increment primary key comment '主键',
+    parent_id   bigint        default 0 comment '父部门id',
+    ancestors   varchar(1000) default '' comment '祖级列表',
+    dept_name   varchar(30)   default '' comment '部门名称',
+    sort        int           default 0 comment '显示顺序',
+    leader      bigint        default null comment '负责人',
+    phone       varchar(11)   default '' comment '联系电话',
+    email       varchar(50)   default '' comment '邮箱',
+    enabled     boolean       default true comment '启用',
+    deleted     boolean       default false comment '删除',
+    create_dept bigint        default 1 comment '创建部门',
+    create_by   bigint        default 1 comment '创建者',
+    create_time datetime      default current_timestamp comment '创建时间',
+    update_by   bigint        default 1 comment '更新者',
+    update_time datetime      default current_timestamp comment '更新时间',
     index idx_sys_dept_parent_id (parent_id),
     index idx_sys_dept_deleted (deleted)
 ) comment '系统部门表';
-drop table if exists sys_post;
-create table sys_post
-(
-    id            bigint      not null auto_increment primary key comment '主键',
-    dept_id       bigint      not null comment '部门id',
-    post_code     varchar(64) not null unique comment '岗位编码',
-    post_category varchar(100) default '' comment '岗位类别编码',
-    post_name     varchar(50) not null comment '岗位名称',
-    sort          int         not null comment '显示顺序',
-    enabled       boolean      default true comment '启用',
-    deleted       boolean      default false comment '删除',
-    create_dept   bigint       default 1 comment '创建部门',
-    create_by     bigint       default 1 comment '创建者',
-    create_time   datetime     default current_timestamp comment '创建时间',
-    update_by     bigint       default 1 comment '更新者',
-    update_time   datetime     default current_timestamp comment '更新时间',
-    index idx_sys_post_dept_id (dept_id),
-    index idx_sys_post_deleted (deleted)
-) comment '系统岗位表';
 drop table if exists sys_role;
 create table sys_role
 (

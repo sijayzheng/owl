@@ -5,7 +5,7 @@ import Layout from '@/layout/Layout.vue'
 /**
  * 不重定向白名单
  */
-const NO_REDIRECT_WHITE_LIST = ['/login', '/demo']
+const NO_REDIRECT_WHITE_LIST = [ '/login', '/demo' ]
 
 export const staticRouters: RouteRecordRaw[] = [
   {
@@ -14,12 +14,12 @@ export const staticRouters: RouteRecordRaw[] = [
     component: Layout,
     // 修复根路由初始跳转目标，与子路由路径保持一致
     redirect: '/index',
-    children: [{
+    children: [ {
       path: 'index',
       name: 'Index',
       component: async () => import('@/views/Index.vue'),
       meta: { title: '首页', icon: 'HomeFilled', affix: true },
-    }],
+    } ],
   },
   {
     path: '/login',
@@ -42,8 +42,8 @@ export const staticRouters: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [...staticRouters],
+  history: createWebHistory(),
+  routes: [ ...staticRouters ],
 })
 
 const {

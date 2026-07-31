@@ -3,6 +3,7 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -10,7 +11,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysUserQuery;
 import cn.sijay.owl.system.entity.SysUser;
 import cn.sijay.owl.system.service.SysUserService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -18,6 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sysUser")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/system/sysUser")
 @RestController
 public class SysUserController extends BaseController {
     private final SysUserService sysUserService;
@@ -39,14 +40,13 @@ public class SysUserController extends BaseController {
     /**
      * 分页查询系统用户列表
      *
-     * @param pageQuery            分页参数
+     * @param pageQuery    分页参数
      * @param sysUserQuery 查询条件
      * @return 系统用户分页列表
      */
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
     @GetMapping("/page")
-    @Operation(summary = "查询系统用户列表")
     public Result<List<SysUser>> page(PageQuery pageQuery, SysUserQuery sysUserQuery) {
         return success(sysUserService.page(pageQuery, sysUserQuery));
     }
@@ -60,7 +60,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
     @GetMapping("/list")
-    @Operation(summary = "查询系统用户列表")
     public Result<List<SysUser>> list(SysUserQuery sysUserQuery) {
         return success(sysUserService.list(sysUserQuery));
     }
@@ -74,7 +73,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUser:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询系统用户列表")
     public Result<SysUser> getById(@PathVariable Long id) {
         return success(sysUserService.getById(id));
     }
@@ -88,7 +86,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysUser:save")
     @PostMapping("/save")
-    @Operation(summary = "保存系统用户")
     public Result<Boolean> save(@Valid @RequestBody SysUser sysUser) {
         return result(sysUserService.validSave(sysUser), OperateType.SAVE);
     }
@@ -102,7 +99,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysUser:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除系统用户")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysUserService.removeByIds(ids), OperateType.DELETE);
     }
@@ -116,7 +112,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysUser:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载系统用户模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统用户模板", SysUser.class);
     }
@@ -131,7 +126,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysUser:import")
     @PostMapping("/import")
-    @Operation(summary = "导入系统用户")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysUser> result = ExcelUtil.importExcel(file.getInputStream(), SysUser.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -149,7 +143,6 @@ public class SysUserController extends BaseController {
     @AccessLog(title = "系统用户", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysUser:export")
     @GetMapping("/export")
-    @Operation(summary = "导出系统用户")
     public ResponseEntity<Resource> exportData(SysUserQuery sysUserQuery) {
         List<SysUser> list = sysUserService.list(sysUserQuery);
         return ExcelUtil.exportExcel(list, "系统用户", SysUser.class);

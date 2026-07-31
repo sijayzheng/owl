@@ -93,12 +93,12 @@ public class GenService {
             while (rs.next()) {
                 String columnName = rs.getString("COLUMN_NAME");
                 ColumnInfo columnInfo = new ColumnInfo(
-                    columnName,     // 列名
-                    rs.getInt("DATA_TYPE"),             // SQL 数据类型（int 值）
-                    rs.getInt("COLUMN_SIZE"),         // 列长度/精度
-                    rs.getBoolean("NULLABLE"),              // 是否允许 NULL
-                    rs.getString("REMARKS"),             // 列注释
-                    rs.getInt("ORDINAL_POSITION"),             // 列注释
+                    columnName, // 列名
+                    rs.getInt("DATA_TYPE"), // SQL 数据类型（int 值）
+                    rs.getInt("COLUMN_SIZE"), // 列长度/精度
+                    rs.getBoolean("NULLABLE"), // 是否允许 NULL
+                    rs.getString("REMARKS"), // 列注释
+                    rs.getInt("ORDINAL_POSITION"), // 列注释
                     rs.getBoolean("IS_AUTOINCREMENT"),// 是否自增
                     primaryKeys.contains(columnName)
                 );
@@ -232,15 +232,15 @@ public class GenService {
         String javaPath = FileUtil.joinPath(rootPath, "src", "main", "java", genProperties.getPackageName().replace('.', File.separatorChar), moduleName);
         String vuePath = FileUtil.joinPath(rootPath, "ui", "src");
         try {
-            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
+//            FileUtil.writeToFile(FileUtil.joinPath(javaPath, "entity", className + ".java"), codeMap.get("entity.java"));
             if (!table.getEntityOnly()) {
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
-                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
-                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, className + "Types.ts"), codeMap.get("types.ts"));
-                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "dto", className + "Query.java"), codeMap.get("query.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "mapper", className + "Mapper.java"), codeMap.get("mapper.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "service", className + "Service.java"), codeMap.get("service.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(javaPath, "controller", className + "Controller.java"), codeMap.get("controller.java"));
+//                FileUtil.writeToFile(FileUtil.joinPath(rootPath, "menuSql", className + ".sql"), codeMap.get("sql"));
+//                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "types", moduleName, className + "Types.ts"), codeMap.get("types.ts"));
+//                FileUtil.writeToFile(FileUtil.joinPath(vuePath, "api", moduleName, functionName + "Api.ts"), codeMap.get("api.ts"));
                 FileUtil.writeToFile(FileUtil.joinPath(vuePath, "views", moduleName, functionName + ".vue"), codeMap.get("index.vue"));
             }
         } catch (Exception e) {

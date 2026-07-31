@@ -3,6 +3,7 @@ package cn.sijay.owl.common.aspect;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.sijay.owl.auth.utils.LoginHelper;
 import cn.sijay.owl.common.annotations.AccessLog;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.utils.HttpUtil;
 import cn.sijay.owl.common.utils.JsonUtil;
@@ -18,7 +19,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
-import org.springdoc.core.utils.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -88,7 +88,7 @@ public class AutoAccessLogAspect {
         String params = JsonUtil.toJson(Arrays.stream(point.getArgs())
                                               .filter(arg -> !(arg instanceof HttpServletResponse || arg instanceof HttpServletRequest || arg instanceof MultipartFile))
                                               .toList());
-        log.info("开始请求 => URL【{}】,参数为:【{}】，调用方法：【{}】", url, params, signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()");
+        log.info("开始请求 => URL【{}】,参数为:【{}】，调用方法：【{}】", url, params, signature.getDeclaringTypeName() + CommonConstants.DOT + signature.getName() + "()");
         return point.proceed();
     }
 
@@ -99,7 +99,7 @@ public class AutoAccessLogAspect {
         String params = JsonUtil.toJson(Arrays.stream(point.getArgs())
                                               .filter(arg -> !(arg instanceof HttpServletResponse || arg instanceof HttpServletRequest || arg instanceof MultipartFile))
                                               .toList());
-        String method = signature.getDeclaringTypeName() + Constants.DOT + signature.getName() + "()";
+        String method = signature.getDeclaringTypeName() + CommonConstants.DOT + signature.getName() + "()";
         LogAccess logAccess = new LogAccess();
         if (StpUtil.isLogin()) {
             logAccess.setUserId(LoginHelper.getUserId());

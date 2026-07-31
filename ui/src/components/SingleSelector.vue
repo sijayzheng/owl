@@ -11,7 +11,7 @@ defineProps({
     required: true,
   },
 })
-const value = defineModel()
+const value = defineModel<string>()
 </script>
 
 <style scoped lang="scss">

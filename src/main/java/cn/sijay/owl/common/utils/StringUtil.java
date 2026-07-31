@@ -1,6 +1,6 @@
 package cn.sijay.owl.common.utils;
 
-import io.swagger.v3.core.util.Constants;
+import cn.sijay.owl.common.constants.CommonConstants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -105,7 +105,7 @@ public class StringUtil {
      * @return 分割后的数据列表
      */
     public static List<String> splitList(String str) {
-        return splitList(str, Constants.COMMA);
+        return splitList(str, CommonConstants.COMMA);
     }
 
     /**

@@ -52,16 +52,31 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns">
-        <template #action="{ row }">
-          <el-tooltip content="修改" placement="top">
-            <el-button v-hasPerm="['system:sysUser:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-          </el-tooltip>
-          <el-tooltip content="删除" placement="top">
-            <el-button v-hasPerm="['system:sysUser:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-          </el-tooltip>
-        </template>
-      </DataTable>
+      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
+        <el-table-column fixed type="selection" width="50" />
+        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
+        <el-table-column align="center" label="部门id" prop="deptId" show-overflow-tooltip />
+        <el-table-column align="center" label="用户账号" prop="username" show-overflow-tooltip />
+        <el-table-column align="center" label="用户姓名" prop="realName" show-overflow-tooltip />
+        <el-table-column align="center" label="邮箱" prop="email" show-overflow-tooltip />
+        <el-table-column align="center" label="手机号" prop="phone" show-overflow-tooltip />
+        <el-table-column align="center" label="性别" prop="gender" show-overflow-tooltip />
+        <el-table-column align="center" label="头像" prop="avatar" show-overflow-tooltip />
+        <el-table-column align="center" label="密码" prop="password" show-overflow-tooltip />
+        <el-table-column align="center" label="是否启用MFA" prop="mfaEnabled" show-overflow-tooltip />
+        <el-table-column align="center" label="TOTP密钥" prop="totpSecret" show-overflow-tooltip />
+        <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip />
+        <el-table-column align="center" fixed="right" label="操作" width="150">
+          <template #default="{ row }">
+            <el-tooltip content="修改" placement="top">
+              <el-button v-hasPerm="['system:sysUser:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+            </el-tooltip>
+            <el-tooltip content="删除" placement="top">
+              <el-button v-hasPerm="['system:sysUser:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
       <template #footer>
         <pagination v-show="total || 0 > 0" v-model:limit="queryParams.size" v-model:page="queryParams.page" :total="total" @pagination="listData" />
       </template>
@@ -113,20 +128,6 @@
 </template>
 
 <script lang="ts" setup>
-import DataTable from '@/components/DataTable.vue'
-
-const columns = [
-  { prop: 'deptId', label: '部门id', showOverflowTooltip: true },
-  { prop: 'username', label: '用户账号', showOverflowTooltip: true },
-  { prop: 'realName', label: '用户姓名', showOverflowTooltip: true },
-  { prop: 'email', label: '邮箱', showOverflowTooltip: true },
-  { prop: 'phone', label: '手机号', showOverflowTooltip: true },
-  { prop: 'gender', label: '性别', showOverflowTooltip: true },
-  { prop: 'avatar', label: '头像', showOverflowTooltip: true },
-  { prop: 'mfaEnabled', label: '是否启用MFA', showOverflowTooltip: true },
-  { prop: 'enabled', label: '启用', showOverflowTooltip: true },
-]
-
 const rules = {
   username: [{ required: true, message: '用户账号不能为空', trigger: 'blur' }],
   password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],

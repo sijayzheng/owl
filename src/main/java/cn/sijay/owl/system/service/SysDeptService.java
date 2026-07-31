@@ -109,7 +109,6 @@ public class SysDeptService extends ServiceImpl<SysDeptMapper, SysDept> implemen
     private QueryWrapper query(SysDeptQuery sysDeptQuery) {
         QueryWrapper query = query();
         query.and(SYS_DEPT.DEPT_NAME.like(sysDeptQuery.deptName()));
-        query.and(SYS_DEPT.DEPT_CATEGORY.eq(sysDeptQuery.deptCategory()));
         query.and(SYS_DEPT.ENABLED.eq(sysDeptQuery.enabled()));
         return query;
     }

@@ -3,6 +3,7 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -10,7 +11,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysRoleQuery;
 import cn.sijay.owl.system.entity.SysRole;
 import cn.sijay.owl.system.service.SysRoleService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -18,6 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sysRole")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/system/sysRole")
 @RestController
 public class SysRoleController extends BaseController {
     private final SysRoleService sysRoleService;
@@ -39,14 +40,13 @@ public class SysRoleController extends BaseController {
     /**
      * 分页查询系统角色列表
      *
-     * @param pageQuery            分页参数
+     * @param pageQuery    分页参数
      * @param sysRoleQuery 查询条件
      * @return 系统角色分页列表
      */
     @AccessLog(title = "系统角色", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysRole:query")
     @GetMapping("/page")
-    @Operation(summary = "查询系统角色列表")
     public Result<List<SysRole>> page(PageQuery pageQuery, SysRoleQuery sysRoleQuery) {
         return success(sysRoleService.page(pageQuery, sysRoleQuery));
     }
@@ -60,7 +60,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysRole:query")
     @GetMapping("/list")
-    @Operation(summary = "查询系统角色列表")
     public Result<List<SysRole>> list(SysRoleQuery sysRoleQuery) {
         return success(sysRoleService.list(sysRoleQuery));
     }
@@ -74,7 +73,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysRole:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询系统角色列表")
     public Result<SysRole> getById(@PathVariable Long id) {
         return success(sysRoleService.getById(id));
     }
@@ -88,7 +86,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysRole:save")
     @PostMapping("/save")
-    @Operation(summary = "保存系统角色")
     public Result<Boolean> save(@Valid @RequestBody SysRole sysRole) {
         return result(sysRoleService.validSave(sysRole), OperateType.SAVE);
     }
@@ -102,7 +99,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysRole:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除系统角色")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysRoleService.removeByIds(ids), OperateType.DELETE);
     }
@@ -116,7 +112,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysRole:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载系统角色模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "系统角色模板", SysRole.class);
     }
@@ -131,7 +126,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysRole:import")
     @PostMapping("/import")
-    @Operation(summary = "导入系统角色")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysRole> result = ExcelUtil.importExcel(file.getInputStream(), SysRole.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -149,7 +143,6 @@ public class SysRoleController extends BaseController {
     @AccessLog(title = "系统角色", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysRole:export")
     @GetMapping("/export")
-    @Operation(summary = "导出系统角色")
     public ResponseEntity<Resource> exportData(SysRoleQuery sysRoleQuery) {
         List<SysRole> list = sysRoleService.list(sysRoleQuery);
         return ExcelUtil.exportExcel(list, "系统角色", SysRole.class);

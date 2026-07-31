@@ -2,17 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.14</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>4.1.0</version>
+        <relativePath/>
     </parent>
+
     <groupId>cn.sijay</groupId>
     <artifactId>owl</artifactId>
     <version>0.0.1</version>
     <name>owl</name>
     <description>owl</description>
+
     <url/>
     <licenses>
         <license>
@@ -39,31 +42,29 @@
         <maven.test.skip>true</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <commons-lang3.version>3.20.0</commons-lang3.version>
         <commons-text.version>1.15.0</commons-text.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
         <commons-compress.version>1.28.0</commons-compress.version>
+        <commons-validator.version>1.11.0</commons-validator.version>
         <sa-token.version>1.45.0</sa-token.version>
-        <mybatis-flex.version>1.11.6</mybatis-flex.version>
-        <HikariCP.version>7.0.2</HikariCP.version>
+        <mybatis-flex.version>1.11.8</mybatis-flex.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <fesod.version>2.0.1-incubating</fesod.version>
-        <ttl.version>2.14.0</ttl.version>
-        <caffeine.version>3.1.8</caffeine.version>
+        <fesod.version>2.0.2-incubating</fesod.version>
+        <ttl.version>2.14.5</ttl.version>
+        <caffeine.version>3.2.0</caffeine.version>
         <ip2region.version>3.3.7</ip2region.version>
-        <oshi.version>6.4.0</oshi.version>
-        <springdoc.version>2.8.16</springdoc.version>
+        <oshi.version>7.4.3</oshi.version>
         <uap-java.version>1.6.1</uap-java.version>
         <password4j.version>1.8.4</password4j.version>
-        <bcprov-jdk18on.version>1.84</bcprov-jdk18on.version>
-        <jsoup.version>1.16.1</jsoup.version>
-        <redisson.version>3.52.0</redisson.version>
+        <bcprov-jdk18on.version>1.85</bcprov-jdk18on.version>
+        <jsoup.version>1.21.1</jsoup.version>
+        <redisson.version>4.7.0</redisson.version>
         <guava.version>33.6.0-jre</guava.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
         <dependency>
@@ -83,7 +84,12 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jackson</artifactId>
         </dependency>
 
         <dependency>
@@ -91,12 +97,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc.version}</version>
         </dependency>
 
         <dependency>
@@ -113,7 +113,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
         </dependency>
 
         <dependency>
@@ -137,24 +136,24 @@
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.10.1</version>
+            <version>${commons-validator.version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot3-starter</artifactId>
+            <artifactId>sa-token-spring-boot4-starter</artifactId>
             <version>${sa-token.version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-redis-template</artifactId>
+            <artifactId>sa-token-redisson-spring-boot-starter</artifactId>
             <version>${sa-token.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.mybatis-flex</groupId>
-            <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
+            <artifactId>mybatis-flex-spring-boot4-starter</artifactId>
             <version>${mybatis-flex.version}</version>
         </dependency>
 
@@ -168,7 +167,6 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>${HikariCP.version}</version>
         </dependency>
 
         <dependency>

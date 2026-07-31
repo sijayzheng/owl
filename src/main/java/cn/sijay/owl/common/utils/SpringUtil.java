@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
-import org.springframework.boot.autoconfigure.thread.Threading;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,7 +42,4 @@ public class SpringUtil implements ApplicationContextAware {
         applicationContext = context;
     }
 
-    public static boolean isVirtual() {
-        return Threading.VIRTUAL.isActive(getBean(Environment.class));
-    }
 }

@@ -3,6 +3,7 @@ package cn.sijay.owl.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -10,7 +11,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import cn.sijay.owl.system.dto.SysUserOnlineQuery;
 import cn.sijay.owl.system.entity.SysUserOnline;
 import cn.sijay.owl.system.service.SysUserOnlineService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -18,6 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/system/sysUserOnline")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/system/sysUserOnline")
 @RestController
 public class SysUserOnlineController extends BaseController {
     private final SysUserOnlineService sysUserOnlineService;
@@ -39,14 +40,13 @@ public class SysUserOnlineController extends BaseController {
     /**
      * 分页查询在线用户列表
      *
-     * @param pageQuery            分页参数
+     * @param pageQuery          分页参数
      * @param sysUserOnlineQuery 查询条件
      * @return 在线用户分页列表
      */
     @AccessLog(title = "在线用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUserOnline:query")
     @GetMapping("/page")
-    @Operation(summary = "查询在线用户列表")
     public Result<List<SysUserOnline>> page(PageQuery pageQuery, SysUserOnlineQuery sysUserOnlineQuery) {
         return success(sysUserOnlineService.page(pageQuery, sysUserOnlineQuery));
     }
@@ -60,7 +60,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUserOnline:query")
     @GetMapping("/list")
-    @Operation(summary = "查询在线用户列表")
     public Result<List<SysUserOnline>> list(SysUserOnlineQuery sysUserOnlineQuery) {
         return success(sysUserOnlineService.list(sysUserOnlineQuery));
     }
@@ -74,7 +73,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.QUERY)
     @SaCheckPermission("system:sysUserOnline:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询在线用户列表")
     public Result<SysUserOnline> getById(@PathVariable Long id) {
         return success(sysUserOnlineService.getById(id));
     }
@@ -88,7 +86,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.SAVE)
     @SaCheckPermission("system:sysUserOnline:save")
     @PostMapping("/save")
-    @Operation(summary = "保存在线用户")
     public Result<Boolean> save(@Valid @RequestBody SysUserOnline sysUserOnline) {
         return result(sysUserOnlineService.validSave(sysUserOnline), OperateType.SAVE);
     }
@@ -102,7 +99,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.DELETE)
     @SaCheckPermission("system:sysUserOnline:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除在线用户")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(sysUserOnlineService.removeByIds(ids), OperateType.DELETE);
     }
@@ -116,7 +112,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysUserOnline:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载在线用户模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "在线用户模板", SysUserOnline.class);
     }
@@ -131,7 +126,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.IMPORT)
     @SaCheckPermission("system:sysUserOnline:import")
     @PostMapping("/import")
-    @Operation(summary = "导入在线用户")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<SysUserOnline> result = ExcelUtil.importExcel(file.getInputStream(), SysUserOnline.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -149,7 +143,6 @@ public class SysUserOnlineController extends BaseController {
     @AccessLog(title = "在线用户", operateType = OperateType.EXPORT)
     @SaCheckPermission("system:sysUserOnline:export")
     @GetMapping("/export")
-    @Operation(summary = "导出在线用户")
     public ResponseEntity<Resource> exportData(SysUserOnlineQuery sysUserOnlineQuery) {
         List<SysUserOnline> list = sysUserOnlineService.list(sysUserOnlineQuery);
         return ExcelUtil.exportExcel(list, "在线用户", SysUserOnline.class);

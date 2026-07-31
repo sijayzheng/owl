@@ -51,13 +51,6 @@ public class SysDept extends BaseEntity {
     private String deptName;
 
     /**
-     * 部门类别
-     */
-    @Column(value = "dept_category", comment = "部门类别")
-    @ExcelProperty(value = "部门类别")
-    private Long deptCategory;
-
-    /**
      * 显示顺序
      */
     @Column(value = "sort", comment = "显示顺序")

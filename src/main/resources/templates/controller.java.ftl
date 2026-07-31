@@ -3,6 +3,7 @@ package ${packageName}.${moduleName}.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -31,7 +32,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/${moduleName}/${functionName}")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/${moduleName}/${functionName}")
 @RestController
 public class ${className}Controller extends BaseController {
     private final ${className}Service ${functionName}Service;
@@ -59,7 +60,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
     @GetMapping("/page")
-    @Operation(summary = "查询${classComment}列表")
     public Result<List<${className}>> page(PageQuery pageQuery, ${className}Query ${functionName}Query) {
         return success(${functionName}Service.page(pageQuery, ${functionName}Query));
     }
@@ -74,7 +74,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
     @GetMapping("/list")
-    @Operation(summary = "查询${classComment}列表")
     public Result<List<${className}>> list(${className}Query ${functionName}Query) {
         return success(${functionName}Service.list(${functionName}Query));
     }
@@ -88,7 +87,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.QUERY)
     @SaCheckPermission("${moduleName}:${functionName}:query")
     @GetMapping("/{id}")
-    @Operation(summary = "查询${classComment}列表")
     public Result<${className}> getById(@PathVariable Long id) {
         return success(${functionName}Service.getById(id));
     }
@@ -102,7 +100,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.SAVE)
     @SaCheckPermission("${moduleName}:${functionName}:save")
     @PostMapping("/save")
-    @Operation(summary = "保存${classComment}")
     public Result<Boolean> save(@Valid @RequestBody ${className} ${functionName}) {
         return result(${functionName}Service.validSave(${functionName}), OperateType.SAVE);
     }
@@ -116,7 +113,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.DELETE)
     @SaCheckPermission("${moduleName}:${functionName}:delete")
     @PostMapping("/remove")
-    @Operation(summary = "删除${classComment}")
     public Result<Boolean> remove(@RequestBody List<Long> ids) {
         return result(${functionName}Service.removeByIds(ids), OperateType.DELETE);
     }
@@ -130,7 +126,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.IMPORT)
     @SaCheckPermission("${moduleName}:${functionName}:import")
     @GetMapping("/downloadTemplate")
-    @Operation(summary = "下载${classComment}模板")
     public ResponseEntity<Resource> downloadTemplate() throws IOException {
         return ExcelUtil.exportExcel(new ArrayList<>(), "${classComment}模板", ${className}.class);
     }
@@ -145,7 +140,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.IMPORT)
     @SaCheckPermission("${moduleName}:${functionName}:import")
     @PostMapping("/import")
-    @Operation(summary = "导入${classComment}")
     public Result<Boolean> importData(MultipartFile file) throws IOException {
         List<${className}> result = ExcelUtil.importExcel(file.getInputStream(), ${className}.class);
         if (CollectionUtils.isEmpty(result)) {
@@ -163,7 +157,6 @@ public class ${className}Controller extends BaseController {
     @AccessLog(title = "${classComment}", operateType = OperateType.EXPORT)
     @SaCheckPermission("${moduleName}:${functionName}:export")
     @GetMapping("/export")
-    @Operation(summary = "导出${classComment}")
     public ResponseEntity<Resource> exportData(${className}Query ${functionName}Query) {
         List<${className}> list = ${functionName}Service.list(${functionName}Query);
         return ExcelUtil.exportExcel(list, "${classComment}", ${className}.class);

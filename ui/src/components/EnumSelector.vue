@@ -20,7 +20,7 @@ const {
   minWidth?: number
 }>()
 
-const value = defineModel()
+const value = defineModel<string>()
 
 const { data } = useRequest(() => commonApi.getEnumSelect(enumType))
 </script>

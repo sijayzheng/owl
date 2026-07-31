@@ -8,11 +8,11 @@ import cn.sijay.owl.auth.service.LoginService;
 import cn.sijay.owl.auth.utils.CaptchaUtil;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
+import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.utils.RedisUtil;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +28,13 @@ import org.springframework.web.bind.annotation.*;
 @SaIgnore
 @Valid
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping(CommonConstants.BASE_API_PATH + "/auth")
 @RestController
 public class AuthController extends BaseController {
     private final LoginService loginService;
 
     @AccessLog(title = "授权", operateType = OperateType.LOGIN)
     @PostMapping("/login")
-    @Operation(summary = "登录")
     public Result<LoginResp> login(@Valid @RequestBody LoginReq loginReq) {
         String captchaKey = RedisPrefix.CAPTCHA_KEY + loginReq.uuid();
         String storedCaptcha = RedisUtil.get(captchaKey);
@@ -51,7 +50,6 @@ public class AuthController extends BaseController {
 
     @AccessLog(title = "授权", operateType = OperateType.LOGOUT)
     @PostMapping("/logout")
-    @Operation(summary = "登出")
     public Result<Boolean> logout() {
         loginService.logout();
         return result(true, OperateType.LOGOUT);

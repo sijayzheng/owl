@@ -2,6 +2,11 @@
   <div>
     <el-card body-style="padding-bottom:8px" class="search-card" shadow="hover">
       <el-form ref="queryFormRef" :inline="true" :model="queryParams" @submit.prevent>
+        <el-form-item label="父部门id" prop="parentId">
+          <el-select v-model="queryParams.parentId" clearable placeholder="请选择父部门id" @change="() => listData()">
+            <el-option v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="部门名称" prop="deptName">
           <el-input v-model="queryParams.deptName" clearable placeholder="请输入部门名称" @keyup.enter="listData" />
         </el-form-item>
@@ -38,16 +43,32 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns" row-key="id">
-        <template #action="{ row }">
-          <el-tooltip content="修改" placement="top">
-            <el-button v-hasPerm="['system:sysDept:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-          </el-tooltip>
-          <el-tooltip v-if="!row.children" content="删除" placement="top">
-            <el-button v-hasPerm="['system:sysDept:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-          </el-tooltip>
-        </template>
-      </DataTable>
+      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" row-key="id" stripe border>
+        <el-table-column fixed type="selection" width="50" />
+        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
+        <el-table-column align="center" label="父部门id" prop="parentId" show-overflow-tooltip />
+        <el-table-column align="center" label="祖级列表" prop="ancestors" show-overflow-tooltip />
+        <el-table-column align="center" label="部门名称" prop="deptName" show-overflow-tooltip />
+        <el-table-column align="center" label="显示顺序" prop="sort" show-overflow-tooltip />
+        <el-table-column align="center" label="负责人" prop="leader" show-overflow-tooltip />
+        <el-table-column align="center" label="联系电话" prop="phone" show-overflow-tooltip />
+        <el-table-column align="center" label="邮箱" prop="email" show-overflow-tooltip />
+        <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip>
+          <template #default="{ row }">
+            <yes-or-no-tag :value="row.enabled" />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" fixed="right" label="操作" width="150">
+          <template #default="{ row }">
+            <el-tooltip content="修改" placement="top">
+              <el-button v-hasPerm="['system:sysDept:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+            </el-tooltip>
+            <el-tooltip v-if="!row.children" content="删除" placement="top">
+              <el-button v-hasPerm="['system:sysDept:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-card>
     <!-- 添加或修改系统部门对话框 -->
     <el-dialog v-model="dialogVisible" append-to-body title="保存系统部门" width="500px" @closed="() => resetForm()">
@@ -57,14 +78,8 @@
             <el-option v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="祖级列表" prop="ancestors">
-          <el-input v-model="form.ancestors" :autosize="{ minRows: 2 }" clearable placeholder="请输入祖级列表" type="textarea" />
-        </el-form-item>
         <el-form-item label="部门名称" prop="deptName">
           <el-input v-model="form.deptName" clearable placeholder="请输入部门名称" />
-        </el-form-item>
-        <el-form-item label="部门类别" prop="deptCategory">
-          <el-input-number v-model="form.deptCategory" controls-position="right" clearable placeholder="请输入部门类别" />
         </el-form-item>
         <el-form-item label="显示顺序" prop="sort">
           <el-input-number v-model="form.sort" controls-position="right" clearable placeholder="请输入显示顺序" />
@@ -79,9 +94,7 @@
           <el-input v-model="form.email" clearable placeholder="请输入邮箱" />
         </el-form-item>
         <el-form-item label="启用" prop="enabled">
-          <el-radio-group v-model="form.enabled">
-            <el-radio-button v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
-          </el-radio-group>
+          <yes-or-no-radio v-model="form.enabled" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -97,18 +110,6 @@
 </template>
 
 <script lang="ts" setup>
-import DataTable from '@/components/DataTable.vue'
-
-const columns = [
-  { prop: 'deptName', label: '部门名称', showOverflowTooltip: true },
-  { prop: 'deptCategory', label: '部门类别', showOverflowTooltip: true },
-  { prop: 'sort', label: '显示顺序', showOverflowTooltip: true },
-  { prop: 'leader', label: '负责人', showOverflowTooltip: true },
-  { prop: 'phone', label: '联系电话', showOverflowTooltip: true },
-  { prop: 'email', label: '邮箱', showOverflowTooltip: true },
-  { prop: 'enabled', label: '启用', showOverflowTooltip: true },
-]
-
 const rules = {}
 
 const queryFormRef = ref()

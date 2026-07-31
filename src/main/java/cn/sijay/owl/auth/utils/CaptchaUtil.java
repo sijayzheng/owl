@@ -92,7 +92,7 @@ public class CaptchaUtil {
             double rotation = Math.toRadians(random.nextInt(41) - 20);
             g.rotate(rotation, x, y);
             g.drawString(ch, x, y);
-            g.rotate(-rotation, x, y);  // 复位旋转
+            g.rotate(-rotation, x, y); // 复位旋转
         }
         g.dispose();
         return image;

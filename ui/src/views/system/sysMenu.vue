@@ -38,16 +38,35 @@
           导入{{ progress }}
         </el-button>
       </template>
-      <DataTable ref="tableRef" :data="data" :loading="loading" :columns="columns" row-key="id">
-        <template #action="{ row }">
-          <el-tooltip content="修改" placement="top">
-            <el-button v-hasPerm="['system:sysMenu:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
-          </el-tooltip>
-          <el-tooltip v-if="!row.children" content="删除" placement="top">
-            <el-button v-hasPerm="['system:sysMenu:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
-          </el-tooltip>
-        </template>
-      </DataTable>
+      <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" row-key="id" stripe border>
+        <el-table-column fixed type="selection" width="50" />
+        <el-table-column align="center" fixed label="主键" prop="id" width="100" />
+        <el-table-column align="center" label="菜单名称" prop="menuName" show-overflow-tooltip />
+        <el-table-column align="center" label="显示顺序" prop="sort" show-overflow-tooltip />
+        <el-table-column align="center" label="路由地址" prop="path" show-overflow-tooltip />
+        <el-table-column align="center" label="组件路径" prop="component" show-overflow-tooltip />
+        <el-table-column align="center" label="菜单类型" prop="menuType" show-overflow-tooltip />
+        <el-table-column align="center" label="显示" prop="visible" show-overflow-tooltip>
+          <template #default="{ row }">
+            <yes-or-no-tag :value="row.visible" />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip>
+          <template #default="{ row }">
+            <yes-or-no-tag :value="row.enabled" />
+          </template>
+        </el-table-column>
+        <el-table-column align="center" fixed="right" label="操作" width="150">
+          <template #default="{ row }">
+            <el-tooltip content="修改" placement="top">
+              <el-button v-hasPerm="['system:sysMenu:edit']" icon="Edit" link type="primary" @click="handleUpdate(row.id)" />
+            </el-tooltip>
+            <el-tooltip v-if="!row.children" content="删除" placement="top">
+              <el-button v-hasPerm="['system:sysMenu:remove']" icon="Delete" link type="primary" @click="handleDelete(row.id)" />
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-card>
     <!-- 添加或修改系统菜单对话框 -->
     <el-dialog v-model="dialogVisible" append-to-body title="保存系统菜单" width="500px" @closed="() => resetForm()">
@@ -118,32 +137,13 @@
 </template>
 
 <script lang="ts" setup>
-import DataTable from '@/components/DataTable.vue'
-
-const columns = [
-  { prop: 'menuName', label: '菜单名称', showOverflowTooltip: true },
-  { prop: 'parentId', label: '父菜单id', showOverflowTooltip: true },
-  { prop: 'sort', label: '显示顺序', showOverflowTooltip: true },
-  { prop: 'path', label: '路由地址', showOverflowTooltip: true },
-  { prop: 'component', label: '组件路径', showOverflowTooltip: true },
-  { prop: 'queryParam', label: '路由参数', showOverflowTooltip: true },
-  { prop: 'foreignLink', label: '是否为外链', showOverflowTooltip: true },
-  { prop: 'cached', label: '是否缓存', showOverflowTooltip: true },
-  { prop: 'menuType', label: '菜单类型', showOverflowTooltip: true },
-  { prop: 'visible', label: '显示', showOverflowTooltip: true },
-  { prop: 'enabled', label: '启用', showOverflowTooltip: true },
-  { prop: 'perms', label: '权限标识', showOverflowTooltip: true },
-  { prop: 'icon', label: '菜单图标', showOverflowTooltip: true },
-  { prop: 'activeMenu', label: '高亮菜单', showOverflowTooltip: true },
-]
-
 const rules = {
   menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
 }
 
 const queryFormRef = ref()
 const tableRef = ref()
-const queryParams = ref<SysDeptQuery>({})
+const queryParams = ref<SysMenuQuery>({})
 const dialogVisible = ref(false)
 
 const { data, send: listData, loading } = useRequest(() => sysMenuApi.getTree(queryParams.value))

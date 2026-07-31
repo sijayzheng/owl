@@ -60,25 +60,23 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册路由拦截器，自定义验证规则
-        registry.addInterceptor(new SaInterceptor(handler -> {
-                    SaRouter
-                        // 获取所有的
-                        .match("/**")
-                        // 对未排除的路径进行检查
-                        .check(() -> {
-                            HttpServletRequest request = ServletUtil.getRequest();
-                            // 检查是否登录 是否有token
-                            try {
-                                StpUtil.checkLogin();
-                            } catch (NotLoginException e) {
-                                if (Objects.requireNonNull(request).getRequestURI().contains("sse")) {
-                                    throw new BaseException(e.getMessage(), e.getCode());
-                                } else {
-                                    throw e;
-                                }
+        registry.addInterceptor(new SaInterceptor(handler -> SaRouter
+                    // 获取所有的
+                    .match("/**")
+                    // 对未排除的路径进行检查
+                    .check(() -> {
+                        HttpServletRequest request = ServletUtil.getRequest();
+                        // 检查是否登录 是否有token
+                        try {
+                            StpUtil.checkLogin();
+                        } catch (NotLoginException e) {
+                            if (Objects.requireNonNull(request).getRequestURI().contains("sse")) {
+                                throw new BaseException(e.getMessage(), e.getCode());
+                            } else {
+                                throw e;
                             }
-                        });
-                }))
+                        }
+                    })))
                 .addPathPatterns("/**")
                 // 排除不需要拦截的路径
                 .excludePathPatterns("/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/favicon.ico", "/error", "/*/api-docs", "/*/api-docs/**");
@@ -87,14 +85,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/templates/")
+                .addResourceLocations("classpath:/static/")
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver() {
                     @Override
                     protected Resource getResource(@NonNull String resourcePath, @NonNull Resource location) throws IOException {
                         Resource requestedResource = location.createRelative(resourcePath);
                         return requestedResource.exists() && requestedResource.isReadable() ? requestedResource :
-                            new ClassPathResource("/templates/index.html");
+                            new ClassPathResource("/static/index.html");
                     }
                 });
     }
