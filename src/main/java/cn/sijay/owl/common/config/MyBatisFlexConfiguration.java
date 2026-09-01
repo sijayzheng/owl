@@ -22,7 +22,6 @@ public class MyBatisFlexConfiguration {
             Long userId = LoginHelper.getUserId();
             if (object instanceof BaseEntity entity) {
                 entity.setCreateBy(userId);
-                entity.setCreateDept(userId);
                 entity.setCreateTime(LocalDateTime.now());
             }
         }, BaseEntity.class);

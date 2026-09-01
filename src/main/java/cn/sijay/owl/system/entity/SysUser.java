@@ -29,12 +29,6 @@ public class SysUser extends BaseEntity {
     @Column(value = "id", comment = "主键")
     private Long id;
 
-    /**
-     * 部门id
-     */
-    @Column(value = "dept_id", comment = "部门id")
-    @ExcelProperty(value = "部门id")
-    private Long deptId;
 
     /**
      * 用户账号

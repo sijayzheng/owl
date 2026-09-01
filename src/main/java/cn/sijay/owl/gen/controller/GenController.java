@@ -2,7 +2,6 @@ package cn.sijay.owl.gen.controller;
 
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
-import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping(CommonConstants.BASE_API_PATH + "/gen")
+@RequestMapping("/gen")
 @RestController
 public class GenController extends BaseController {
 

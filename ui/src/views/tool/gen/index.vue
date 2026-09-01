@@ -139,7 +139,7 @@ function handleUpdate(id: number) {
 function handleDelete(id?: number) {
   const ids = [...tableRef.value?.getSelectionRows().map((row: { id: number }) => row.id), id].filter(id => id)
   if (ids.length > 0)
-    modal.confirm(`是否确认删除参数配置编号为"${ids}"的数据项？`).then(() => genApi.remove(ids).then(() => listData()))
+    modal.confirm(`是否确认删除主键为"${ids}"的数据项？`).then(() => genApi.remove(ids).then(() => listData()))
   else
     modal.msgWarning('未选择需要删除的数据')
 }

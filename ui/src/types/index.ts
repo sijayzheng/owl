@@ -46,8 +46,6 @@ declare global {
   }
 
   interface BaseEntity {
-    // 创建部门
-    createDept: number
     // 创建人
     createBy: number
     // 创建时间

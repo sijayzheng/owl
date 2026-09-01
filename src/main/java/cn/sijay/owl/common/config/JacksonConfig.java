@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.ext.javatime.deser.LocalDateTimeDeserializer;
 import tools.jackson.databind.ext.javatime.deser.LocalTimeDeserializer;
@@ -36,7 +35,6 @@ public class JacksonConfig {
     @Bean
     JsonMapperBuilderCustomizer jacksonCustomizer() {
         return builder -> {
-            builder.enable(SerializationFeature.INDENT_OUTPUT);
             // 全局配置序列化返回 JSON 处理
             // 1. 创建自定义模块
             SimpleModule customModule = new SimpleModule();

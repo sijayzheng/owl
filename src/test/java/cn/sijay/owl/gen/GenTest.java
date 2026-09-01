@@ -26,20 +26,8 @@ public class GenTest {
 
     @Test
     public void importTable() {
-//                                         FILE_OSS_STORAGE
-//                                         SYS_TASK
-//                                         LOG_TASK
         Arrays.stream("""
-                  FILE_STORAGE
-                  LOG_ACCESS
-                  LOG_LOGIN
-                  SYS_DICT_DATA
-                  SYS_DICT_TYPE
-                  SYS_MESSAGE
-                  SYS_NOTICE
-                  SYS_USER_MFA_RECOVERY_CODES
                   SYS_USER_ONLINE
-                  SYS_USER_POST
                   """.split("\n"))
               .map(StringUtils::trim)
               .filter(StringUtils::isNotBlank)

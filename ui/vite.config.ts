@@ -13,6 +13,7 @@ import compression from 'vite-plugin-compression'
 import progress from 'vite-plugin-progress'
 
 // https://vite.dev/config/
+const apiPrefix = /^\/api/
 export default defineConfig({
   resolve: {
     alias: {
@@ -78,10 +79,7 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:9527',
         changeOrigin: true,
-        rewrite: path => {
-          console.log(path)
-          return path
-        },
+        rewrite: path => path.replace(apiPrefix, ''),
       },
     },
   },

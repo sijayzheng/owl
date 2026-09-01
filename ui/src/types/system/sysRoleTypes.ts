@@ -7,12 +7,8 @@ export interface SysRole extends BaseEntity {
   roleCode: string
   // 显示顺序
   sort: number
-  // 数据权限
-  dataScope: string
   // 菜单树选择项关联显示
   menuCheckStrictly: boolean
-  // 部门树选择项关联显示
-  deptCheckStrictly: boolean
   // 启用
   enabled: boolean
 }
@@ -36,12 +32,8 @@ export interface SysRoleForm {
   roleCode?: string
   // 显示顺序
   sort?: number
-  // 数据权限
-  dataScope?: string
   // 菜单树选择项关联显示
   menuCheckStrictly?: boolean
-  // 部门树选择项关联显示
-  deptCheckStrictly?: boolean
   // 启用
   enabled?: boolean
 }
@@ -55,12 +47,8 @@ export const sysRoleInitData: SysRoleForm = {
   roleCode: undefined,
   // 显示顺序
   sort: undefined,
-  // 数据权限
-  dataScope: undefined,
   // 菜单树选择项关联显示
   menuCheckStrictly: undefined,
-  // 部门树选择项关联显示
-  deptCheckStrictly: undefined,
   // 启用
   enabled: undefined,
 }

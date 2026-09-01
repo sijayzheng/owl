@@ -44,9 +44,7 @@
         <el-table-column align="center" label="角色名称" prop="roleName" show-overflow-tooltip />
         <el-table-column align="center" label="角色权限字符串" prop="roleCode" show-overflow-tooltip />
         <el-table-column align="center" label="显示顺序" prop="sort" show-overflow-tooltip />
-        <el-table-column align="center" label="数据权限" prop="dataScope" show-overflow-tooltip />
         <el-table-column align="center" label="菜单树选择项关联显示" prop="menuCheckStrictly" show-overflow-tooltip />
-        <el-table-column align="center" label="部门树选择项关联显示" prop="deptCheckStrictly" show-overflow-tooltip />
         <el-table-column align="center" label="启用" prop="enabled" show-overflow-tooltip />
         <el-table-column align="center" fixed="right" label="操作" width="150">
           <template #default="{ row }">
@@ -75,16 +73,8 @@
         <el-form-item label="显示顺序" prop="sort">
           <el-input-number v-model="form.sort" controls-position="right" clearable placeholder="请输入显示顺序" />
         </el-form-item>
-        <el-form-item label="数据权限" prop="dataScope">
-          <el-input v-model="form.dataScope" clearable placeholder="请输入数据权限" />
-        </el-form-item>
         <el-form-item label="菜单树选择项关联显示" prop="menuCheckStrictly">
           <el-radio-group v-model="form.menuCheckStrictly">
-            <el-radio-button v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="部门树选择项关联显示" prop="deptCheckStrictly">
-          <el-radio-group v-model="form.deptCheckStrictly">
             <el-radio-button v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
           </el-radio-group>
         </el-form-item>

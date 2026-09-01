@@ -54,26 +54,12 @@ public class SysRole extends BaseEntity {
     private Integer sort;
 
     /**
-     * 数据权限
-     */
-    @Column(value = "data_scope", comment = "数据权限")
-    @ExcelProperty(value = "数据权限")
-    private String dataScope;
-
-    /**
      * 菜单树选择项关联显示
      */
     @Column(value = "menu_check_strictly", comment = "菜单树选择项关联显示")
     @ExcelProperty(value = "菜单树选择项关联显示")
     private boolean menuCheckStrictly;
-
-    /**
-     * 部门树选择项关联显示
-     */
-    @Column(value = "dept_check_strictly", comment = "部门树选择项关联显示")
-    @ExcelProperty(value = "部门树选择项关联显示")
-    private boolean deptCheckStrictly;
-
+    
     /**
      * 启用
      */

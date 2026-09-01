@@ -8,7 +8,7 @@ import cn.sijay.owl.common.enums.OperateType;
 import cn.sijay.owl.common.utils.HttpUtil;
 import cn.sijay.owl.common.utils.JsonUtil;
 import cn.sijay.owl.common.utils.SpringUtil;
-import cn.sijay.owl.log.entity.LogAccess;
+import cn.sijay.owl.system.entity.SysAccessLog;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -100,29 +100,29 @@ public class AutoAccessLogAspect {
                                               .filter(arg -> !(arg instanceof HttpServletResponse || arg instanceof HttpServletRequest || arg instanceof MultipartFile))
                                               .toList());
         String method = signature.getDeclaringTypeName() + CommonConstants.DOT + signature.getName() + "()";
-        LogAccess logAccess = new LogAccess();
+        SysAccessLog sysAccessLog = new SysAccessLog();
         if (StpUtil.isLogin()) {
-            logAccess.setUserId(LoginHelper.getUserId());
-            logAccess.setAccessUsername(LoginHelper.getUsername());
+            sysAccessLog.setUserId(LoginHelper.getUserId());
+            sysAccessLog.setAccessUsername(LoginHelper.getUsername());
         }
-        logAccess.setTitle(accessLog.title());//模块标题
-        logAccess.setOperateType(accessLog.operateType());//业务类型
-        logAccess.setMethod(method);//方法名称
-        logAccess.setRequestMethod(request.getMethod());//请求方式
-        logAccess.setAccessUrl(url);//请求url
+        sysAccessLog.setTitle(accessLog.title());//模块标题
+        sysAccessLog.setOperateType(accessLog.operateType());//业务类型
+        sysAccessLog.setMethod(method);//方法名称
+        sysAccessLog.setRequestMethod(request.getMethod());//请求方式
+        sysAccessLog.setAccessUrl(url);//请求url
         String ip = HttpUtil.getIp(request);
-        logAccess.setAccessIp(ip);//主机地址
-        logAccess.setAccessLocation(HttpUtil.getRegion(ip));//访问地点
-        logAccess.setAccessParam(params);//请求参数
-        logAccess.setAccessTime(LocalDateTime.now());//访问时间
+        sysAccessLog.setAccessIp(ip);//主机地址
+        sysAccessLog.setAccessLocation(HttpUtil.getRegion(ip));//访问地点
+        sysAccessLog.setAccessParam(params);//请求参数
+        sysAccessLog.setAccessTime(LocalDateTime.now());//访问时间
         if (e != null) {
-            logAccess.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());//访问状态
-            logAccess.setErrorMsg(e.getMessage());//错误消息
+            sysAccessLog.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());//访问状态
+            sysAccessLog.setErrorMsg(e.getMessage());//错误消息
         } else {
             String returnResult = ObjectUtils.isEmpty(result) ? "" : JsonUtil.toJson(result);
-            logAccess.setJsonResult(returnResult);//返回参数
+            sysAccessLog.setJsonResult(returnResult);//返回参数
             log.info("请求结束 => URL【{}】,请求结果为【{}】", url, returnResult);
-            logAccess.setStatus(HttpStatus.OK.value());
+            sysAccessLog.setStatus(HttpStatus.OK.value());
         }
         try {
             // 设置方法名称
@@ -131,9 +131,9 @@ public class AutoAccessLogAspect {
             // 设置消耗时间
             StopWatch stopWatch = KEY_CACHE.get();
             stopWatch.stop();
-            logAccess.setCostTime(stopWatch.getDuration().toSeconds());//消耗时间
+            sysAccessLog.setCostTime(stopWatch.getDuration().toSeconds());//消耗时间
             // 发布事件保存数据库
-            SpringUtil.getApplicationContext().publishEvent(logAccess);
+            SpringUtil.getApplicationContext().publishEvent(sysAccessLog);
         } catch (Exception exp) {
             // 记录本地异常日志
             log.error("异常信息:{}", exp.getMessage());

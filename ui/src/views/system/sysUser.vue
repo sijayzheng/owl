@@ -2,11 +2,6 @@
   <div>
     <el-card body-style="padding-bottom:8px" class="search-card" shadow="hover">
       <el-form ref="queryFormRef" :inline="true" :model="queryParams">
-        <el-form-item label="部门id" prop="deptId">
-          <el-select v-model="queryParams.deptId" clearable placeholder="请选择部门id" @change="() => handleQuery()">
-            <el-option v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
         <el-form-item label="用户账号" prop="username">
           <el-input v-model="queryParams.username" clearable placeholder="请输入用户账号" @keyup.enter="handleQuery" />
         </el-form-item>
@@ -55,7 +50,6 @@
       <el-table ref="tableRef" v-loading="loading" :data="data" class="data-table" stripe border>
         <el-table-column fixed type="selection" width="50" />
         <el-table-column align="center" fixed label="主键" prop="id" width="100" />
-        <el-table-column align="center" label="部门id" prop="deptId" show-overflow-tooltip />
         <el-table-column align="center" label="用户账号" prop="username" show-overflow-tooltip />
         <el-table-column align="center" label="用户姓名" prop="realName" show-overflow-tooltip />
         <el-table-column align="center" label="邮箱" prop="email" show-overflow-tooltip />
@@ -84,11 +78,6 @@
     <!-- 添加或修改系统用户对话框 -->
     <el-dialog v-model="dialogVisible" append-to-body title="保存系统用户" width="500px" @closed="() => resetForm()">
       <el-form :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="部门id" prop="deptId">
-          <el-select v-model="form.deptId" clearable placeholder="请选择部门id">
-            <el-option v-for="item in emptySelectArray" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
         <el-form-item label="用户账号" prop="username">
           <el-input v-model="form.username" clearable placeholder="请输入用户账号" />
         </el-form-item>

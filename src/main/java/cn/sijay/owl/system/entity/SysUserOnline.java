@@ -4,15 +4,14 @@ import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.apache.fesod.sheet.annotation.ExcelIgnoreUnannotated;
-import org.apache.fesod.sheet.annotation.ExcelProperty;
 
-import java.time.LocalDateTime;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
  * 在线用户实体类
  *
@@ -46,12 +45,6 @@ public class SysUserOnline implements Serializable {
      */
     @Column(value = "username", comment = "用户账号")
     private String username;
-
-    /**
-     * 部门名称
-     */
-    @Column(value = "dept_name", comment = "部门名称")
-    private String deptName;
 
     /**
      * 登录ip

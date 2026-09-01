@@ -8,7 +8,6 @@ import cn.sijay.owl.auth.service.LoginService;
 import cn.sijay.owl.auth.utils.CaptchaUtil;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
-import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @SaIgnore
 @Valid
 @RequiredArgsConstructor
-@RequestMapping(CommonConstants.BASE_API_PATH + "/auth")
+@RequestMapping("/auth")
 @RestController
 public class AuthController extends BaseController {
     private final LoginService loginService;

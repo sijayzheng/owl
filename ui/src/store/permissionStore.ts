@@ -18,8 +18,6 @@ export const usePermissionStore = defineStore('permission', () => {
 
   const generateRoutes = async (): Promise<RouteRecordRaw[]> => {
     const data = await commonApi.getRoutes()
-    console.log(allRoutes)
-
     const sidebarRoutes = filterAsyncRouter(routeToRouteRecord(structuredClone(data)))
     const rewriteRoutes = filterAsyncRouter(routeToRouteRecord(structuredClone(data)), true)
 
@@ -59,22 +57,7 @@ export const usePermissionStore = defineStore('permission', () => {
     } else if (component === 'InnerLink') {
       return InnerLink
     } else if (component != null) {
-      if (component.endsWith('/index')) {
-        component = component.substring(0, component.length - 5)
-      }
-      // let rc = routeMap[component]
-      // if (rc !== undefined) {
-      //   return rc
-      // }
-      // rc = pathToComponentMap[component]
-      // if (rc !== undefined) {
-      //   return rc
-      // }
-      // const componentWithoutExt = component.replace(regexConstants.vueSuffix, '')
-      // rc = pathToComponentMap[componentWithoutExt]
-      // if (rc !== undefined) {
-      //   return rc
-      // }
+      return allRoutes[`/src/views/${component}.vue`]
     }
     return undefined
   }

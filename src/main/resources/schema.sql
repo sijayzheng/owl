@@ -41,44 +41,20 @@ create table gen_column
     index idx_gen_column_table_id (table_id)
 ) comment '代码生成列信息';
 
-drop table if exists sys_dept;
-create table sys_dept
-(
-    id          bigint not null auto_increment primary key comment '主键',
-    parent_id   bigint        default 0 comment '父部门id',
-    ancestors   varchar(1000) default '' comment '祖级列表',
-    dept_name   varchar(30)   default '' comment '部门名称',
-    sort        int           default 0 comment '显示顺序',
-    leader      bigint        default null comment '负责人',
-    phone       varchar(11)   default '' comment '联系电话',
-    email       varchar(50)   default '' comment '邮箱',
-    enabled     boolean       default true comment '启用',
-    deleted     boolean       default false comment '删除',
-    create_dept bigint        default 1 comment '创建部门',
-    create_by   bigint        default 1 comment '创建者',
-    create_time datetime      default current_timestamp comment '创建时间',
-    update_by   bigint        default 1 comment '更新者',
-    update_time datetime      default current_timestamp comment '更新时间',
-    index idx_sys_dept_parent_id (parent_id),
-    index idx_sys_dept_deleted (deleted)
-) comment '系统部门表';
 drop table if exists sys_role;
 create table sys_role
 (
     id                  bigint       not null auto_increment primary key comment '主键',
     role_name           varchar(30)  not null comment '角色名称',
     role_code           varchar(100) not null unique comment '角色权限字符串',
-    sort                int          not null                                         default 100 comment '显示顺序',
-    data_scope          enum ('ALL', 'CUSTOM', 'DEPT_ONLY', 'DEPT_AND_CHILD', 'SELF') default 'SELF' comment '数据权限',
-    menu_check_strictly boolean                                                       default true comment '菜单树选择项关联显示',
-    dept_check_strictly boolean                                                       default true comment '部门树选择项关联显示',
-    enabled             boolean                                                       default true comment '启用',
-    deleted             boolean                                                       default false comment '删除',
-    create_dept         bigint                                                        default 1 comment '创建部门',
-    create_by           bigint                                                        default 1 comment '创建者',
-    create_time         datetime                                                      default current_timestamp comment '创建时间',
-    update_by           bigint                                                        default 1 comment '更新者',
-    update_time         datetime                                                      default current_timestamp comment '更新时间',
+    sort                int          not null default 100 comment '显示顺序',
+    menu_check_strictly boolean               default true comment '菜单树选择项关联显示',
+    enabled             boolean               default true comment '启用',
+    deleted             boolean               default false comment '删除',
+    create_by           bigint                default 1 comment '创建者',
+    create_time         datetime              default current_timestamp comment '创建时间',
+    update_by           bigint                default 1 comment '更新者',
+    update_time         datetime              default current_timestamp comment '更新时间',
     index idx_sys_role_deleted (deleted)
 ) comment '系统角色表';
 drop table if exists sys_menu;
@@ -99,7 +75,6 @@ create table sys_menu
     perms        varchar(100) default '' comment '权限标识',
     icon         varchar(100) default '#' comment '菜单图标',
     active_menu  varchar(100) null comment '高亮菜单',
-    create_dept  bigint       default 1 comment '创建部门',
     create_by    bigint       default 1 comment '创建者',
     create_time  datetime     default current_timestamp comment '创建时间',
     update_by    bigint       default 1 comment '更新者',
@@ -110,7 +85,6 @@ drop table if exists sys_user;
 create table sys_user
 (
     id          bigint       not null auto_increment primary key comment '主键',
-    dept_id     bigint                default 0 comment '部门id',
     username    varchar(20)  not null unique comment '用户账号',
     real_name   varchar(30)           default '' comment '用户姓名',
     email       varchar(50)           default '' comment '邮箱',
@@ -122,12 +96,10 @@ create table sys_user
     totp_secret varchar(255) comment 'TOTP密钥',
     enabled     boolean               default true comment '启用',
     deleted     boolean               default false comment '删除',
-    create_dept bigint                default 1 comment '创建部门',
     create_by   bigint                default 1 comment '创建者',
     create_time datetime              default current_timestamp comment '创建时间',
     update_by   bigint                default 1 comment '更新者',
     update_time datetime              default current_timestamp comment '更新时间',
-    index idx_sys_user_dept_id (dept_id),
     index idx_sys_user_deleted (deleted)
 ) comment '系统用户表';
 drop table if exists sys_user_role;
@@ -144,20 +116,12 @@ create table sys_role_menu
     menu_id bigint not null comment '菜单id',
     primary key (role_id, menu_id)
 ) comment '角色菜单关联表';
-drop table if exists sys_user_post;
-create table sys_user_post
-(
-    user_id bigint not null comment '用户id',
-    post_id bigint not null comment '岗位id',
-    primary key (user_id, post_id)
-) comment '用户岗位关联表';
 drop table if exists sys_dict_type;
 create table sys_dict_type
 (
     id          bigint not null auto_increment primary key comment '主键',
     type_name   varchar(100) default '' comment '字典名称',
     type_code   varchar(100) default '' unique comment '字典编码',
-    create_dept bigint       default 1 comment '创建部门',
     create_by   bigint       default 1 comment '创建者',
     create_time datetime     default current_timestamp comment '创建时间',
     update_by   bigint       default 1 comment '更新者',
@@ -175,7 +139,6 @@ create table sys_dict_data
     list_class   varchar(100) default '' comment '表格回显样式',
     defaulted    boolean      default false comment '是否默认',
     enabled      boolean      default true comment '启用',
-    create_dept  bigint       default 1 comment '创建部门',
     create_by    bigint       default 1 comment '创建者',
     create_time  datetime     default current_timestamp comment '创建时间',
     update_by    bigint       default 1 comment '更新者',
@@ -189,7 +152,6 @@ create table sys_config
     config_name  varchar(100) default '' comment '参数名称',
     config_key   varchar(100) default '' unique comment '参数键名',
     config_value varchar(500) default '' comment '参数键值',
-    create_dept  bigint       default 1 comment '创建部门',
     create_by    bigint       default 1 comment '创建者',
     create_time  datetime     default current_timestamp comment '创建时间',
     update_by    bigint       default 1 comment '更新者',
@@ -202,7 +164,6 @@ create table sys_user_online
     id               bigint auto_increment primary key comment '主键',
     user_id          bigint   not null comment '用户id',
     username         varchar(50)  default '' comment '用户账号',
-    dept_name        varchar(50)  default '' comment '部门名称',
     login_ip         varchar(128) default '' comment '登录ip',
     login_location   varchar(255) default '' comment '登录地点',
     browser          varchar(50)  default '' comment '浏览器',
@@ -234,7 +195,6 @@ create table sys_notice
     notice_content text comment '公告内容',
     closed         boolean  default false comment '是否关闭',
     deleted        boolean  default false comment '删除',
-    create_dept    bigint   default 1 comment '创建部门',
     create_by      bigint   default 1 comment '创建者',
     create_time    datetime default current_timestamp comment '创建时间',
     update_by      bigint   default 1 comment '更新者',
@@ -252,7 +212,6 @@ create table sys_message
     recipient       bigint      not null default 1 comment '接收者',
     has_read        boolean              default false comment '已读',
     deleted         boolean              default false comment '删除',
-    create_dept     bigint               default 1 comment '创建部门',
     create_by       bigint               default 1 comment '创建者',
     create_time     datetime             default current_timestamp comment '创建时间',
     update_by       bigint               default 1 comment '更新者',
@@ -264,8 +223,8 @@ create table sys_message
 ) comment '系统消息表';
 
 
-drop table if exists log_access;
-create table log_access
+drop table if exists sys_access_log;
+create table sys_access_log
 (
     id              bigint not null auto_increment primary key comment '主键',
     user_id         bigint       default 0 comment '用户id',
@@ -283,14 +242,14 @@ create table log_access
     error_msg       text comment '错误消息',
     access_time     datetime     default current_timestamp comment '访问时间',
     cost_time       bigint       default 0 comment '消耗时间',
-    index idx_log_access_user_id (user_id),
-    index idx_log_access_access_username (access_username),
-    index idx_log_access_operate_type (operate_type),
-    index idx_log_access_status (status),
-    index idx_log_access_access_time (access_time)
+    index idx_sys_access_log_user_id (user_id),
+    index idx_sys_access_log_access_username (access_username),
+    index idx_sys_access_log_operate_type (operate_type),
+    index idx_sys_access_log_status (status),
+    index idx_sys_access_log_access_time (access_time)
 ) comment '访问日志表';
-drop table if exists log_login;
-create table log_login
+drop table if exists sys_login_log;
+create table sys_login_log
 (
     id         bigint not null auto_increment primary key comment '主键',
     user_id    bigint       default 0 comment '用户id',
@@ -302,8 +261,8 @@ create table log_login
     succeeded  boolean      default false comment '登录状态',
     message    varchar(255) default '' comment '提示消息',
     login_time datetime     default current_timestamp comment '登录时间',
-    index idx_log_login_user_id (user_id),
-    index idx_log_login_login_time (login_time)
+    index idx_sys_login_log_user_id (user_id),
+    index idx_sys_login_log_login_time (login_time)
 ) comment '登录日志表';
 
 drop table if exists file_storage;
@@ -317,7 +276,6 @@ create table file_storage
     content_type  varchar(100)          default '' comment 'MIME类型',
     path          varchar(500) not null comment '存储路径',
     deleted       boolean               default false comment '删除',
-    create_dept   bigint                default 1 comment '创建部门',
     create_time   datetime              default current_timestamp comment '创建时间',
     create_by     bigint                default 0 comment '上传人',
     update_time   datetime              default current_timestamp comment '更新时间',
@@ -338,7 +296,6 @@ create table file_oss_storage
     url           varchar(500) not null comment 'url地址',
     service       varchar(20)  not null default 'minio' comment '服务商',
     deleted       boolean               default false comment '删除',
-    create_dept   bigint                default 1 comment '创建部门',
     create_time   datetime              default current_timestamp comment '创建时间',
     create_by     bigint                default 0 comment '上传人',
     update_time   datetime              default current_timestamp comment '更新时间',
@@ -369,7 +326,6 @@ create table sys_task
     method_params     json         default null comment '执行方法参数',
     next_task_id      bigint                                     not null comment '接续任务id',
     wait_success      boolean      default false comment '等待成功',
-    create_dept       bigint       default 1 comment '创建部门',
     create_by         bigint       default 1 comment '创建者',
     create_time       datetime     default current_timestamp comment '创建时间',
     update_by         bigint       default 1 comment '更新者',

@@ -1,8 +1,6 @@
 export interface SysUser extends BaseEntity {
   // 主键
   id: number
-  // 部门id
-  deptId: number
   // 用户账号
   username: string
   // 用户姓名
@@ -22,8 +20,6 @@ export interface SysUser extends BaseEntity {
 }
 
 export interface SysUserQuery {
-  // 部门id
-  deptId?: number
   // 用户账号
   username?: string
   // 用户姓名
@@ -42,8 +38,6 @@ export interface SysUserPageQuery extends SysUserQuery, PageQuery {
 export interface SysUserForm {
   // 主键
   id?: number
-  // 部门id
-  deptId?: number
   // 用户账号
   username?: string
   // 用户姓名
@@ -65,8 +59,6 @@ export interface SysUserForm {
 export const sysUserInitData: SysUserForm = {
   // 主键
   id: undefined,
-  // 部门id
-  deptId: undefined,
   // 用户账号
   username: undefined,
   // 用户姓名

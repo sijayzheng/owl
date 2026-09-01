@@ -7,7 +7,6 @@ package cn.sijay.owl.system.dto;
  * @since 2026-04-09
  */
 public record SysUserQuery(
-    Long deptId,
     String username,
     String realName,
     String email,

@@ -1,5 +1,5 @@
 INSERT INTO sys_menu (menu_name, parent_id, sort, path, component, menu_type, perms, icon) VALUES
-('${classComment}', 1, 0, '${functionName}', '/${moduleName}/${functionName}', 'MENU', '', 'Menu');
+('${classComment}', 1, 0, '${functionName}', '${moduleName}/${functionName}', 'MENU', '', 'Menu');
 
 -- 按钮父菜单ID
 SELECT @parentId := LAST_INSERT_ID();

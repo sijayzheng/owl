@@ -12,7 +12,10 @@
           <el-input v-model="queryParams.loginLocation" clearable placeholder="请输入登录地点" @keyup.enter="handleQuery" />
         </el-form-item>
         <el-form-item label="登录时间" prop="loginTimeRange">
-          <el-date-picker v-model="queryParams.loginTimeRange" clearable format="YYYY-MM-DD hh:mm:ss" placeholder="请选择登录时间" type="datetime" value-format="YYYY-MM-DD hh:mm:ss"  @change="() => handleQuery()" />
+          <el-date-picker
+            v-model="queryParams.loginTimeRange" clearable format="YYYY-MM-DD hh:mm:ss" placeholder="请选择登录时间" type="datetime"
+            value-format="YYYY-MM-DD hh:mm:ss" @change="() => handleQuery()"
+          />
         </el-form-item>
         <el-form-item>
           <el-button icon="Search" type="primary" @click="handleQuery">
@@ -47,7 +50,6 @@
         <el-table-column align="center" fixed label="主键" prop="id" width="100" />
         <el-table-column align="center" label="用户id" prop="userId" show-overflow-tooltip />
         <el-table-column align="center" label="用户账号" prop="username" show-overflow-tooltip />
-        <el-table-column align="center" label="部门名称" prop="deptName" show-overflow-tooltip />
         <el-table-column align="center" label="登录ip" prop="loginIp" show-overflow-tooltip />
         <el-table-column align="center" label="登录地点" prop="loginLocation" show-overflow-tooltip />
         <el-table-column align="center" label="浏览器" prop="browser" show-overflow-tooltip />
@@ -72,8 +74,7 @@
     </el-card>
     <!-- 添加或修改在线用户对话框 -->
     <el-dialog v-model="dialogVisible" append-to-body title="保存在线用户" width="500px" @closed="() => resetForm()">
-      <el-form :model="form" :rules="rules" label-width="80px">
-      </el-form>
+      <el-form :model="form" :rules="rules" label-width="80px" />
       <template #footer>
         <el-button :loading="submitting" type="primary" @click="submit">
           确定

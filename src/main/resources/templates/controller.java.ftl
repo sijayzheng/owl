@@ -3,7 +3,6 @@ package ${packageName}.${moduleName}.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.sijay.owl.common.annotations.AccessLog;
 import cn.sijay.owl.common.base.BaseController;
-import cn.sijay.owl.common.constants.CommonConstants;
 import cn.sijay.owl.common.entity.PageQuery;
 import cn.sijay.owl.common.entity.Result;
 import cn.sijay.owl.common.enums.OperateType;
@@ -11,7 +10,6 @@ import cn.sijay.owl.common.excel.ExcelUtil;
 import ${packageName}.${moduleName}.dto.${className}Query;
 import ${packageName}.${moduleName}.entity.${className};
 import ${packageName}.${moduleName}.service.${className}Service;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -32,7 +30,7 @@ import java.util.List;
  */
 @Valid
 @RequiredArgsConstructor
-@RequestMapping(CommonConstants.BASE_API_PATH + "/${moduleName}/${functionName}")
+@RequestMapping("/${moduleName}/${functionName}")
 @RestController
 public class ${className}Controller extends BaseController {
     private final ${className}Service ${functionName}Service;

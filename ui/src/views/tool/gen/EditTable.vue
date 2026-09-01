@@ -163,13 +163,13 @@ const { loading: submitting, form, send: submit, updateForm } = useForm(
 const { data: menuTree } = useRequest(() => sysMenuApi.getMenuSelect())
 
 onMounted(() => {
-  genApi.getById(route.params?.tableId).then((data) => {
+  genApi.getById(Number(route.params?.tableId)).then((data) => {
     updateForm(data)
   })
 })
 
 function submitForm() {
-  formRef.value.validate((valid) => {
+  formRef.value.validate((valid: boolean) => {
     if (valid) {
       submit()
     }

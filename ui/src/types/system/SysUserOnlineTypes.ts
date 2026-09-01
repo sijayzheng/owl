@@ -1,12 +1,10 @@
-export interface SysUserOnline  {
+export interface SysUserOnline {
   // 主键
   id: number
   // 用户id
   userId: number
   // 用户账号
   username: string
-  // 部门名称
-  deptName: string
   // 登录ip
   loginIp: string
   // 登录地点
@@ -40,5 +38,4 @@ export interface SysUserOnlinePageQuery extends SysUserOnlineQuery, PageQuery {
 export interface SysUserOnlineForm {
 }
 
-export const sysUserOnlineInitData: SysUserOnlineForm = {
-}
+export const sysUserOnlineInitData: SysUserOnlineForm = {}

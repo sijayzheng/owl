@@ -8,9 +8,8 @@ import cn.sijay.owl.auth.utils.LoginHelper;
 import cn.sijay.owl.common.constants.RedisPrefix;
 import cn.sijay.owl.common.exceptions.AuthException;
 import cn.sijay.owl.common.utils.*;
-import cn.sijay.owl.log.entity.LogLogin;
+import cn.sijay.owl.system.entity.SysLoginLog;
 import cn.sijay.owl.system.entity.SysUser;
-import cn.sijay.owl.system.service.SysDeptService;
 import cn.sijay.owl.system.service.SysUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -31,7 +30,6 @@ import java.time.LocalDateTime;
 @Service
 public class LoginService {
     private final SysUserService sysUserService;
-    private final SysDeptService sysDeptService;
     private final PermissionService permissionService;
 
     public LoginResp login(@Valid LoginReq loginReq) {
@@ -91,18 +89,18 @@ public class LoginService {
     }
 
     public void recordLoginInfo(Long id, String username, boolean successful, String msg) {
-        LogLogin logLogin = new LogLogin();
-        logLogin.setUserId(id);
-        logLogin.setUsername(username);
+        SysLoginLog sysLoginLog = new SysLoginLog();
+        sysLoginLog.setUserId(id);
+        sysLoginLog.setUsername(username);
         HttpServletRequest request = ServletUtil.getRequest();
         String ip = HttpUtil.getIp(request);
-        logLogin.setLoginIp(ip);
-        logLogin.setLocation(HttpUtil.getRegion(ip));
-        logLogin.setBrowser(HttpUtil.getBrowser(request));
-        logLogin.setOs(HttpUtil.getOs(request));
-        logLogin.setSucceeded(successful);
-        logLogin.setMessage(msg);
-        logLogin.setLoginTime(LocalDateTime.now());
-        SpringUtil.getApplicationContext().publishEvent(logLogin);
+        sysLoginLog.setLoginIp(ip);
+        sysLoginLog.setLocation(HttpUtil.getRegion(ip));
+        sysLoginLog.setBrowser(HttpUtil.getBrowser(request));
+        sysLoginLog.setOs(HttpUtil.getOs(request));
+        sysLoginLog.setSucceeded(successful);
+        sysLoginLog.setMessage(msg);
+        sysLoginLog.setLoginTime(LocalDateTime.now());
+        SpringUtil.getApplicationContext().publishEvent(sysLoginLog);
     }
 }

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface GenConstants {
 
-    List<String> NEEDLESS = List.of("create_dept", "create_by", "create_time", "update_by", "update_time", "deleted", "version");
-    List<String> BASE_FIELD = List.of("create_dept", "create_by", "create_time", "update_by", "update_time");
+    List<String> NEEDLESS = List.of("create_by", "create_time", "update_by", "update_time", "deleted", "version");
+    List<String> BASE_FIELD = List.of("create_by", "create_time", "update_by", "update_time");
     List<String> TEMPLATES = List.of(
         "controller.java",
         "entity.java",

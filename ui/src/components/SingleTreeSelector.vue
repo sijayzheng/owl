@@ -32,7 +32,7 @@ defineProps({
     default: 'value',
   },
 })
-const value = defineModel<string>()
+const value = defineModel<string | number>()
 </script>
 
 <style lang="scss" scoped>

@@ -1,14 +1,11 @@
-INSERT INTO sys_user (id, dept_id, username, real_name, password)
-VALUES (1, 1, 'admin', '管理员', '$2b$12$RaBkMzfs5s7kWWaOxO4vLu6bf6HCkL8.s9U76B1wCuyym6YT2lxqq');
-insert into SYS_DEPT(ID, PARENT_ID, DEPT_NAME)
-values (1, 0, '总部');
+INSERT INTO sys_user (id, username, real_name, password)
+VALUES (1, 'admin', '管理员', '$2b$12$RaBkMzfs5s7kWWaOxO4vLu6bf6HCkL8.s9U76B1wCuyym6YT2lxqq');
 
 insert into sys_menu (ID, MENU_NAME, PARENT_ID, SORT, PATH, COMPONENT, QUERY_PARAM, FOREIGN_LINK, CACHED, MENU_TYPE, VISIBLE, ENABLED, PERMS, ICON, ACTIVE_MENU)
 values (1, '系统管理', 0, 1, 'system', null, null, false, true, 'DIRECTORY', true, true, null, 'Menu', ''),
        (2, '系统工具', 0, 4, 'tool', null, null, false, true, 'DIRECTORY', true, true, '', 'Menu', ''),
        (3, '测试目录', 0, 100, 'testMenu', null, null, false, true, 'DIRECTORY', true, true, null, 'Menu', ''),
        (4, '配置管理', 1, 1, 'sys-config', '/system/sys-config', null, false, true, 'MENU', true, true, 'system:sysConfig:query', 'Menu', ''),
-       (5, '部门管理', 1, 2, 'sys-dept', '/system/sys-dept', null, false, true, 'MENU', true, true, 'system:SysDept:query', 'Menu', ''),
        (6, '菜单管理', 1, 3, 'sys-menu', '/system/sys-menu', null, false, true, 'MENU', true, true, 'system:SysMenu:query', 'Menu', ''),
        (7, '角色管理', 1, 4, 'sys-role', '/system/sys-role', null, false, true, 'MENU', true, true, 'system:SysRole:query', 'Menu', ''),
        (8, '用户管理', 1, 5, 'sys-user', '/system/sys-user', null, false, true, 'MENU', true, true, 'system:SysUser:query', 'Menu', ''),
@@ -18,11 +15,6 @@ values (1, '系统管理', 0, 1, 'system', null, null, false, true, 'DIRECTORY',
        (12, '配置管理-删除', 4, 3, '', null, null, false, true, 'BUTTON', true, true, 'system:sysConfig:delete', '', ''),
        (13, '配置管理-导入', 4, 4, '', null, null, false, true, 'BUTTON', true, true, 'system:sysConfig:import', '', ''),
        (14, '配置管理-导出', 4, 5, '', null, null, false, true, 'BUTTON', true, true, 'system:sysConfig:export', '', ''),
-       (15, '部门管理-导出', 5, 5, '', null, null, false, true, 'BUTTON', true, true, 'system:SysDept:export', '', ''),
-       (16, '部门管理-修改', 5, 2, '', null, null, false, true, 'BUTTON', true, true, 'system:SysDept:save', '', ''),
-       (17, '部门管理-导入', 5, 4, '', null, null, false, true, 'BUTTON', true, true, 'system:SysDept:import', '', ''),
-       (18, '部门管理-删除', 5, 3, '', null, null, false, true, 'BUTTON', true, true, 'system:SysDept:delete', '', ''),
-       (19, '部门管理-新增', 5, 1, '', null, null, false, true, 'BUTTON', true, true, 'system:SysDept:save', '', ''),
        (20, '菜单管理-删除', 6, 3, '', null, null, false, true, 'BUTTON', true, true, 'system:SysMenu:delete', '', ''),
        (21, '菜单管理-导出', 6, 5, '', null, null, false, true, 'BUTTON', true, true, 'system:SysMenu:export', '', ''),
        (22, '菜单管理-新增', 6, 1, '', null, null, false, true, 'BUTTON', true, true, 'system:SysMenu:save', '', ''),
